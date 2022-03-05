@@ -1,5 +1,13 @@
 {
     "portal_title": "Portal for ukraine",
     "i_have_accommodation": "I have accommodation",
-    "i_need_accommodation": "I need accommodation"
+    "i_need_accommodation": "I need accommodation",
+    "registration": "Registration",
+    "phone_number": "Phone number",
+    "full_name": "Full name",
+    "gender": {
+        "title": "Gender",
+        "male": "Male",
+        "female": "Female"
+    }
 }

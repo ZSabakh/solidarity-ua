@@ -1,5 +1,13 @@
 {
     "portal_title": "პორტალი უკრაინის დასახმარებლად",
     "i_have_accommodation": "მე მაქვს საცხოვრებელი",
-    "i_need_accommodation": "მე მჭირდება საცხოვრებელი"
+    "i_need_accommodation": "მე მჭირდება საცხოვრებელი",
+    "registration": "რეგისტრაცია",
+    "phone_number": "ტელეფონის ნომერი",
+    "full_name": "სახელი/გვარი",
+    "gender": {
+        "title": "სქესი",
+        "male": "მამრობითი",
+        "female": "მდედრობითი"
+    }
 }
