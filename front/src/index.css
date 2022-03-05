@@ -139,6 +139,11 @@ html {
   color: #fff;
 }
 
+input,
+label {
+  font-family: "FiraGO Bold" !important;
+}
+
 a {
   text-decoration: none !important;
 }
