@@ -16,37 +16,6 @@
   flex: 1;
 }
 
-.lang_container {
-  display: flex;
-  max-height: 36px;
-  flex-direction: row;
-  justify-content: flex-end;
-  width: 100%;
-  margin-top: 15px;
-}
-
-.lang_container > div {
-  background-color: #242526;
-  border-radius: 8px;
-  margin: 0 10px;
-}
-
-.lang_container > div > a {
-  display: flex;
-  align-items: center;
-  margin: 0 10px;
-  padding: 10px;
-}
-
-.lang_container > div img {
-  width: 20px;
-  margin-right: 10px;
-}
-
-.lang_container > div a {
-  color: #fff;
-}
-
 .home_greeting {
   width: 100%;
   display: flex;
@@ -75,18 +44,4 @@
   border-radius: 5px;
   margin: 0 10px;
   font-size: 20px;
-}
-
-.partners_list {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.partners_list div {
-  margin: 0 20px;
-}
-
-.partners_list div img {
-  width: 100px;
 }
