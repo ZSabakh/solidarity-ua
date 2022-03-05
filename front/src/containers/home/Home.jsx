@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
 import LanguageChooser from "../../components/lang/LanguageChooser";
-import Partners from "../../components/partners/Partners";
+import Feeds from "../../components/feeds/Feeds";
 
 const Home = () => {
   const { t } = useTranslation();
@@ -21,7 +21,7 @@ const Home = () => {
             <Link to="/register/donor">{t("i_have_accommodation")}</Link>
           </div>
         </div>
-        <Partners />
+        <Feeds />
       </div>
     </div>
   );

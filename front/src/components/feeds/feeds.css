@@ -1,0 +1,73 @@
+.feeds_wrapper {
+  width: 850px;
+  height: 400px;
+  margin: 0 auto;
+  padding: 20px 0;
+}
+
+.feed_item {
+  background: #242526;
+  border-radius: 8px;
+  padding: 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 20px 0;
+}
+
+.feed_item > div:first-child {
+  flex: 1;
+  text-align: center;
+}
+
+.feed_item > div:nth-child(2) {
+  flex: 9;
+  display: flex;
+  flex-direction: column;
+}
+
+.feed_item > div:last-child {
+  flex: 1;
+}
+
+.consume_support {
+  background: #ffd500;
+  color: #000;
+  padding: 10px;
+  border-radius: 8px;
+  font-family: "FiraGO Bold";
+}
+
+.feed_title {
+  color: #fff;
+  font-size: 22px;
+  padding: 10px 0;
+}
+
+.time_data {
+  font-size: 14px;
+  color: #bcbcbc;
+}
+
+.feed_item > .icon > div {
+  background: #ffd500;
+  padding: 10px;
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+}
+
+.feed_item > .icon > div img {
+  width: 35px;
+  height: 35px;
+}
+
+@media only screen and (max-width: 900px) {
+  .feeds_wrapper {
+    width: 90%;
+    margin: 0 auto;
+  }
+  .feed_item > div:first-child {
+    display: none;
+  }
+}
