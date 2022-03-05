@@ -1,0 +1,92 @@
+.home {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.home > div:first-child {
+  flex: 1;
+}
+
+.home > div:nth-child(2) {
+  flex: 5;
+}
+
+.home > div:last-child {
+  flex: 1;
+}
+
+.lang_container {
+  display: flex;
+  max-height: 36px;
+  flex-direction: row;
+  justify-content: flex-end;
+  width: 100%;
+  margin-top: 15px;
+}
+
+.lang_container > div {
+  background-color: #242526;
+  border-radius: 8px;
+  margin: 0 10px;
+}
+
+.lang_container > div > a {
+  display: flex;
+  align-items: center;
+  margin: 0 10px;
+  padding: 10px;
+}
+
+.lang_container > div img {
+  width: 20px;
+  margin-right: 10px;
+}
+
+.lang_container > div a {
+  color: #fff;
+}
+
+.home_greeting {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.home_greeting h1 {
+  font-size: 50px;
+  font-family: "FiraGO Bold";
+}
+
+.home_greeting > span {
+  margin: 30px 0;
+}
+
+.home_auth {
+  margin-top: 30px;
+}
+
+.home_auth > a {
+  color: #fff;
+  background: #005bbb;
+  padding: 10px 20px;
+  border-radius: 5px;
+  margin: 0 10px;
+  font-size: 20px;
+}
+
+.partners_list {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.partners_list div {
+  margin: 0 20px;
+}
+
+.partners_list div img {
+  width: 100px;
+}

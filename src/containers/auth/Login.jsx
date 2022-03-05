@@ -1,0 +1,38 @@
+import "./auth.css";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+
+export default function Login() {
+  return (
+    <div>
+      <div class="auth_container">
+        <form action="" id="auth">
+          <h1>Authenticate</h1>
+          <div>
+            <TextField
+              fullWidth
+              type="email"
+              name="email"
+              label="E-mail"
+              variant="filled"
+            />
+          </div>
+          <div>
+            <TextField
+              fullWidth
+              label="Password"
+              variant="filled"
+              name="password"
+              type="password"
+            />
+          </div>
+          <div>
+            <Button type="submit" fullWidth variant="contained">
+              Sign Up
+            </Button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+}

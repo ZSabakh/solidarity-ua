@@ -1,0 +1,24 @@
+.auth_container {
+  margin-top: 80px;
+  margin-bottom: 40px;
+}
+
+#auth {
+  width: 350px;
+  margin: 0 auto;
+  background-color: #242526;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+#auth h1 {
+  font-size: 30px;
+}
+
+#auth > div {
+  margin: 15px 0;
+}
+
+#auth > div input {
+  width: 100%;
+}
