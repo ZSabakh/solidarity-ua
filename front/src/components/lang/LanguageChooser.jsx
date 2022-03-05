@@ -11,7 +11,7 @@ export default function LanguageChooser() {
   };
 
   return (
-    <div class="lang_container">
+    <div className="lang_container">
       <div>
         <a href="#" onClick={() => changeLanguage("ua")}>
           <img src={UA} /> UA

@@ -2,7 +2,7 @@ import "./partners.css";
 
 export default function Partners() {
   return (
-    <div class="partners_list">
+    <div className="partners_list">
       <div>
         <a href="https://tbcpay.ge/" target="_blank">
           <img src="https://wandio.com/media/1210/tbcpay.svg" />

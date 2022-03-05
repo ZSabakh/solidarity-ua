@@ -5,7 +5,7 @@ import Button from "@mui/material/Button";
 export default function Login() {
   return (
     <div>
-      <div class="auth_container">
+      <div className="auth_container">
         <form action="" id="auth">
           <h1>Authenticate</h1>
           <div>

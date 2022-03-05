@@ -11,12 +11,12 @@ const Home = () => {
 
   return (
     <div>
-      <div id="app" class="home">
+      <div id="app" className="home">
         <LanguageChooser />
-        <div class="home_greeting">
+        <div className="home_greeting">
           <h1>{t("portal_title")} 🇺🇦</h1>
           <span>Dummy text at this moment. It will be cool later!</span>
-          <div class="home_auth">
+          <div className="home_auth">
             <Link to="/register/consumer">{t("i_need_accommodation")}</Link>
             <Link to="/register/producer">{t("i_have_accommodation")}</Link>
           </div>
