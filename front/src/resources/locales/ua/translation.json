@@ -9,5 +9,18 @@
         "title": "Стать",
         "male": "Чоловічий",
         "female": "Жіночий"
-    }
+    },
+    "general_information": "Загальна інформація",
+    "create_post_general_information": "Контактна інформація: (необов’язково, зніміть прапорець, якщо ви хочете приховувати лише від незареєстрованих користувачів)",
+    "location": "Розташування",
+    "title": "Назва",
+    "help_title": "Тип довідки",
+    "city": "Місто",
+    "description": "опис",
+    "rooms_amount": "Кількість кімнат",
+    "accomodation_information": "Інформація про розміщення",
+    "beds_amount": "Кількість ліжок",
+    "transportation_information": "Інформація про транспорт",
+    "capacity_of_transport": "Місткість транспорту.",
+    "radius_willing_to_transport": "Радіус готовий до транспортування."
 }

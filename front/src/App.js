@@ -7,7 +7,7 @@ import CreatePost from "./containers/post/CreatePost";
 
 import { InfoProvider } from "./utility/InfoContext";
 
-axios.defaults.baseURL = "http://localhost:5000";
+axios.defaults.baseURL = "http://localhost:5100";
 
 function App() {
   return (
