@@ -1,4 +1,6 @@
 const Post = require("../models/post.model");
+const City = require("../models/city.model");
+const HelpType = require("../models/help.types.model");
 
 exports.submit = async (req, res) => {
   try {
@@ -15,7 +17,27 @@ exports.submit = async (req, res) => {
     }
     res.status(500).json({
       error: true,
-      message: e.message,
+      message: err.message,
+    });
+  }
+};
+
+exports.fetchOptions = async (req, res) => {
+  try {
+    let cities = await City.find({});
+    let helpTypes = await HelpType.find({});
+
+    if (!cities || !helpTypes) throw new Error("Cannot fetch options");
+
+    res.status(200).json({
+      success: true,
+      cities: cities,
+      helpTypes: helpTypes,
+    });
+  } catch (err) {
+    res.status(500).json({
+      error: true,
+      message: err.message,
     });
   }
 };

@@ -3,6 +3,7 @@ const router = express.Router();
 const PostController = require("../controllers/post.controller");
 const { validateToken } = require("../middlewares/validate.jwt.middleware");
 
-router.get("/submit", validateToken, PostController.submit);
+router.post("/submit", validateToken, PostController.submit);
+router.get("/options", PostController.fetchOptions);
 
 module.exports = router;

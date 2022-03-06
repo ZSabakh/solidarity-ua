@@ -10,11 +10,11 @@ const postSchema = new Schema(
     description: { type: String, intl: true, required: true },
     city: { type: Schema.Types.ObjectId, ref: "city", required: [true, "Invalid city"] },
     contact: {
-      phone: String,
-      email: String,
-      telegram: String,
-      whatsapp: String,
-      viber: String,
+      phone: { value: String, public: Boolean },
+      email: { value: String, public: Boolean },
+      telegram: { value: String, public: Boolean },
+      whatsapp: { value: String, public: Boolean },
+      viber: { value: String, public: Boolean },
     },
     location: { type: String },
     accomodation: {
