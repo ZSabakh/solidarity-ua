@@ -1,10 +1,14 @@
-import { useEffect, useState, useContext } from "react";
-import { Card, CardContent, Box, Button, TextField, Autocomplete, Icon, FormControl, FormControlLabel, Checkbox } from "@mui/material";
+import { useState, useContext } from "react";
+import {
+  Card,
+  CardContent,
+  Box,
+  TextField,
+  Autocomplete,
+  Checkbox,
+} from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { InfoContext } from "../../utility/InfoContext";
-import car from "../../resources/images/car-solid.svg";
-import building from "../../resources/images/building-solid.svg";
-import Home from "../home/Home";
 
 export default function CreatePost() {
   const [cities, setCities, helpTypes, setHelpTypes] = useContext(InfoContext);
@@ -44,7 +48,9 @@ export default function CreatePost() {
             <span style={{ flex: 0.1 }} />
             <Autocomplete
               multiple
-              onChange={(event, values) => setSelectedHelpTypes(values.map((value) => value.name.en))}
+              onChange={(event, values) =>
+                setSelectedHelpTypes(values.map((value) => value.name.en))
+              }
               id="help-select"
               sx={{ flex: 2 }}
               options={helpTypes}
@@ -68,8 +74,17 @@ export default function CreatePost() {
             />
           </Box>
           <TextField fullWidth name="title" label="Title" />
-          <TextField fullWidth multiline rows={2} name="description" label="Description" />
-          <b>Contact Information: (Optional, uncheck if you want to hide only from unregistered users)</b>
+          <TextField
+            fullWidth
+            multiline
+            rows={2}
+            name="description"
+            label="Description"
+          />
+          <b>
+            Contact Information: (Optional, uncheck if you want to hide only
+            from unregistered users)
+          </b>
           <Box>
             <TextField name="contact.phone.value" label="Phone" />
             <Checkbox name="contact.phone.public" defaultChecked />
@@ -87,9 +102,17 @@ export default function CreatePost() {
             <>
               <b>Accomodation Information: </b>
               <Box>
-                <TextField sx={{ flex: 2 }} name="accomodation.rooms_amount" label="Rooms amount" />
+                <TextField
+                  sx={{ flex: 2 }}
+                  name="accomodation.rooms_amount"
+                  label="Rooms amount"
+                />
                 <span style={{ flex: 0.1 }} />
-                <TextField sx={{ flex: 2 }} name="accomodation.beds_amount" label="Beds amount" />
+                <TextField
+                  sx={{ flex: 2 }}
+                  name="accomodation.beds_amount"
+                  label="Beds amount"
+                />
               </Box>
             </>
           ) : null}
@@ -97,9 +120,17 @@ export default function CreatePost() {
             <>
               <b>Transportation Information: </b>
               <Box>
-                <TextField sx={{ flex: 2 }} name="transportation.capacity" label="Capacity of transport." />
+                <TextField
+                  sx={{ flex: 2 }}
+                  name="transportation.capacity"
+                  label="Capacity of transport."
+                />
                 <span style={{ flex: 0.1 }} />
-                <TextField sx={{ flex: 2 }} name="transportation.radius" label="Radius willing to transport." />
+                <TextField
+                  sx={{ flex: 2 }}
+                  name="transportation.radius"
+                  label="Radius willing to transport."
+                />
               </Box>
             </>
           ) : null}
