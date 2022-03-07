@@ -2,7 +2,7 @@ import { useState, createContext, useEffect } from "react";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import axios from "axios";
-import { isExpired, decodeToken } from "react-jwt";
+import { isExpired } from "react-jwt";
 export const InfoContext = createContext();
 
 export const InfoProvider = (props) => {
