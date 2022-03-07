@@ -1,5 +1,12 @@
 import { useState, useContext } from "react";
-import { Card, CardContent, Box, TextField, Autocomplete, Checkbox } from "@mui/material";
+import {
+  Card,
+  CardContent,
+  Box,
+  TextField,
+  Autocomplete,
+  Checkbox,
+} from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { InfoContext } from "../../utility/InfoContext";
 import { useTranslation } from "react-i18next";
@@ -11,7 +18,6 @@ export default function CreatePost() {
   const [selectedHelpTypes, setSelectedHelpTypes] = useState([]);
 
   let userCulture = localStorage.getItem("user_culture");
-  console.log(userCulture);
   const classes = useStyles();
   return (
     <Card sx={{ width: "80%", margin: "40px auto" }}>
@@ -44,7 +50,9 @@ export default function CreatePost() {
             <span style={{ flex: 0.1 }} />
             <Autocomplete
               multiple
-              onChange={(_, values) => setSelectedHelpTypes(values.map((value) => value.name.en))}
+              onChange={(_, values) =>
+                setSelectedHelpTypes(values.map((value) => value.name.en))
+              }
               id="help-select"
               sx={{ flex: 2 }}
               options={helpTypes}
@@ -68,7 +76,13 @@ export default function CreatePost() {
             />
           </Box>
           <TextField fullWidth name="title" label={t("title")} />
-          <TextField fullWidth multiline rows={2} name="description" label={t("description")} />
+          <TextField
+            fullWidth
+            multiline
+            rows={2}
+            name="description"
+            label={t("description")}
+          />
           <b>{t("create_post_general_information")}</b>
           <Box>
             <TextField name="contact.phone.value" label={t("phone_number")} />
@@ -87,9 +101,17 @@ export default function CreatePost() {
             <>
               <b>{t("accomodation_information")}: </b>
               <Box>
-                <TextField sx={{ flex: 2 }} name="accomodation.rooms_amount" label={t("rooms_amount")} />
+                <TextField
+                  sx={{ flex: 2 }}
+                  name="accomodation.rooms_amount"
+                  label={t("rooms_amount")}
+                />
                 <span style={{ flex: 0.1 }} />
-                <TextField sx={{ flex: 2 }} name="accomodation.beds_amount" label={t("beds_amount")} />
+                <TextField
+                  sx={{ flex: 2 }}
+                  name="accomodation.beds_amount"
+                  label={t("beds_amount")}
+                />
               </Box>
             </>
           ) : null}
@@ -97,9 +119,17 @@ export default function CreatePost() {
             <>
               <b>{t("transportation_information")}: </b>
               <Box>
-                <TextField sx={{ flex: 2 }} name="transportation.capacity" label={t("capacity_of_transport")} />
+                <TextField
+                  sx={{ flex: 2 }}
+                  name="transportation.capacity"
+                  label={t("capacity_of_transport")}
+                />
                 <span style={{ flex: 0.1 }} />
-                <TextField sx={{ flex: 2 }} name="transportation.radius" label={t("radius_willing_to_transport")} />
+                <TextField
+                  sx={{ flex: 2 }}
+                  name="transportation.radius"
+                  label={t("radius_willing_to_transport")}
+                />
               </Box>
             </>
           ) : null}
