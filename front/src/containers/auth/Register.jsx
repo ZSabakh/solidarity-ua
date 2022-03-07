@@ -5,10 +5,10 @@ import { useTranslation } from "react-i18next";
 import LanguageChooser from "../../components/lang/LanguageChooser";
 import MuiPhoneNumber from "material-ui-phone-number";
 import { makeStyles } from "@mui/styles";
-import { useState, useEffect, useContext } from "react";
+import { useState, useContext } from "react";
 import EmailIcon from "@mui/icons-material/Email";
 import PhoneIcon from "@mui/icons-material/Phone";
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import Otp from "../../components/auth/Otp";
@@ -31,17 +31,22 @@ export default function Register(props) {
   const { setStatus } = useContext(InfoContext);
 
   const handleFormChange = () => {
-    setFormData({ ...Object.fromEntries(new FormData(document.getElementById("auth"))) });
+    setFormData({
+      ...Object.fromEntries(new FormData(document.getElementById("auth"))),
+    });
   };
 
-  console.log(formData);
   const handleFormSubmit = (event) => {
     setLoading(true);
     if (requireOtp) {
       axios
         .post("/auth/activate", { ...sentData, code: otp })
         .then((res) => {
-          setStatus({ open: true, message: res.data.message, severity: "success" });
+          setStatus({
+            open: true,
+            message: res.data.message,
+            severity: "success",
+          });
           localStorage.setItem("token", res.data.accessToken);
           navigate("/");
         })
@@ -56,7 +61,11 @@ export default function Register(props) {
           setSentData(formData);
           setLoading(false);
           setRequireOtp(true);
-          setStatus({ open: true, message: res.data.message, severity: "success" });
+          setStatus({
+            open: true,
+            message: res.data.message,
+            severity: "success",
+          });
         })
         .catch((err) => {
           let message = err.response ? err.response.data.message : err.message;
@@ -81,7 +90,13 @@ export default function Register(props) {
     <div>
       <LanguageChooser />
       <div className="auth_container">
-        <form action="" id="auth" className={classes.form} onSubmit={handleSubmit(handleFormSubmit)} onChange={handleFormChange}>
+        <form
+          action=""
+          id="auth"
+          className={classes.form}
+          onSubmit={handleSubmit(handleFormSubmit)}
+          onChange={handleFormChange}
+        >
           {requireOtp ? (
             <>
               <p>Please enter code: </p>
@@ -104,7 +119,11 @@ export default function Register(props) {
                   autoFormat
                   InputProps={{
                     endAdornment: (
-                      <IconButton aria-label="Email" color="secondary" onClick={() => handlePreferredMethodChange("email")}>
+                      <IconButton
+                        aria-label="Email"
+                        color="secondary"
+                        onClick={() => handlePreferredMethodChange("email")}
+                      >
                         <EmailIcon />
                       </IconButton>
                     ),
@@ -121,7 +140,11 @@ export default function Register(props) {
                   InputLabelProps={{ shrink: true }}
                   InputProps={{
                     endAdornment: (
-                      <IconButton aria-label="Phone" color="secondary" onClick={() => handlePreferredMethodChange("phone")}>
+                      <IconButton
+                        aria-label="Phone"
+                        color="secondary"
+                        onClick={() => handlePreferredMethodChange("phone")}
+                      >
                         <PhoneIcon />
                       </IconButton>
                     ),
@@ -153,7 +176,12 @@ export default function Register(props) {
             </>
           )}
 
-          <Button sx={{ m: "10px 0" }} type="submit" fullWidth variant="contained">
+          <Button
+            sx={{ m: "10px 0" }}
+            type="submit"
+            fullWidth
+            variant="contained"
+          >
             Submit
           </Button>
         </form>
@@ -182,5 +210,8 @@ const useStyles = makeStyles({
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required("Fullname is required"),
-  password: Yup.string().required("Password is required").min(6, "Password must be at least 6 characters").max(40, "Password must not exceed 40 characters"),
+  password: Yup.string()
+    .required("Password is required")
+    .min(6, "Password must be at least 6 characters")
+    .max(40, "Password must not exceed 40 characters"),
 });
