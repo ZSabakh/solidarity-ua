@@ -28,7 +28,7 @@ export default function Register(props) {
   const [requireOtp, setRequireOtp] = useState(false);
   const [otp, setOtp] = useState("");
   const [authenticator, setAuthenticator] = useState({});
-  const [cities, setCities, helpTypes, setHelpTypes, setStatus] = useContext(InfoContext);
+  const { setStatus } = useContext(InfoContext);
 
   const handleFormChange = () => {
     setFormData({ ...Object.fromEntries(new FormData(document.getElementById("auth"))) });

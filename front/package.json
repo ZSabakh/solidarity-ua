@@ -20,6 +20,7 @@
     "react-google-autocomplete": "^2.6.1",
     "react-hook-form": "^7.27.1",
     "react-i18next": "^11.15.5",
+    "react-jwt": "^1.1.4",
     "react-router-dom": "^6.2.2",
     "react-scripts": "5.0.0",
     "web-vitals": "^2.1.4",

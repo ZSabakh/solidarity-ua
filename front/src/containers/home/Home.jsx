@@ -5,10 +5,11 @@ import { useTranslation } from "react-i18next";
 
 import LanguageChooser from "../../components/lang/LanguageChooser";
 import Feeds from "../../components/feeds/Feeds";
-
+import { useContext } from "react";
+import { InfoContext } from "../../utility/InfoContext";
 const Home = () => {
   const { t } = useTranslation();
-
+  const { authorized } = useContext(InfoContext);
   return (
     <div>
       <div id="app" className="home">
@@ -25,7 +26,7 @@ const Home = () => {
             >
               {t("i_need_accommodation")}
             </Link>
-            <Link to="/register">{t("i_have_accommodation")}</Link>
+            <Link to={authorized ? "/post/create" : "/register"}>{t("i_have_accommodation")}</Link>
           </div>
         </div>
         <Feeds />

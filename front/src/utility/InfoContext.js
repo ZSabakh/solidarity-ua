@@ -2,10 +2,11 @@ import { useState, createContext, useEffect } from "react";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import axios from "axios";
-
+import { isExpired, decodeToken } from "react-jwt";
 export const InfoContext = createContext();
 
 export const InfoProvider = (props) => {
+  const [authorized, setAuthorized] = useState(false);
   const [cities, setCities] = useState([]);
   const [helpTypes, setHelpTypes] = useState([]);
   const [status, setStatus] = useState({
@@ -24,6 +25,16 @@ export const InfoProvider = (props) => {
         })
         .catch((err) => console.log(err));
     }
+    if (localStorage.getItem("token")) {
+      const token = localStorage.getItem("token");
+      if (isExpired(token)) {
+        localStorage.removeItem("token");
+        setAuthorized(false);
+      } else {
+        setAuthorized(true);
+        axios.defaults.headers.common["Authorization"] = localStorage.getItem("token");
+      }
+    }
   });
 
   const handleClose = (event, reason) => {
@@ -37,7 +48,7 @@ export const InfoProvider = (props) => {
   };
 
   return (
-    <InfoContext.Provider value={[cities, setCities, helpTypes, setHelpTypes, setStatus]}>
+    <InfoContext.Provider value={{ cities, setCities, helpTypes, setHelpTypes, setStatus, authorized }}>
       <Snackbar anchorOrigin={{ vertical: "bottom", horizontal: "center" }} open={status.open} autoHideDuration={6000} onClose={handleClose}>
         <MuiAlert onClose={handleClose} severity={status.severity} sx={{ width: "100%" }}>
           {status.message}

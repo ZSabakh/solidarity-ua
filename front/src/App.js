@@ -4,7 +4,6 @@ import Home from "./containers/home/Home";
 import Login from "./containers/auth/Login";
 import Register from "./containers/auth/Register";
 import CreatePost from "./containers/post/CreatePost";
-
 import { InfoProvider } from "./utility/InfoContext";
 
 axios.defaults.baseURL = "http://localhost:5100";
