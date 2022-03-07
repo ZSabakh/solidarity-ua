@@ -6,6 +6,8 @@ const { generateJwt } = require("../utility/generateJwt");
 
 exports.Signup = async (req, res) => {
   try {
+    if (req.body.email && req.body.phone) throw new Error("Cannot signup with both email and phone");
+
     const hash = await User.hashPassword(req.body.password);
     req.body.password = hash;
 
@@ -33,7 +35,7 @@ exports.Signup = async (req, res) => {
     }
     return res.status(500).json({
       error: true,
-      message: "Cannot Register",
+      message: err.message,
     });
   }
 };

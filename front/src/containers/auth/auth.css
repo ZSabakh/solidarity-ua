@@ -16,14 +16,6 @@
   font-size: 30px;
 }
 
-#auth > div {
-  margin: 25px 0;
-}
-
-#auth > div input {
-  width: 100%;
-}
-
 @media only screen and (max-width: 767px) {
   #auth {
     width: 100%;

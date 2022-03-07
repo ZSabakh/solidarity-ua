@@ -6,7 +6,7 @@ import building from "../../resources/images/building-solid.svg";
 
 export default function Feeds() {
   return (
-    <div className="feeds_wrapper">
+    <div className="feeds_wrapper" id="feed">
       {/* <!-- $0 --> */}
       <div className="feed_item">
         <div className="icon">
