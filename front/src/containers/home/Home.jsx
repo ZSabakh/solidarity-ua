@@ -7,7 +7,6 @@ import Header from "../../components/header/Header";
 import Feeds from "../../components/feeds/Feeds";
 import { useContext } from "react";
 import { InfoContext } from "../../utility/InfoContext";
-import Menu from "../../components/menu/Menu";
 
 const Home = () => {
   const { t } = useTranslation();

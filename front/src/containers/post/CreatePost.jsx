@@ -12,9 +12,7 @@ import { makeStyles } from "@mui/styles";
 import { InfoContext } from "../../utility/InfoContext";
 import { useTranslation } from "react-i18next";
 import Header from "../../components/header/Header";
-import LanguageChooser from "../../components/lang/LanguageChooser";
 import LocationChoose from "./LocationChoose";
-import axios from "axios";
 
 const GOOGLE_MAPS_API_KEY = "AIzaSyBDhh-66lvWkkYrzDmjUbrNOHDt4EZSXsk";
 
@@ -30,7 +28,7 @@ export default function CreatePost() {
   useEffect(() => {
     setFormData((prev) => ({ ...prev, type: selectedHelpTypeIDs }));
   }, [selectedHelpTypes]);
-  console.log(formData);
+
   useEffect(() => {
     setFormData((prev) => ({ ...prev, location: locationValue }));
   }, [locationValue]);
@@ -38,7 +36,6 @@ export default function CreatePost() {
   let userCulture = localStorage.getItem("user_culture");
   const classes = useStyles();
 
-  console.log(formData);
   const handleFormChange = (event, option) => {
     if (option === "city") event.target.name = "city";
     if (option === "check") event.target.value = event.target.checked;
