@@ -16,6 +16,13 @@ const theme = createTheme({
       main: "#005bbb",
     },
   },
+  components: {
+    MuiCardContent: {
+      defaultProps: {
+        sx: { borderTop: "2px solid #0057b7", borderBottom: "2px solid #ffd700 ", borderRadius: 2 },
+      },
+    },
+  },
 });
 
 ReactDOM.render(
