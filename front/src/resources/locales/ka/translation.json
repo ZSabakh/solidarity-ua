@@ -23,5 +23,8 @@
   "transportation_information": "ტრანსპორტირების ინფორმაცია",
   "capacity_of_transport": "ტრანსპორტის ტევადობა.",
   "radius_willing_to_transport": "ტრანსპორტირების რადიუსი.",
-  "password": "პაროლი"
+  "password": "პაროლი",
+  "home": "მთავარი",
+  "about_project": "პროექტის შესახებ",
+  "login": "შესვლა"
 }

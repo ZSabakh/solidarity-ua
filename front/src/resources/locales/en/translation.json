@@ -23,5 +23,8 @@
   "transportation_information": "Transportation Information",
   "capacity_of_transport": "Capacity of transport.",
   "radius_willing_to_transport": "Radius willing to transport.",
-  "password": "Password"
+  "password": "Password",
+  "home": "Home",
+  "about_project": "About project",
+  "login": "Login"
 }

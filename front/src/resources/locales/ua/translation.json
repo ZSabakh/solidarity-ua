@@ -23,5 +23,8 @@
   "transportation_information": "Інформація про транспорт",
   "capacity_of_transport": "Місткість транспорту.",
   "radius_willing_to_transport": "Радіус готовий до транспортування.",
-  "password": "Пароль"
+  "password": "Пароль",
+  "home": "Додому",
+  "about_project": "Про проект",
+  "login": "Увійти"
 }

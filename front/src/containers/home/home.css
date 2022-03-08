@@ -1,3 +1,10 @@
+header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 15px 20px;
+}
+
 .home > div:nth-child(2) {
   min-height: 500px;
   max-height: 70vh;

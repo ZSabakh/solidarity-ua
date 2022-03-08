@@ -2,7 +2,6 @@ import { TextField, IconButton, Button } from "@mui/material";
 
 import "./auth.css";
 import { useTranslation } from "react-i18next";
-import LanguageChooser from "../../components/lang/LanguageChooser";
 import MuiPhoneNumber from "material-ui-phone-number";
 import { makeStyles } from "@mui/styles";
 import { useState, useContext } from "react";
@@ -15,6 +14,7 @@ import Otp from "../../components/auth/Otp";
 import axios from "axios";
 import { InfoContext } from "../../utility/InfoContext";
 import { useNavigate } from "react-router-dom";
+import Header from "../../components/header/Header";
 
 export default function Register(props) {
   const { t } = useTranslation();
@@ -88,7 +88,7 @@ export default function Register(props) {
 
   return (
     <div>
-      <LanguageChooser />
+      <Header />
       <div className="auth_container">
         <form
           action=""
