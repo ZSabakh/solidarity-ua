@@ -16,15 +16,6 @@ export const InfoProvider = (props) => {
   });
 
   useEffect(() => {
-    if (cities.length === 0 || helpTypes.length === 0) {
-      axios
-        .get("/post/options")
-        .then((res) => {
-          setCities(res.data.cities);
-          setHelpTypes(res.data.helpTypes);
-        })
-        .catch((err) => console.log(err));
-    }
     if (localStorage.getItem("token")) {
       const token = localStorage.getItem("token");
       if (isExpired(token)) {
@@ -35,7 +26,16 @@ export const InfoProvider = (props) => {
         axios.defaults.headers.common["Authorization"] = localStorage.getItem("token");
       }
     }
-  });
+    if (cities.length === 0 || helpTypes.length === 0) {
+      axios
+        .get("/post/options")
+        .then((res) => {
+          setCities(res.data.cities);
+          setHelpTypes(res.data.helpTypes);
+        })
+        .catch((err) => console.log(err));
+    }
+  }, []);
 
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
@@ -48,7 +48,7 @@ export const InfoProvider = (props) => {
   };
 
   return (
-    <InfoContext.Provider value={{ cities, setCities, helpTypes, setHelpTypes, setStatus, authorized }}>
+    <InfoContext.Provider value={{ cities, setCities, helpTypes, setHelpTypes, setStatus, authorized, setAuthorized }}>
       <Snackbar anchorOrigin={{ vertical: "bottom", horizontal: "center" }} open={status.open} autoHideDuration={6000} onClose={handleClose}>
         <MuiAlert onClose={handleClose} severity={status.severity} sx={{ width: "100%" }}>
           {status.message}
