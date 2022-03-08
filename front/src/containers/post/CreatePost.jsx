@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import {
   Card,
   CardContent,
@@ -6,26 +6,62 @@ import {
   TextField,
   Autocomplete,
   Checkbox,
+  Button,
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { InfoContext } from "../../utility/InfoContext";
 import { useTranslation } from "react-i18next";
 import Header from "../../components/header/Header";
+import LanguageChooser from "../../components/lang/LanguageChooser";
+import LocationChoose from "./LocationChoose";
+import axios from "axios";
+
+const GOOGLE_MAPS_API_KEY = "AIzaSyBDhh-66lvWkkYrzDmjUbrNOHDt4EZSXsk";
 
 export default function CreatePost() {
   const { t } = useTranslation();
-
+  const [locationValue, setLocationValue] = useState();
+  const [formData, setFormData] = useState({});
   const { cities, helpTypes } = useContext(InfoContext);
   const [selectedHelpTypes, setSelectedHelpTypes] = useState([]);
+  const [selectedHelpTypeIDs, setSelectedHelpTypeIDs] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    setFormData((prev) => ({ ...prev, type: selectedHelpTypeIDs }));
+  }, [selectedHelpTypes]);
+  console.log(formData);
+  useEffect(() => {
+    setFormData((prev) => ({ ...prev, location: locationValue }));
+  }, [locationValue]);
 
   let userCulture = localStorage.getItem("user_culture");
   const classes = useStyles();
+
+  console.log(formData);
+  const handleFormChange = (event, option) => {
+    if (option === "city") event.target.name = "city";
+    if (option === "check") event.target.value = event.target.checked;
+    setFormData((prevState) => ({
+      ...prevState,
+      [event.target.name]: event.target.value,
+    }));
+  };
+
+  const handleGeneralFormChange = (event) => {};
+
+  const handleFormSubmit = (event) => {};
+
   return (
     <>
       <Header />
       <Card sx={{ width: "80%", margin: "40px auto" }}>
         <CardContent>
-          <Box className={classes.box} component="form">
+          <Box
+            className={classes.box}
+            component="form"
+            onSubmit={handleFormSubmit}
+          >
             <b>{t("general_information")}: </b>
             <Box>
               <Autocomplete
@@ -33,14 +69,16 @@ export default function CreatePost() {
                 sx={{ flex: 2 }}
                 options={cities}
                 autoHighlight
+                onChange={(event) => handleFormChange(event, "city")}
                 getOptionLabel={(option) => option.name[userCulture]}
                 renderOption={(props, option) => (
-                  <Box component="li" {...props}>
+                  <option component="li" {...props} value={option._id}>
                     {option.name[userCulture]}
-                  </Box>
+                  </option>
                 )}
                 renderInput={(params) => (
                   <TextField
+                    required
                     {...params}
                     name="city"
                     label={t("city")}
@@ -53,9 +91,10 @@ export default function CreatePost() {
               <span style={{ flex: 0.1 }} />
               <Autocomplete
                 multiple
-                onChange={(_, values) =>
-                  setSelectedHelpTypes(values.map((value) => value.name.en))
-                }
+                onChange={(_, values) => {
+                  setSelectedHelpTypeIDs(values.map((value) => value._id));
+                  setSelectedHelpTypes(values.map((value) => value.name.en));
+                }}
                 id="help-select"
                 sx={{ flex: 2 }}
                 options={helpTypes}
@@ -68,6 +107,7 @@ export default function CreatePost() {
                 )}
                 renderInput={(params) => (
                   <TextField
+                    required
                     {...params}
                     name="help_type"
                     label={t("help_title")}
@@ -78,28 +118,87 @@ export default function CreatePost() {
                 )}
               />
             </Box>
-            <TextField fullWidth name="title" label={t("title")} />
-            <TextField
-              fullWidth
-              multiline
-              rows={2}
-              name="description"
-              label={t("description")}
+            <form onChange={handleGeneralFormChange}>
+              <TextField
+                fullWidth
+                name="title"
+                onChange={handleFormChange}
+                required
+                label={t("title")}
+              />
+              <TextField
+                fullWidth
+                multiline
+                rows={2}
+                onChange={handleFormChange}
+                required
+                name="description"
+                label={t("description")}
+              />
+              <b>{t("create_post_general_information")}</b>
+              <Box>
+                <TextField
+                  name="contact.phone.value"
+                  onChange={handleFormChange}
+                  label={t("phone_number")}
+                />
+                <Checkbox
+                  name="contact.phone.public"
+                  onChange={(event) => handleFormChange(event, "check")}
+                  defaultChecked
+                />
+                <TextField
+                  name="contact.email.value"
+                  onChange={handleFormChange}
+                  onChange={handleFormChange}
+                  label="Email"
+                />
+                <Checkbox
+                  name="contact.email.public"
+                  onChange={(event) => handleFormChange(event, "check")}
+                  defaultChecked
+                />
+                <TextField
+                  name="contact.telegram.value"
+                  onChange={(event) => handleFormChange(event, "check")}
+                  onChange={handleFormChange}
+                  label="Telegram"
+                />
+                <Checkbox
+                  name="contact.email.telegram"
+                  onChange={(event) => handleFormChange(event, "check")}
+                  defaultChecked
+                />
+                <TextField
+                  name="contact.whatsapp.value"
+                  onChange={(event) => handleFormChange(event, "check")}
+                  onChange={handleFormChange}
+                  label="Whatsapp"
+                />
+                <Checkbox
+                  name="contact.email.whatsapp"
+                  onChange={(event) => handleFormChange(event, "check")}
+                  defaultChecked
+                />
+                <TextField
+                  name="contact.viber.value"
+                  onChange={(event) => handleFormChange(event, "check")}
+                  onChange={handleFormChange}
+                  label="Viber"
+                />
+                <Checkbox
+                  name="contact.email.viber"
+                  onChange={(event) => handleFormChange(event, "check")}
+                  defaultChecked
+                />
+              </Box>
+            </form>
+            <b>Approximate location: </b>
+            <LocationChoose
+              label={t("location")}
+              value={locationValue}
+              setValue={setLocationValue}
             />
-            <b>{t("create_post_general_information")}</b>
-            <Box>
-              <TextField name="contact.phone.value" label={t("phone_number")} />
-              <Checkbox name="contact.phone.public" defaultChecked />
-              <TextField name="contact.email.value" label="Email" />
-              <Checkbox name="contact.email.public" defaultChecked />
-              <TextField name="contact.telegram.value" label="Telegram" />
-              <Checkbox name="contact.email.telegram" defaultChecked />
-              <TextField name="contact.whatsapp.value" label="Whatsapp" />
-              <Checkbox name="contact.email.whatsapp" defaultChecked />
-              <TextField name="contact.viber.value" label="Viber" />
-              <Checkbox name="contact.email.viber" defaultChecked />
-            </Box>
-            <TextField fullWidth name="location" label={t("location")} />
             {selectedHelpTypes.includes("Accomodation") ? (
               <>
                 <b>{t("accomodation_information")}: </b>
@@ -136,9 +235,13 @@ export default function CreatePost() {
                 </Box>
               </>
             ) : null}
-            {/* <Icon>
-            <img src={car} height={25} width={25} alt="transport logo" />
-          </Icon> */}
+            <Button
+              type={"submit"}
+              sx={{ marginTop: 2, width: "50%", alignSelf: "center" }}
+              variant="contained"
+            >
+              Submit
+            </Button>
           </Box>
         </CardContent>
       </Card>
@@ -148,6 +251,8 @@ export default function CreatePost() {
 
 const useStyles = makeStyles({
   box: {
+    display: "flex",
+    flexDirection: "column",
     "& .MuiTextField-root": {
       margin: "0.4rem 0",
     },
