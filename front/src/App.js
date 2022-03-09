@@ -8,6 +8,7 @@ import CreatePost from "./containers/post/CreatePost";
 import { InfoProvider } from "./utility/InfoContext";
 
 axios.defaults.baseURL = "http://localhost:5100";
+axios.defaults.headers.common["Authorization"] = localStorage.getItem("token");
 
 function App() {
   return (

@@ -23,7 +23,6 @@ export const InfoProvider = (props) => {
         setAuthorized(false);
       } else {
         setAuthorized(true);
-        axios.defaults.headers.common["Authorization"] = localStorage.getItem("token");
       }
     }
     if (cities.length === 0 || helpTypes.length === 0) {
@@ -35,7 +34,10 @@ export const InfoProvider = (props) => {
         })
         .catch((err) => console.log(err));
     }
-  }, []);
+    if (!localStorage.getItem("user_culture")) {
+      localStorage.setItem("user_culture", "en");
+    }
+  }, [status, window.location.href]);
 
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {

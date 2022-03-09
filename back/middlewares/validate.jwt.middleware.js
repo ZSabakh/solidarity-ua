@@ -41,7 +41,7 @@ async function validateToken(req, res, next) {
       return res.status(401).json(result);
     }
 
-    req.decoded = result;
+    req.user = result;
 
     next();
   } catch (err) {

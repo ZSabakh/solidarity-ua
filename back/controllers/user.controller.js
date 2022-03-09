@@ -69,7 +69,6 @@ exports.Login = async (req, res) => {
       return res.status(400).json({
         error: true,
         message: "Invalid credentials",
-        accessToken: token,
       });
     }
 

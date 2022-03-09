@@ -25,6 +25,7 @@
     "react-jwt": "^1.1.4",
     "react-router-dom": "^6.2.2",
     "react-scripts": "5.0.0",
+    "unflatten": "^1.0.4",
     "web-vitals": "^2.1.4",
     "yup": "^0.32.11"
   },

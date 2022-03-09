@@ -16,7 +16,7 @@ const postSchema = new Schema(
       whatsapp: { value: String, public: { type: Boolean, default: true } },
       viber: { value: String, public: { type: Boolean, default: true } },
     },
-    location: { type: String },
+    location: { description: String, place_id: String, lat: Number, lng: Number },
     accomodation: {
       rooms_amount: Number,
       beds_amount: Number,
