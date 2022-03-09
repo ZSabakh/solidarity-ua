@@ -26,5 +26,6 @@
   "password": "Password",
   "home": "Home",
   "about_project": "About project",
-  "login": "Login"
+  "login": "Login",
+  "profile": "Profile"
 }
