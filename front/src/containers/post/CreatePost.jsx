@@ -1,5 +1,17 @@
 import { useState, useContext, useEffect } from "react";
-import { Card, CardContent, Box, TextField, Autocomplete, Checkbox, Button, InputLabel, Select, MenuItem, FormControl } from "@mui/material";
+import {
+  Card,
+  CardContent,
+  Box,
+  TextField,
+  Autocomplete,
+  Checkbox,
+  Button,
+  InputLabel,
+  Select,
+  MenuItem,
+  FormControl,
+} from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { InfoContext } from "../../utility/InfoContext";
 import { useTranslation } from "react-i18next";
@@ -8,8 +20,6 @@ import LocationChoose from "./LocationChoose";
 import unflatten from "unflatten";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
-const GOOGLE_MAPS_API_KEY = "AIzaSyBDhh-66lvWkkYrzDmjUbrNOHDt4EZSXsk";
 
 export default function CreatePost() {
   const { t } = useTranslation();
@@ -67,7 +77,11 @@ export default function CreatePost() {
       <Header />
       <Card sx={{ width: "80%", margin: "40px auto" }}>
         <CardContent>
-          <Box className={classes.box} component="form" onSubmit={handleFormSubmit}>
+          <Box
+            className={classes.box}
+            component="form"
+            onSubmit={handleFormSubmit}
+          >
             <b>{t("general_information")}: </b>
             <Box>
               <Autocomplete
@@ -123,36 +137,96 @@ export default function CreatePost() {
                 )}
               />
             </Box>
-            <TextField fullWidth name="title" onChange={handleFormChange} required label={t("title")} />
-            <TextField fullWidth multiline rows={2} onChange={handleFormChange} required name="description" label={t("description")} />
+            <TextField
+              fullWidth
+              name="title"
+              onChange={handleFormChange}
+              required
+              label={t("title")}
+            />
+            <TextField
+              fullWidth
+              multiline
+              rows={2}
+              onChange={handleFormChange}
+              required
+              name="description"
+              label={t("description")}
+            />
             <b>{t("create_post_general_information")}</b>
             <Box sx={{ flexWrap: "wrap" }}>
               <Box sx={{ minWidth: 100 }}>
-                <TextField name="contact.phone.value" onChange={handleFormChange} label={t("phone_number")} />
-                <Checkbox name="contact.phone.public" onChange={(event) => handleFormChange(event, "check")} defaultChecked />
+                <TextField
+                  name="contact.phone.value"
+                  onChange={handleFormChange}
+                  label={t("phone_number")}
+                />
+                <Checkbox
+                  name="contact.phone.public"
+                  onChange={(event) => handleFormChange(event, "check")}
+                  defaultChecked
+                />
               </Box>
               <Box sx={{ minWidth: 100 }}>
-                <TextField name="contact.email.value" onChange={handleFormChange} label="Email" />
-                <Checkbox name="contact.email.public" onChange={(event) => handleFormChange(event, "check")} defaultChecked />
+                <TextField
+                  name="contact.email.value"
+                  onChange={handleFormChange}
+                  label="Email"
+                />
+                <Checkbox
+                  name="contact.email.public"
+                  onChange={(event) => handleFormChange(event, "check")}
+                  defaultChecked
+                />
               </Box>
               <Box sx={{ minWidth: 100 }}>
-                <TextField name="contact.telegram.value" onChange={handleFormChange} label="Telegram" />
-                <Checkbox name="contact.telegram.public" onChange={(event) => handleFormChange(event, "check")} defaultChecked />
+                <TextField
+                  name="contact.telegram.value"
+                  onChange={handleFormChange}
+                  label="Telegram"
+                />
+                <Checkbox
+                  name="contact.telegram.public"
+                  onChange={(event) => handleFormChange(event, "check")}
+                  defaultChecked
+                />
               </Box>
               <Box sx={{ minWidth: 100 }}>
-                <TextField name="contact.whatsapp.value" onChange={handleFormChange} label="Whatsapp/Viber" />
-                <Checkbox name="contact.whatsapp.public" onChange={(event) => handleFormChange(event, "check")} defaultChecked />
+                <TextField
+                  name="contact.whatsapp.value"
+                  onChange={handleFormChange}
+                  label="Whatsapp/Viber"
+                />
+                <Checkbox
+                  name="contact.whatsapp.public"
+                  onChange={(event) => handleFormChange(event, "check")}
+                  defaultChecked
+                />
               </Box>
             </Box>
             <b>Approximate location: </b>
-            <LocationChoose label={t("location")} value={locationValue} setValue={setLocationValue} />
+            <LocationChoose
+              label={t("location")}
+              value={locationValue}
+              setValue={setLocationValue}
+            />
             {selectedHelpTypes.includes("Accomodation") ? (
               <>
                 <b>{t("accomodation_information")}: </b>
                 <Box>
-                  <TextField sx={{ flex: 2 }} onChange={handleFormChange} name="accomodation.rooms_amount" label={t("rooms_amount")} />
+                  <TextField
+                    sx={{ flex: 2 }}
+                    onChange={handleFormChange}
+                    name="accomodation.rooms_amount"
+                    label={t("rooms_amount")}
+                  />
                   <span style={{ flex: 0.1 }} />
-                  <TextField sx={{ flex: 2 }} onChange={handleFormChange} name="accomodation.beds_amount" label={t("beds_amount")} />
+                  <TextField
+                    sx={{ flex: 2 }}
+                    onChange={handleFormChange}
+                    name="accomodation.beds_amount"
+                    label={t("beds_amount")}
+                  />
                 </Box>
               </>
             ) : null}
@@ -160,13 +234,27 @@ export default function CreatePost() {
               <>
                 <b>{t("transportation_information")}: </b>
                 <Box>
-                  <TextField sx={{ flex: 2 }} onChange={handleFormChange} name="transportation.capacity" label={t("capacity_of_transport")} />
+                  <TextField
+                    sx={{ flex: 2 }}
+                    onChange={handleFormChange}
+                    name="transportation.capacity"
+                    label={t("capacity_of_transport")}
+                  />
                   <span style={{ flex: 0.1 }} />
                   <FormControl sx={{ flex: 2 }}>
-                    <InputLabel id="radius-label">{t("radius_willing_to_transport")}</InputLabel>
-                    <Select labelId="radius-label" name="transportation.radius" label={t("radius_willing_to_transport")} onChange={handleFormChange}>
+                    <InputLabel id="radius-label">
+                      {t("radius_willing_to_transport")}
+                    </InputLabel>
+                    <Select
+                      labelId="radius-label"
+                      name="transportation.radius"
+                      label={t("radius_willing_to_transport")}
+                      onChange={handleFormChange}
+                    >
                       <MenuItem value={"Citywide"}>Citywide</MenuItem>
-                      <MenuItem value={"Neighboring cities"}>Neighboring cities</MenuItem>
+                      <MenuItem value={"Neighboring cities"}>
+                        Neighboring cities
+                      </MenuItem>
                       <MenuItem value={"Countrywide"}>Countrywide</MenuItem>
                     </Select>
                   </FormControl>
@@ -174,7 +262,11 @@ export default function CreatePost() {
                 </Box>
               </>
             ) : null}
-            <Button type={"submit"} sx={{ marginTop: 2, width: "50%", alignSelf: "center" }} variant="contained">
+            <Button
+              type={"submit"}
+              sx={{ marginTop: 2, width: "50%", alignSelf: "center" }}
+              variant="contained"
+            >
               Submit
             </Button>
           </Box>

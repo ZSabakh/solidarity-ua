@@ -4,7 +4,6 @@ import building from "../../resources/images/building-solid.svg";
 
 export default function FeedItem({ post }) {
   let userCulture = localStorage.getItem("user_culture");
-  console.log(post);
 
   const PostIcon = () => {
     if (post.type?.name?.en === "Transportation") {
@@ -25,7 +24,8 @@ export default function FeedItem({ post }) {
       </div>
       <div>
         <span className="time_data">
-          {new Date(new Date(post.createdAt) - new Date()).getMinutes() + " minutes ago"}
+          {new Date(new Date(post.createdAt) - new Date()).getMinutes() +
+            " minutes ago"}
           <span> · </span>
           {post.city.name[userCulture]}, Georgia
         </span>

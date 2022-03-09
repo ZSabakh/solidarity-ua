@@ -1,9 +1,6 @@
 import { useEffect, useState, useContext } from "react";
 import { InfoContext } from "../../utility/InfoContext";
-import { Link } from "react-router-dom";
 import "./feeds.css";
-import car from "../../resources/images/car-solid.svg";
-import building from "../../resources/images/building-solid.svg";
 import FeedItem from "./FeedItem";
 import axios from "axios";
 

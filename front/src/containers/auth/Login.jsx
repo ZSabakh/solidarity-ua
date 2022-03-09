@@ -1,6 +1,6 @@
 import "./auth.css";
 import Header from "../../components/header/Header";
-import { useState, useEffect, useContext } from "react";
+import { useState, useContext } from "react";
 import { InfoContext } from "../../utility/InfoContext";
 import MuiPhoneNumber from "material-ui-phone-number";
 import EmailIcon from "@mui/icons-material/Email";
@@ -57,7 +57,13 @@ export default function Login() {
     <div>
       <Header />
       <div className="auth_container">
-        <form action="" id="auth" className={classes.form} onChange={handleFormChange} onSubmit={handleFormSubmit}>
+        <form
+          action=""
+          id="auth"
+          className={classes.form}
+          onChange={handleFormChange}
+          onSubmit={handleFormSubmit}
+        >
           <i>*Tap icon to switch to an alternative method</i>
           {preferredMethod === "phone" ? (
             <MuiPhoneNumber
@@ -72,7 +78,11 @@ export default function Login() {
               autoFormat
               InputProps={{
                 endAdornment: (
-                  <IconButton aria-label="Email" color="secondary" onClick={() => handlePreferredMethodChange("email")}>
+                  <IconButton
+                    aria-label="Email"
+                    color="secondary"
+                    onClick={() => handlePreferredMethodChange("email")}
+                  >
                     <EmailIcon />
                   </IconButton>
                 ),
@@ -89,7 +99,11 @@ export default function Login() {
               InputLabelProps={{ shrink: true }}
               InputProps={{
                 endAdornment: (
-                  <IconButton aria-label="Phone" color="secondary" onClick={() => handlePreferredMethodChange("phone")}>
+                  <IconButton
+                    aria-label="Phone"
+                    color="secondary"
+                    onClick={() => handlePreferredMethodChange("phone")}
+                  >
                     <PhoneIcon />
                   </IconButton>
                 ),
@@ -97,7 +111,14 @@ export default function Login() {
             />
           )}
 
-          <TextField fullWidth label={t("password")} variant="outlined" name="password" type="password" InputLabelProps={{ shrink: true }} />
+          <TextField
+            fullWidth
+            label={t("password")}
+            variant="outlined"
+            name="password"
+            type="password"
+            InputLabelProps={{ shrink: true }}
+          />
           <div>
             <Button type="submit" fullWidth variant="contained">
               Login
