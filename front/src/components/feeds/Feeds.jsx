@@ -1,61 +1,43 @@
+import { useEffect, useState, useContext } from "react";
+import { InfoContext } from "../../utility/InfoContext";
 import { Link } from "react-router-dom";
 import "./feeds.css";
-
 import car from "../../resources/images/car-solid.svg";
 import building from "../../resources/images/building-solid.svg";
+import FeedItem from "./FeedItem";
+import axios from "axios";
 
 export default function Feeds() {
+  const [posts, setPosts] = useState([]);
+  const [totalPages, setTotalPages] = useState(1);
+  const [filterData, setFilterData] = useState({ page: 1 });
+  const [loading, setLoading] = useState(false);
+  const { setStatus } = useContext(InfoContext);
+
+  useEffect(() => {
+    axios
+      .get("/post/get_all")
+      .then((res) => {
+        setPosts(res.data.posts);
+        setTotalPages(res.data.totalPages);
+      })
+      .catch((err) => {
+        let message = err.response ? err.response.data.message : err.message;
+        setStatus({ open: true, message: message, severity: "error" });
+      });
+  }, []);
+
   return (
     <div className="feeds_wrapper" id="feed">
-      {/* <!-- $0 --> */}
-      <div className="feed_item">
-        <div className="icon">
-          <div>
-            <img src={car} alt="Car" />
-          </div>
-        </div>
-        <div>
-          <span className="time_data">
-            20m ago
-            <span> · </span>
-            Tbilisi, Georgia
-          </span>
-          <Link to="/" className="feed_title">
-            Car for free
-          </Link>
-        </div>
-        <div>
-          <Link to="/consume/" className="consume_support">
-            Receive
-          </Link>
-        </div>
-      </div>
-      {/* <!-- $0 --> */}
-
-      {/* <!-- $1 --> */}
-      <div className="feed_item">
-        <div className="icon">
-          <div>
-            <img src={building} alt="building" />
-          </div>
-        </div>
-        <div>
-          <span className="time_data">
-            1h ago
-            <span> · </span>
-            Tbilisi, Georgia
-          </span>
-          <Link to="/" className="feed_title">
-            Accommodation for 2 person
-          </Link>
-        </div>
-        <div>
-          <Link to="/consume/" className="consume_support">
-            Receive
-          </Link>
-        </div>
-      </div>
-      {/* <!-- $1 --> */}
+      {loading ? (
+        <p>Skeleton loader please</p>
+      ) : (
+        <>
+          {posts.map((post) => (
+            <FeedItem post={post} />
+          ))}
+        </>
+      )}
     </div>
   );
 }

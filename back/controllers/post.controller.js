@@ -57,6 +57,32 @@ exports.submit = async (req, res) => {
   }
 };
 
+exports.getAll = async (req, res) => {
+  try {
+    let page = req.query.page || 1;
+    let amountOnPage = 20;
+    //Return all posts with pagination and return amount of total pages.
+    let posts = await Post.find({})
+      .skip((page - 1) * amountOnPage)
+      .limit(amountOnPage)
+      .populate(["author", "type", "city"]);
+
+    let totalPosts = await Post.countDocuments({});
+    let totalPages = Math.ceil(totalPosts / amountOnPage);
+
+    res.status(200).json({
+      success: true,
+      posts: posts,
+      totalPages: totalPages,
+    });
+  } catch (err) {
+    res.status(500).json({
+      error: true,
+      message: err.message,
+    });
+  }
+};
+
 exports.fetchOptions = async (req, res) => {
   try {
     let cities = await City.find({});
