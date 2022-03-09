@@ -1,17 +1,19 @@
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import i18n from "../../../i18n";
+import { InfoContext } from "../../../utility/InfoContext";
 
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
-import Button from "@mui/material/Button";
 import List from "@mui/material/List";
 import Divider from "@mui/material/Divider";
 import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import MenuIcon from "@mui/icons-material/Menu";
+import IconButton from "@mui/material/IconButton";
+import LogoutIcon from "@mui/icons-material/Logout";
 
 import UA from "../../../resources/images/Flag_of_Ukraine.svg";
 import GE from "../../../resources/images/Flag_of_Georgia.svg";
@@ -20,6 +22,7 @@ import "./mobile_header.css";
 
 export default function MobileHeader() {
   const { t } = useTranslation();
+  const { authorized } = useContext(InfoContext);
 
   const changeLanguage = (e, lng) => {
     localStorage.setItem("user_culture", lng);
@@ -33,6 +36,11 @@ export default function MobileHeader() {
 
   const toggleDrawer = (anchor, open) => (_) => {
     setState({ ...state, [anchor]: open });
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    window.location.reload();
   };
 
   const list = (anchor) => (
@@ -53,11 +61,18 @@ export default function MobileHeader() {
             <ListItemText primary={t("about_project")} />
           </ListItem>
         </Link>
-        <Link className="link" to="/login">
+        <Link className="link" to={authorized ? "/profile" : "/login"}>
           <ListItem button>
-            <ListItemText primary={t("profile")} />
+            <ListItemText primary={authorized ? t("profile") : t("login")} />
           </ListItem>
         </Link>
+        {authorized ? (
+          <ListItem button>
+            <IconButton onClick={handleLogout}>
+              <LogoutIcon />
+            </IconButton>
+          </ListItem>
+        ) : null}
       </List>
       <Divider />
       <List>
