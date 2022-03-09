@@ -1,6 +1,7 @@
 .auth_container {
   margin-top: 80px;
   margin-bottom: 40px;
+  clear: both;
 }
 
 #auth {

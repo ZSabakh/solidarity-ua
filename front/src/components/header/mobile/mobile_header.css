@@ -1,0 +1,16 @@
+.mobile_header {
+  display: none;
+  float: right;
+}
+
+.link,
+.link span {
+  color: #fff;
+  font-family: "FiraGo Bold" !important;
+}
+
+@media only screen and (max-width: 830px) {
+  .mobile_header {
+    display: block;
+  }
+}
