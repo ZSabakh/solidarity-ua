@@ -30,8 +30,8 @@ export default function Feeds() {
         <p>Skeleton loader please</p>
       ) : (
         <>
-          {posts.map((post) => (
-            <FeedItem post={post} />
+          {posts.map((post, index) => (
+            <FeedItem key={index} post={post} />
           ))}
         </>
       )}
