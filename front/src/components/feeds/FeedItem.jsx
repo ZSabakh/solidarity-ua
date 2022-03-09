@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import car from "../../resources/images/car-solid.svg";
 import building from "../../resources/images/building-solid.svg";
-import other from "../../resources/images/ellipsis-solid.svg";
+import other from "../../resources/images/star-of-life-solid.svg";
 
 export default function FeedItem({ post }) {
   let userCulture = localStorage.getItem("user_culture");
