@@ -5,14 +5,14 @@ const bcrypt = require("bcryptjs");
 const userSchema = new Schema(
   {
     name: { type: String, required: true },
-    email: { type: String, required: () => this.phone !== undefined, unique: true, select: false },
-    phone: { type: String, required: () => this.email !== undefined, unique: true, select: false },
+    email: { type: String, required: () => this.phone !== undefined, unique: true },
+    phone: { type: String, required: () => this.email !== undefined, unique: true },
     active: { type: Boolean, default: false },
-    password: { type: String, required: true, select: false },
-    otpToken: { type: String, default: null, select: false },
-    otpTokenExpires: { type: Date, default: null, select: false },
-    resetPasswordToken: { type: String, default: null, select: false },
-    resetPasswordExpires: { type: Date, default: null, select: false },
+    password: { type: String, required: true },
+    otpToken: { type: String, default: null },
+    otpTokenExpires: { type: Date, default: null },
+    resetPasswordToken: { type: String, default: null },
+    resetPasswordExpires: { type: Date, default: null },
   },
   {
     timestamps: {

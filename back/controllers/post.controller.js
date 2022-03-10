@@ -15,6 +15,15 @@ exports.submit = async (req, res) => {
       contact: req.body.contact,
       location: req.body.location,
     };
+    if (req.body.location.place_id) {
+      try {
+        let coordinates = await getCoordinates(req.body.location.place_id);
+        commonPostInfo.location.lat = coordinates.lat;
+        commonPostInfo.location.lng = coordinates.lng;
+      } catch (err) {
+        console.log("Could not get coordinates ", err);
+      }
+    }
 
     let accomodation, transportation, other;
     let postsToSave = [];
@@ -66,7 +75,8 @@ exports.getAll = async (req, res) => {
     let posts = await Post.find({})
       .skip((page - 1) * amountOnPage)
       .limit(amountOnPage)
-      .populate(["author", "type", "city"]);
+      .populate(["type", "city"])
+      .populate("author", "name");
 
     let totalPosts = await Post.countDocuments({});
     let totalPages = Math.ceil(totalPosts / amountOnPage);
@@ -95,7 +105,8 @@ exports.getAll = async (req, res) => {
 exports.getPost = async (req, res) => {
   let postId = req.params.id;
   try {
-    let post = await Post.findById(postId).populate(["author", "type", "city"]).exec();
+    let post = await Post.findById(postId).populate(["type", "city"]).populate("author", "name").exec();
+
     if (!post) throw new Error("Invalid post");
 
     if (!req.user) {
