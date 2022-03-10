@@ -49,7 +49,7 @@
   color: #bcbcbc;
 }
 
-.feed_item > .icon > div {
+.icon > div {
   background: #ffd500;
   padding: 10px;
   border-radius: 50%;
@@ -57,7 +57,7 @@
   height: 35px;
 }
 
-.feed_item > .icon > div img {
+.icon > div img {
   width: 35px;
   height: 35px;
 }

@@ -5,6 +5,7 @@ import About from "./containers/about/About";
 import Login from "./containers/auth/Login";
 import Register from "./containers/auth/Register";
 import CreatePost from "./containers/post/CreatePost";
+import ViewPost from "./containers/post/ViewPost";
 import { InfoProvider } from "./utility/InfoContext";
 
 axios.defaults.baseURL = "http://localhost:5100";
@@ -20,6 +21,7 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/register" element={<Register />} />
           <Route path="/post/create" element={<CreatePost />} />
+          <Route path="/post/view/:id" element={<ViewPost />} />
         </Routes>
       </Router>
     </InfoProvider>

@@ -1,6 +1,7 @@
 const Post = require("../models/post.model");
 const City = require("../models/city.model");
 const HelpType = require("../models/help.types.model");
+const getCoordinates = require("../utility/getCoordinates");
 
 exports.submit = async (req, res) => {
   try {
@@ -61,7 +62,7 @@ exports.getAll = async (req, res) => {
   try {
     let page = req.query.page || 1;
     let amountOnPage = 20;
-    //Return all posts with pagination and return amount of total pages.
+
     let posts = await Post.find({})
       .skip((page - 1) * amountOnPage)
       .limit(amountOnPage)
@@ -70,10 +71,44 @@ exports.getAll = async (req, res) => {
     let totalPosts = await Post.countDocuments({});
     let totalPages = Math.ceil(totalPosts / amountOnPage);
 
+    posts.forEach((post) => {
+      for (let key in post.contact) {
+        if (!post.contact[key].public) {
+          post.contact[key].value = "";
+        }
+      }
+    });
+
     res.status(200).json({
       success: true,
       posts: posts,
       totalPages: totalPages,
+    });
+  } catch (err) {
+    res.status(500).json({
+      error: true,
+      message: err.message,
+    });
+  }
+};
+
+exports.getPost = async (req, res) => {
+  let postId = req.params.id;
+  try {
+    let post = await Post.findById(postId).populate(["author", "type", "city"]).exec();
+    if (!post) throw new Error("Invalid post");
+
+    if (!req.user) {
+      for (let key in post.contact) {
+        if (!post.contact[key].public) {
+          post.contact[key].value = "";
+        }
+      }
+    }
+
+    res.status(200).json({
+      success: true,
+      post: post,
     });
   } catch (err) {
     res.status(500).json({

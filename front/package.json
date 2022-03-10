@@ -14,6 +14,7 @@
     "@testing-library/user-event": "^13.5.0",
     "autosuggest-highlight": "^3.2.1",
     "axios": "^0.26.0",
+    "dateformat": "^5.0.3",
     "i18next": "^21.6.13",
     "lodash": "^4.17.21",
     "material-ui-phone-number": "^3.0.0",
