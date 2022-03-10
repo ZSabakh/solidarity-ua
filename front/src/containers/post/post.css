@@ -1,3 +1,13 @@
 .loader {
   margin: 10px 20px;
 }
+
+.require_auth_error_msg {
+  color: #ff0000;
+  font-family: "FiraGO Bold";
+  text-transform: lowercase;
+}
+
+.support_table tr td {
+  padding: 5px 0;
+}

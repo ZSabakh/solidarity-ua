@@ -75,7 +75,7 @@ export default function ViewPost() {
                   <Grid item xs={12} sm={6}>
                     <CardContent>
                       <h3>{post.description.en}</h3>
-                      <table>
+                      <table className="support_table">
                         <tbody>
                           <tr>
                             <td>
@@ -129,43 +129,46 @@ export default function ViewPost() {
                   </Grid>
                   <Grid item xs={12} sm={6}>
                     <CardContent>
-                      <table>
-                        <tbody>
-                          <tr>
-                            <td>
-                              <b>{t("author")}:</b>
-                            </td>
-                            <td>{post.author.name}</td>
-                          </tr>
-                          {Object.keys(post.contact).map((key, index) => {
-                            if (!post.contact[key].hasOwnProperty("value"))
-                              return null;
-                            return (
-                              <tr key={index}>
+                      <table className="support_table">
+                        <tr>
+                          <td>
+                            <b>{t("author")}:</b>
+                          </td>
+                          <td>{post.author.name}</td>
+                        </tr>
+                        {Object.keys(post.contact).map((key, index) => {
+                          if (!post.contact[key].hasOwnProperty("value"))
+                            return null;
+                          return (
+                            <tr key={index}>
+                              <td>
+                                <b>{key}:</b>
+                              </td>
+                              {!authorized &&
+                              !post.contact[key].public &&
+                              post.contact[key].value === "" ? (
                                 <td>
-                                  <b>{key}:</b>
-                                </td>
-                                {!authorized &&
-                                !post.contact[key].public &&
-                                post.contact[key].value === "" ? (
-                                  <Link to="/login">
+                                  <Link
+                                    className="require_auth_error_msg"
+                                    to="/login"
+                                  >
                                     {t(
                                       "ERROR_AUTHENTICATE_TO_VIEW_INFORMATION"
                                     )}
                                   </Link>
-                                ) : (
-                                  <td>{post.contact[key].value}</td>
-                                )}
-                              </tr>
-                            );
-                          })}
-                          <tr>
-                            <td>
-                              <b>{t("submission_date")}:</b>
-                            </td>
-                            <td>{dateFormat(post.createdAt)}</td>
-                          </tr>
-                        </tbody>
+                                </td>
+                              ) : (
+                                <td>{post.contact[key].value}</td>
+                              )}
+                            </tr>
+                          );
+                        })}
+                        <tr>
+                          <td>
+                            <b>{t("submission_date")}:</b>
+                          </td>
+                          <td>{dateFormat(post.createdAt)}</td>
+                        </tr>
                       </table>
                     </CardContent>
                   </Grid>
