@@ -1,14 +1,18 @@
 import Header from "../../components/header/Header";
 import { useState, useEffect, useContext } from "react";
 import { InfoContext } from "../../utility/InfoContext";
-import { Card, CardContent, CardHeader, Avatar, Grid, Item } from "@mui/material";
+import { Card, CardContent, CardHeader, Avatar, Grid } from "@mui/material";
+import Skeleton from "@mui/material/Skeleton";
+import Stack from "@mui/material/Stack";
 import axios from "axios";
 import car from "../../resources/images/car-solid.svg";
 import building from "../../resources/images/building-solid.svg";
 import other from "../../resources/images/star-of-life-solid.svg";
 import { makeStyles } from "@mui/styles";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import dateFormat from "dateformat";
+import { useTranslation } from "react-i18next";
+import "./post.css";
 
 export default function ViewPost() {
   const [post, setPost] = useState({});
@@ -16,9 +20,12 @@ export default function ViewPost() {
   const { setStatus, authorized } = useContext(InfoContext);
   const classes = useStyles();
 
+  const { t } = useTranslation();
+
   let userCulture = localStorage.getItem("user_culture");
 
-  const id = window.location.pathname.split("/")[3];
+  const { id } = useParams();
+
   useEffect(() => {
     setLoading(true);
     axios
@@ -47,112 +54,134 @@ export default function ViewPost() {
   return (
     <div>
       <Header />
-      <Card sx={{ width: "80%", margin: "40px auto" }} className={classes.card}>
-        <CardHeader
-          avatar={
-            <div className="icon">
-              <PostIcon />
+      <div className="view_post_container">
+        <Card
+          sx={{ width: "80%", margin: "40px auto" }}
+          className={classes.card}
+        >
+          {!loading && post._id ? (
+            <>
+              <CardHeader
+                avatar={
+                  <div className="icon">
+                    <PostIcon />
+                  </div>
+                }
+                title={post?.title?.en}
+                subheader={post?.city?.name?.en}
+              />
+              <CardContent className={classes.cardContent}>
+                <Grid container spacing={2}>
+                  <Grid item xs={12} sm={6}>
+                    <CardContent>
+                      <h3>{post.description.en}</h3>
+                      <table>
+                        <tbody>
+                          <tr>
+                            <td>
+                              <b>{t("type")}:</b>
+                            </td>
+                            <td>{post.type.name[userCulture]}</td>
+                          </tr>
+                          {post.location.description ? (
+                            <tr>
+                              <td>
+                                <b>{t("location")}:</b>
+                              </td>
+                              <td>{post.location.description}</td>
+                            </tr>
+                          ) : null}
+                          {post.accomodation?.rooms_amount ? (
+                            <>
+                              <tr>
+                                <td>
+                                  <b>{t("amount_of_rooms")}:</b>
+                                </td>
+                                <td>{post.accomodation.rooms_amount}</td>
+                              </tr>
+                              <tr>
+                                <td>
+                                  <b>{t("amount_of_beds")}:</b>
+                                </td>
+                                <td>{post.accomodation.beds_amount}</td>
+                              </tr>
+                            </>
+                          ) : null}
+                          {post.transportation?.capacity ? (
+                            <>
+                              <tr>
+                                <td>
+                                  <b>{t("transport_capacity")}:</b>
+                                </td>
+                                <td>{post.transportation.capacity}</td>
+                              </tr>
+                              <tr>
+                                <td>
+                                  <b>{t("transportation_radius")}:</b>
+                                </td>
+                                <td>{post.transportation.radius}</td>
+                              </tr>
+                            </>
+                          ) : null}
+                        </tbody>
+                      </table>
+                    </CardContent>
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <CardContent>
+                      <table>
+                        <tbody>
+                          <tr>
+                            <td>
+                              <b>{t("author")}:</b>
+                            </td>
+                            <td>{post.author.name}</td>
+                          </tr>
+                          {Object.keys(post.contact).map((key, index) => {
+                            if (!post.contact[key].hasOwnProperty("value"))
+                              return null;
+                            return (
+                              <tr key={index}>
+                                <td>
+                                  <b>{key}:</b>
+                                </td>
+                                {!authorized &&
+                                !post.contact[key].public &&
+                                post.contact[key].value === "" ? (
+                                  <Link to="/login">
+                                    {t(
+                                      "ERROR_AUTHENTICATE_TO_VIEW_INFORMATION"
+                                    )}
+                                  </Link>
+                                ) : (
+                                  <td>{post.contact[key].value}</td>
+                                )}
+                              </tr>
+                            );
+                          })}
+                          <tr>
+                            <td>
+                              <b>{t("submission_date")}:</b>
+                            </td>
+                            <td>{dateFormat(post.createdAt)}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </CardContent>
+                  </Grid>
+                </Grid>
+              </CardContent>
+            </>
+          ) : (
+            <div className="loader">
+              <Stack spacing={1}>
+                <Skeleton variant="circular" width={40} height={40} />
+                <Skeleton variant="rectangular" height={200} />
+              </Stack>
             </div>
-          }
-          title={post?.title?.en}
-          subheader={post?.city?.name?.en}
-        />
-        <hr />
-        {!loading && post._id ? (
-          <CardContent className={classes.cardContent}>
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
-                <CardContent>
-                  <h3>{post.description.en}</h3>
-                  <table>
-                    <tbody>
-                      <tr>
-                        <td>
-                          <b>Type:</b>
-                        </td>
-                        <td>{post.type.name[userCulture]}</td>
-                      </tr>
-                      {post.location.description ? (
-                        <tr>
-                          <td>
-                            <b>Location:</b>
-                          </td>
-                          <td>{post.location.description}</td>
-                        </tr>
-                      ) : null}
-                      {post.accomodation?.rooms_amount ? (
-                        <>
-                          <tr>
-                            <td>
-                              <b>Amount of rooms:</b>
-                            </td>
-                            <td>{post.accomodation.rooms_amount}</td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <b>Amount of beds:</b>
-                            </td>
-                            <td>{post.accomodation.beds_amount}</td>
-                          </tr>
-                        </>
-                      ) : null}
-                      {post.transportation?.capacity ? (
-                        <>
-                          <tr>
-                            <td>
-                              <b>Transport capacity:</b>
-                            </td>
-                            <td>{post.transportation.capacity}</td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <b>Transportation radius:</b>
-                            </td>
-                            <td>{post.transportation.radius}</td>
-                          </tr>
-                        </>
-                      ) : null}
-                    </tbody>
-                  </table>
-                </CardContent>
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <CardContent>
-                  <table>
-                    <tbody>
-                      <tr>
-                        <td>
-                          <b>Author:</b>
-                        </td>
-                        <td>{post.author.name}</td>
-                      </tr>
-                      {Object.keys(post.contact).map((key, index) => {
-                        if (!post.contact[key].hasOwnProperty("value")) return null;
-                        return (
-                          <tr key={index}>
-                            <td>
-                              <b>{key}:</b>
-                            </td>
-                            {!authorized && !post.contact[key].public && post.contact[key].value === "" ? <Link to="/login">AUTHENTICATE TO VIEW INFORMATION</Link> : <td>{post.contact[key].value}</td>}
-                          </tr>
-                        );
-                      })}
-                      <tr>
-                        <td>
-                          <b>Submission Date:</b>
-                        </td>
-                        <td>{dateFormat(post.createdAt)}</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </CardContent>
-              </Grid>
-            </Grid>
-          </CardContent>
-        ) : (
-          <p>Loading</p>
-        )}
-      </Card>
+          )}
+        </Card>
+      </div>
     </div>
   );
 }

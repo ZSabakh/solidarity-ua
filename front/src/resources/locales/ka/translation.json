@@ -14,6 +14,7 @@
   "create_post_general_information": "საკონტაქტო ინფორმაცია: (Optional, uncheck if you want to hide only from unregistered users)",
   "location": "ლოკაცია",
   "title": "სათაური",
+  "type": "ტიპი",
   "help_title": "დახმარების ტიპი",
   "city": "ქალაქი",
   "description": "აღწერა",
@@ -27,5 +28,12 @@
   "home": "მთავარი",
   "about_project": "პროექტის შესახებ",
   "login": "შესვლა",
-  "profile": "პროფილი"
+  "profile": "პროფილი",
+  "transportation_radius": "ტრანსპორტირების რადიუსი",
+  "transport_capacity": "ტრასპორტის ტევადობა",
+  "amount_of_beds": "საწოლების რაოდენობა",
+  "amount_of_rooms": "ოთახების რაოდენობა",
+  "author": "ავტორი",
+  "submission_date": "დამატების თარიღი",
+  "ERROR_AUTHENTICATE_TO_VIEW_INFORMATION": "ინფორმაციის სანახავად გაიარეთ ავტორიზაცია"
 }

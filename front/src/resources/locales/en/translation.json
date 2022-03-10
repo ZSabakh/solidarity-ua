@@ -14,6 +14,7 @@
   "create_post_general_information": "Contact Information: (Optional, uncheck if you want to hide only from unregistered users)",
   "location": "Location",
   "title": "Title",
+  "type": "Type",
   "help_title": "Help Type",
   "city": "City",
   "description": "Description",
@@ -27,5 +28,12 @@
   "home": "Home",
   "about_project": "About project",
   "login": "Login",
-  "profile": "Profile"
+  "profile": "Profile",
+  "transportation_radius": "Transportation radius",
+  "transport_capacity": "Transport capacity",
+  "amount_of_beds": "Amount of beds",
+  "amount_of_rooms": "Amount of rooms",
+  "author": "Author",
+  "submission_date": "Submission Date",
+  "ERROR_AUTHENTICATE_TO_VIEW_INFORMATION": "AUTHENTICATE TO VIEW INFORMATION"
 }

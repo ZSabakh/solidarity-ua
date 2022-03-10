@@ -2,6 +2,9 @@
   display: none;
   float: right;
 }
+.view_post_container {
+  clear: both;
+}
 
 .link,
 .link span {

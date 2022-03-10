@@ -14,6 +14,7 @@
   "create_post_general_information": "Контактна інформація: (необов’язково, зніміть прапорець, якщо ви хочете приховувати лише від незареєстрованих користувачів)",
   "location": "Розташування",
   "title": "Назва",
+  "type": "Тип",
   "help_title": "Тип довідки",
   "city": "Місто",
   "description": "опис",
@@ -27,5 +28,12 @@
   "home": "Додому",
   "about_project": "Про проект",
   "login": "Увійти",
-  "profile": "Профіль"
+  "profile": "Профіль",
+  "transportation_radius": "Транспортний радіус",
+  "transport_capacity": "Транспортна ємність",
+  "amount_of_beds": "Кількість ліжок",
+  "amount_of_rooms": "Кількість кімнат",
+  "author": "Автор",
+  "submission_date": "Дата подання",
+  "ERROR_AUTHENTICATE_TO_VIEW_INFORMATION": "АВТЕНТИКУЙТЕСЬ ДЛЯ ПЕРЕГЛЯДУ ІНФОРМАЦІЇ"
 }
