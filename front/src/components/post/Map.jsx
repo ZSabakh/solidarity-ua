@@ -99,5 +99,5 @@ export default function Map({ lat, lng }) {
   useEffect(() => {
     initMap({ lat, lng });
   });
-  return <div id="map" style={{ height: "400px", width: "100%" }} />;
+  return <div id="map" style={{ height: "450px", width: "100%" }} />;
 }
