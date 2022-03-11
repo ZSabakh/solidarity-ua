@@ -48,6 +48,7 @@ export default function Register(props) {
             severity: "success",
           });
           localStorage.setItem("token", res.data.accessToken);
+          axios.defaults.headers.common["Authorization"] = res.data.accessToken;
           navigate("/");
         })
         .catch((err) => {

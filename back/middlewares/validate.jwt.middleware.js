@@ -61,4 +61,27 @@ async function validateToken(req, res, next) {
   }
 }
 
-module.exports = { validateToken };
+async function checkAuthorization(req, res, next) {
+  const authorizationToken = req.headers.authorization;
+
+  if (authorizationToken.length > 4) {
+    const options = {
+      expiresIn: "1h",
+    };
+    try {
+      let user = await User.findOne({
+        accessToken: authorizationToken,
+      });
+      result = jwt.verify(authorizationToken, process.env.JWT_SECRET, options);
+
+      if (user._id.toString() === result.id) {
+        req.user = result;
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  }
+  next();
+}
+
+module.exports = { validateToken, checkAuthorization };

@@ -2,6 +2,7 @@ const Post = require("../models/post.model");
 const City = require("../models/city.model");
 const HelpType = require("../models/help.types.model");
 const getCoordinates = require("../utility/getCoordinates");
+const { resolveHostname } = require("nodemailer/lib/shared");
 
 exports.submit = async (req, res) => {
   try {
@@ -15,16 +16,16 @@ exports.submit = async (req, res) => {
       contact: req.body.contact,
       location: req.body.location,
     };
-    if (req.body.location.place_id) {
+    if (req.body.location) {
       try {
         let coordinates = await getCoordinates(req.body.location.place_id);
-        commonPostInfo.location.lat = coordinates.lat;
-        commonPostInfo.location.lng = coordinates.lng;
+
+        commonPostInfo.location.lat = coordinates.data.result.geometry.location.lat;
+        commonPostInfo.location.lng = coordinates.data.result.geometry.location.lng;
       } catch (err) {
         console.log("Could not get coordinates ", err);
       }
     }
-
     let accomodation, transportation, other;
     let postsToSave = [];
 
@@ -116,7 +117,6 @@ exports.getPost = async (req, res) => {
         }
       }
     }
-
     res.status(200).json({
       success: true,
       post: post,

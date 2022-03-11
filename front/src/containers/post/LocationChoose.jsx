@@ -53,7 +53,10 @@ export default function LocationChoose({ label, value, setValue }) {
     let active = true;
 
     if (!autocompleteService.current && window.google) {
-      autocompleteService.current = new window.google.maps.places.AutocompleteService();
+      async function init() {
+        autocompleteService.current = new window.google.maps.places.AutocompleteService();
+      }
+      init();
     }
     if (!autocompleteService.current) {
       return undefined;

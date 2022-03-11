@@ -1,4 +1,5 @@
 import Header from "../../components/header/Header";
+import Map from "../../components/post/Map";
 import { useState, useEffect, useContext } from "react";
 import { InfoContext } from "../../utility/InfoContext";
 import { Card, CardContent, CardHeader, Avatar, Grid } from "@mui/material";
@@ -55,10 +56,7 @@ export default function ViewPost() {
     <div>
       <Header />
       <div className="view_post_container">
-        <Card
-          sx={{ width: "80%", margin: "40px auto" }}
-          className={classes.card}
-        >
+        <Card sx={{ width: "80%", margin: "40px auto" }} className={classes.card}>
           {!loading && post._id ? (
             <>
               <CardHeader
@@ -74,7 +72,7 @@ export default function ViewPost() {
                 <Grid container spacing={2}>
                   <Grid item xs={12} sm={6}>
                     <CardContent>
-                      <h3>{post.description.en}</h3>
+                      <h3>{post.description?.en}</h3>
                       <table className="support_table">
                         <tbody>
                           <tr>
@@ -83,12 +81,12 @@ export default function ViewPost() {
                             </td>
                             <td>{post.type.name[userCulture]}</td>
                           </tr>
-                          {post.location.description ? (
+                          {post.location?.description ? (
                             <tr>
                               <td>
                                 <b>{t("location")}:</b>
                               </td>
-                              <td>{post.location.description}</td>
+                              <td>{post.location?.description}</td>
                             </tr>
                           ) : null}
                           {post.accomodation?.rooms_amount ? (
@@ -130,45 +128,39 @@ export default function ViewPost() {
                   <Grid item xs={12} sm={6}>
                     <CardContent>
                       <table className="support_table">
-                        <tr>
-                          <td>
-                            <b>{t("author")}:</b>
-                          </td>
-                          <td>{post.author.name}</td>
-                        </tr>
-                        {Object.keys(post.contact).map((key, index) => {
-                          if (!post.contact[key].hasOwnProperty("value"))
-                            return null;
-                          return (
-                            <tr key={index}>
-                              <td>
-                                <b>{key}:</b>
-                              </td>
-                              {!authorized &&
-                              !post.contact[key].public &&
-                              post.contact[key].value === "" ? (
+                        <tbody>
+                          <tr>
+                            <td>
+                              <b>{t("author")}:</b>
+                            </td>
+                            <td>{post.author.name}</td>
+                          </tr>
+                          {Object.keys(post.contact).map((key, index) => {
+                            if (!post.contact[key].hasOwnProperty("value")) return null;
+                            return (
+                              <tr key={index}>
                                 <td>
-                                  <Link
-                                    className="require_auth_error_msg"
-                                    to="/login"
-                                  >
-                                    {t(
-                                      "ERROR_AUTHENTICATE_TO_VIEW_INFORMATION"
-                                    )}
-                                  </Link>
+                                  <b>{key}:</b>
                                 </td>
-                              ) : (
-                                <td>{post.contact[key].value}</td>
-                              )}
-                            </tr>
-                          );
-                        })}
-                        <tr>
-                          <td>
-                            <b>{t("submission_date")}:</b>
-                          </td>
-                          <td>{dateFormat(post.createdAt)}</td>
-                        </tr>
+                                {!authorized && !post.contact[key].public && post.contact[key].value === "" ? (
+                                  <td>
+                                    <Link className="require_auth_error_msg" to="/login">
+                                      {t("ERROR_AUTHENTICATE_TO_VIEW_INFORMATION")}
+                                    </Link>
+                                  </td>
+                                ) : (
+                                  <td>{post.contact[key].value}</td>
+                                )}
+                              </tr>
+                            );
+                          })}
+                          <tr>
+                            <td>
+                              <b>{t("submission_date")}:</b>
+                            </td>
+                            <td>{dateFormat(post.createdAt)}</td>
+                          </tr>
+                        </tbody>
                       </table>
                     </CardContent>
                   </Grid>
@@ -183,6 +175,7 @@ export default function ViewPost() {
               </Stack>
             </div>
           )}
+          {post.location?.lat && post.location?.lng ? <Map lat={post.location.lat} lng={post.location.lng} /> : null}
         </Card>
       </div>
     </div>
@@ -209,10 +202,15 @@ const useStyles = makeStyles({
     },
     //Select first column
     "& table": {
+      textTransform: "capitalize",
       width: "100%",
       fontSize: "1.1rem",
+      "& tr:not(:last-child)": {
+        borderBottom: "1px dotted #ffd700",
+      },
       "& td:first-child": {
         fontStyle: "italic",
+        color: "#efca08",
       },
       "& td:nth-child(2)": {
         textAlign: "right",
