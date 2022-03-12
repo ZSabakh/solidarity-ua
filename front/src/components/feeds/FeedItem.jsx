@@ -34,7 +34,7 @@ export default function FeedItem({ post }) {
           {post.city.name[userCulture]}, Georgia
         </span>
         <Link to={`/post/view/${post._id}`} className="feed_title">
-          {post.title[userCulture]}
+          {post.title.en}
         </Link>
       </div>
       <div>

@@ -5,7 +5,9 @@ import { InfoContext } from "../../utility/InfoContext";
 import axios from "axios";
 import { Link, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-
+import car from "../../resources/images/car-solid.svg";
+import building from "../../resources/images/building-solid.svg";
+import other from "../../resources/images/star-of-life-solid.svg";
 import "./post.css";
 
 export default function ViewPost() {
@@ -18,6 +20,16 @@ export default function ViewPost() {
   let userCulture = localStorage.getItem("user_culture");
 
   const { id } = useParams();
+
+  const PostIcon = () => {
+    if (post.type?.name?.en === "Transportation") {
+      return <img src={car} alt="car" />;
+    } else if (post.type?.name?.en === "Accomodation") {
+      return <img src={building} alt="building" />;
+    } else {
+      return <img src={other} alt="car" />;
+    }
+  };
 
   useEffect(() => {
     setLoading(true);
@@ -41,15 +53,19 @@ export default function ViewPost() {
           <div></div>
         ) : (
           <>
-            {post.location?.lat && post.location?.lng ? (
-              <Map lat={post.location.lat} lng={post.location.lng} />
-            ) : (
-              <div className="maps_placeholder"></div>
-            )}
+            {post.location?.lat && post.location?.lng ? <Map lat={post.location.lat} lng={post.location.lng} /> : <div className="maps_placeholder"></div>}
             <div className="support_info_wrapper">
               <div className="support_info_title">
                 <div className="container">
-                  <h1>{post.description?.en}</h1>
+                  <h1 style={{ display: "flex", alignItems: "center" }}>
+                    <div className="icon" style={{ margin: "0 15px 10px 0" }}>
+                      <div>
+                        <PostIcon />
+                      </div>
+                    </div>
+                    {post.title?.en}
+                  </h1>
+                  <h3>{post.description?.en}</h3>
                 </div>
               </div>
             </div>
@@ -93,14 +109,9 @@ export default function ViewPost() {
                     return (
                       <div key={index}>
                         <p>
-                          {key} :
-                          {!authorized &&
-                          !post.contact[key].public &&
-                          post.contact[key].value === "" ? (
-                            <Link
-                              className="require_auth_error_msg"
-                              to="/login"
-                            >
+                          {key}:
+                          {!authorized && !post.contact[key].public && post.contact[key].value === "" ? (
+                            <Link className="require_auth_error_msg" to="/login">
                               {t("ERROR_AUTHENTICATE_TO_VIEW_INFORMATION")}
                             </Link>
                           ) : (

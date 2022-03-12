@@ -74,6 +74,7 @@ exports.getAll = async (req, res) => {
     let amountOnPage = 20;
 
     let posts = await Post.find({})
+      .sort({ _id: -1 })
       .skip((page - 1) * amountOnPage)
       .limit(amountOnPage)
       .populate(["type", "city"])

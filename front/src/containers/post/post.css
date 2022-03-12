@@ -42,6 +42,7 @@
 
 .support_general_info {
   margin-top: 40px;
+  text-transform: capitalize;
 }
 
 .support_general_info > div {
