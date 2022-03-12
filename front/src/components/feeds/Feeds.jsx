@@ -1,6 +1,6 @@
 import { useEffect, useState, useContext } from "react";
 import { InfoContext } from "../../utility/InfoContext";
-import { Skeleton, Stack, TextField, FormControl, FormLabel, FormGroup, FormControlLabel, FormHelperText, Checkbox, Autocomplete } from "@mui/material";
+import { Skeleton, Stack, TextField, FormControl, FormLabel, FormGroup, FormControlLabel, Pagination, Checkbox, Autocomplete } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import "./feeds.css";
 import FeedItem from "./FeedItem";
@@ -38,6 +38,7 @@ export default function Feeds() {
   const handleCheckboxChange = (event) => {
     setFilterData((prevState) => ({
       ...prevState,
+      page: 1,
       [event.target.name]: event.target.checked,
     }));
   };
@@ -55,6 +56,7 @@ export default function Feeds() {
               onChange={(event) => {
                 setFilterData((prevState) => ({
                   ...prevState,
+                  page: 1,
                   city: event.target.value,
                 }));
               }}
@@ -95,6 +97,18 @@ export default function Feeds() {
           {posts.map((post, index) => (
             <FeedItem key={index} post={post} />
           ))}
+          <Pagination
+            className={classes.pagination}
+            count={totalPages}
+            onChange={(event, page) => {
+              setFilterData((prevState) => ({
+                ...prevState,
+                page: page,
+              }));
+            }}
+            variant="outlined"
+            shape="rounded"
+          />
         </>
       )}
     </div>
@@ -105,6 +119,11 @@ const useStyles = makeStyles({
   formControl: {
     "& .MuiFormGroup-root": {
       flexDirection: "row",
+    },
+  },
+  pagination: {
+    "& .MuiPagination-ul": {
+      justifyContent: "center",
     },
   },
 });
