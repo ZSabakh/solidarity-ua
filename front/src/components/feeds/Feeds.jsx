@@ -119,13 +119,21 @@ export default function Feeds() {
       </div>
       {loading ? (
         <Stack spacing={1}>
-          <Skeleton variant="rectangular" height={120} />;
+          <Skeleton height={150} />
+          <Skeleton height={150} />
+          <Skeleton height={150} />
+          <Skeleton height={150} />
         </Stack>
       ) : (
         <>
           {posts.map((post, index) => (
             <FeedItem key={index} post={post} />
           ))}
+
+          {posts.length == 0 && !loading ? (
+            <div className="data_not_found_msg">{t("data_not_found")}</div>
+          ) : null}
+
           <div className="feeds_pagination_root">
             <Pagination
               className={classes.pagination}

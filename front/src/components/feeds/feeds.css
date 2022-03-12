@@ -73,6 +73,13 @@
   margin: 20px 0;
 }
 
+.data_not_found_msg {
+  text-align: center;
+  padding: 30px 0;
+  font-size: 30px;
+  font-family: "FiraGO Bold";
+}
+
 @media only screen and (max-width: 900px) {
   .feeds_wrapper {
     width: 90%;
