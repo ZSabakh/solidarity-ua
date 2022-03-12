@@ -1,7 +1,7 @@
 {
   "portal_title": "портал для україни",
-  "i_have_accommodation": "Притулок для біженців з України",
-  "i_need_accommodation": "Я потребую притулку",
+  "find_support": "Знайдіть підтримку",
+  "offer_support": "Запропонуйте підтримку",
   "registration": "Реєстрація",
   "phone_number": "Телефонний номер",
   "full_name": "Повне ім'я",
@@ -35,5 +35,10 @@
   "amount_of_rooms": "Кількість кімнат",
   "author": "Автор",
   "submission_date": "Дата подання",
-  "ERROR_AUTHENTICATE_TO_VIEW_INFORMATION": "АВТЕНТИКУЙТЕСЬ ДЛЯ ПЕРЕГЛЯДУ ІНФОРМАЦІЇ"
+  "ERROR_AUTHENTICATE_TO_VIEW_INFORMATION": "АВТЕНТИКУЙТЕСЬ ДЛЯ ПЕРЕГЛЯДУ ІНФОРМАЦІЇ",
+  "submit": "Подати",
+  "fullname_is_required": "Укажіть повне ім’я",
+  "password_is_required": "Потрібен пароль",
+  "password_min_length_error": "Пароль має містити не менше 6 символів",
+  "password_max_length_error": "Пароль не повинен перевищувати 40 символів"
 }

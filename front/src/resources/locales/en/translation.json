@@ -1,7 +1,7 @@
 {
   "portal_title": "Portal for ukraine",
-  "i_have_accommodation": "I have accommodation",
-  "i_need_accommodation": "I need accommodation",
+  "find_support": "Find support",
+  "offer_support": "Offer support",
   "registration": "Registration",
   "phone_number": "Phone number",
   "full_name": "Full name",
@@ -35,5 +35,10 @@
   "amount_of_rooms": "Amount of rooms",
   "author": "Author",
   "submission_date": "Submission Date",
-  "ERROR_AUTHENTICATE_TO_VIEW_INFORMATION": "AUTHENTICATE TO VIEW INFORMATION"
+  "ERROR_AUTHENTICATE_TO_VIEW_INFORMATION": "AUTHENTICATE TO VIEW INFORMATION",
+  "submit": "Submit",
+  "fullname_is_required": "Fullname is required",
+  "password_is_required": "Password is required",
+  "password_min_length_error": "Password must be at least 6 characters",
+  "password_max_length_error": "Password must not exceed 40 characters"
 }

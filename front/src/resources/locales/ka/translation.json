@@ -1,7 +1,7 @@
 {
   "portal_title": "პორტალი უკრაინის დასახმარებლად",
-  "i_have_accommodation": "მე მაქვს საცხოვრებელი",
-  "i_need_accommodation": "მე მჭირდება საცხოვრებელი",
+  "find_support": "დახმარების მოძიება",
+  "offer_support": "შემიძლია დახმარება",
   "registration": "რეგისტრაცია",
   "phone_number": "ტელეფონის ნომერი",
   "full_name": "სახელი/გვარი",
@@ -35,5 +35,10 @@
   "amount_of_rooms": "ოთახების რაოდენობა",
   "author": "ავტორი",
   "submission_date": "დამატების თარიღი",
-  "ERROR_AUTHENTICATE_TO_VIEW_INFORMATION": "ინფორმაციის სანახავად გაიარეთ ავტორიზაცია"
+  "ERROR_AUTHENTICATE_TO_VIEW_INFORMATION": "ინფორმაციის სანახავად გაიარეთ ავტორიზაცია",
+  "submit": "შემდეგი",
+  "fullname_is_required": "სახელის ველი სავალდებულოა",
+  "password_is_required": "პაროლის ველი სავალდებულოა",
+  "password_min_length_error": "პაროლი უნდა შეიცავდეს მინიმუმ 6 სიმბოლოს",
+  "password_max_length_error": "პაროლი არუნდა იყოს 40 სიმბოლოზე გრძელი"
 }

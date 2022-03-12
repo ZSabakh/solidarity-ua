@@ -91,7 +91,13 @@ export default function Register(props) {
     <div>
       <Header />
       <div className="auth_container">
-        <form action="" id="auth" className={classes.form} onSubmit={handleSubmit(handleFormSubmit)} onChange={handleFormChange}>
+        <form
+          action=""
+          id="auth"
+          className={classes.form}
+          onSubmit={handleSubmit(handleFormSubmit)}
+          onChange={handleFormChange}
+        >
           {requireOtp ? (
             <>
               <p>Please enter code: </p>
@@ -114,7 +120,11 @@ export default function Register(props) {
                   autoFormat
                   InputProps={{
                     endAdornment: (
-                      <IconButton aria-label="Email" color="secondary" onClick={() => handlePreferredMethodChange("email")}>
+                      <IconButton
+                        aria-label="Email"
+                        color="secondary"
+                        onClick={() => handlePreferredMethodChange("email")}
+                      >
                         <EmailIcon />
                       </IconButton>
                     ),
@@ -131,7 +141,11 @@ export default function Register(props) {
                   InputLabelProps={{ shrink: true }}
                   InputProps={{
                     endAdornment: (
-                      <IconButton aria-label="Phone" color="secondary" onClick={() => handlePreferredMethodChange("phone")}>
+                      <IconButton
+                        aria-label="Phone"
+                        color="secondary"
+                        onClick={() => handlePreferredMethodChange("phone")}
+                      >
                         <PhoneIcon />
                       </IconButton>
                     ),
@@ -163,8 +177,13 @@ export default function Register(props) {
             </>
           )}
 
-          <Button sx={{ m: "10px 0" }} type="submit" fullWidth variant="contained">
-            Submit
+          <Button
+            sx={{ m: "10px 0" }}
+            type="submit"
+            fullWidth
+            variant="contained"
+          >
+            {t("submit")}
           </Button>
         </form>
       </div>
@@ -192,5 +211,8 @@ const useStyles = makeStyles({
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required("Fullname is required"),
-  password: Yup.string().required("Password is required").min(6, "Password must be at least 6 characters").max(40, "Password must not exceed 40 characters"),
+  password: Yup.string()
+    .required("Password is required")
+    .min(6, "Password must be at least 6 characters")
+    .max(40, "Password must not exceed 40 characters"),
 });

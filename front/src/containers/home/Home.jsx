@@ -27,10 +27,10 @@ const Home = () => {
                   .scrollIntoView({ behavior: "smooth", block: "start" });
               }}
             >
-              {t("i_need_accommodation")}
+              {t("find_support")}
             </Link>
             <Link to={authorized ? "/post/create" : "/register"}>
-              {t("i_have_accommodation")}
+              {t("offer_support")}
             </Link>
           </div>
         </div>
