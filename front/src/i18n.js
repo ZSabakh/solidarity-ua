@@ -18,6 +18,7 @@ i18n.use(initReactI18next).init({
     },
   },
   lng: localStorage.getItem("user_culture"),
+  returnObjects: true,
   fallbackLng: "en",
   interpolation: {
     escapeValue: false,
