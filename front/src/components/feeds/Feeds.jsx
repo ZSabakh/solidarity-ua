@@ -1,6 +1,16 @@
 import { useEffect, useState, useContext } from "react";
 import { InfoContext } from "../../utility/InfoContext";
-import { Skeleton, Stack, TextField, FormControl, FormLabel, FormGroup, FormControlLabel, Pagination, Checkbox, Autocomplete } from "@mui/material";
+import {
+  Skeleton,
+  Stack,
+  TextField,
+  FormControl,
+  FormGroup,
+  FormControlLabel,
+  Pagination,
+  Checkbox,
+  Autocomplete,
+} from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import "./feeds.css";
 import FeedItem from "./FeedItem";
@@ -11,14 +21,21 @@ export default function Feeds() {
   const { t } = useTranslation();
   const [posts, setPosts] = useState([]);
   const [totalPages, setTotalPages] = useState(1);
-  const [filterData, setFilterData] = useState({ page: 1, Accomodation: true, Transportation: true, Other: true });
+  const [filterData, setFilterData] = useState({
+    page: 1,
+    Accomodation: true,
+    Transportation: true,
+    Other: true,
+  });
   const [loading, setLoading] = useState(true);
   const { setStatus, cities, helpTypes } = useContext(InfoContext);
-  let allCities = [{ name: { en: "All", ka: "ყველა", ua: "всі" }, _id: "all" }, ...cities];
+  let allCities = [
+    { name: { en: "All", ka: "ყველა", ua: "всі" }, _id: "all" },
+    ...cities,
+  ];
 
   const classes = useStyles();
   let userCulture = localStorage.getItem("user_culture");
-  console.log(filterData);
 
   useEffect(() => {
     setLoading(true);
@@ -45,8 +62,13 @@ export default function Feeds() {
 
   return (
     <div className="feeds_wrapper" id="feed">
-      <div style={{ width: "100%", border: "2px dotted #005bbb" }}>
-        <FormControl sx={{ m: 3 }} component="fieldset" variant="standard" className={classes.formControl}>
+      <div className="feeds_filter_container">
+        <FormControl
+          sx={{ m: 3 }}
+          component="fieldset"
+          variant="standard"
+          className={classes.formControl}
+        >
           <FormGroup>
             <Autocomplete
               id="city-select"
@@ -81,7 +103,14 @@ export default function Feeds() {
             {helpTypes.map((helpType) => (
               <FormControlLabel
                 key={helpType._id}
-                control={<Checkbox checked={filterData[helpType.name.en]} onChange={handleCheckboxChange} name={helpType.name.en} color="primary" />}
+                control={
+                  <Checkbox
+                    checked={filterData[helpType.name.en]}
+                    onChange={handleCheckboxChange}
+                    name={helpType.name.en}
+                    color="primary"
+                  />
+                }
                 label={helpType.name[userCulture]}
               />
             ))}
@@ -90,25 +119,27 @@ export default function Feeds() {
       </div>
       {loading ? (
         <Stack spacing={1}>
-          <Skeleton variant="rectangular" height={120} />
+          <Skeleton variant="rectangular" height={120} />;
         </Stack>
       ) : (
         <>
           {posts.map((post, index) => (
             <FeedItem key={index} post={post} />
           ))}
-          <Pagination
-            className={classes.pagination}
-            count={totalPages}
-            onChange={(event, page) => {
-              setFilterData((prevState) => ({
-                ...prevState,
-                page: page,
-              }));
-            }}
-            variant="outlined"
-            shape="rounded"
-          />
+          <div className="feeds_pagination_root">
+            <Pagination
+              className={classes.pagination}
+              count={totalPages}
+              onChange={(_, page) => {
+                setFilterData((prevState) => ({
+                  ...prevState,
+                  page: page,
+                }));
+              }}
+              variant="outlined"
+              shape="rounded"
+            />
+          </div>
         </>
       )}
     </div>

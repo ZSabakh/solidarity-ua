@@ -18,27 +18,29 @@ export default function FeedItem({ post }) {
   };
 
   return (
-    <div className="feed_item">
-      <div className="icon">
+    <Link to={`/post/view/${post._id}`}>
+      <div className="feed_item">
+        <div className="icon">
+          <div>
+            <PostIcon />
+          </div>
+        </div>
         <div>
-          <PostIcon />
+          <span className="time_data">
+            <ReactTimeAgo date={post.createdAt} locale="en-US" />
+            <span> · </span>
+            {post.city.name[userCulture]}, Georgia
+          </span>
+          <Link to={`/post/view/${post._id}`} className="feed_title">
+            {post.title.en}
+          </Link>
+        </div>
+        <div>
+          <Link to={`/post/view/${post._id}`} className="consume_support">
+            View
+          </Link>
         </div>
       </div>
-      <div>
-        <span className="time_data">
-          <ReactTimeAgo date={post.createdAt} locale="en-US" />
-          <span> · </span>
-          {post.city.name[userCulture]}, Georgia
-        </span>
-        <Link to={`/post/view/${post._id}`} className="feed_title">
-          {post.title.en}
-        </Link>
-      </div>
-      <div>
-        <Link to={`/post/view/${post._id}`} className="consume_support">
-          View
-        </Link>
-      </div>
-    </div>
+    </Link>
   );
 }

@@ -62,6 +62,17 @@
   height: 35px;
 }
 
+.feeds_filter_container {
+  width: "100%";
+  background: #242526;
+  border-radius: 8px;
+}
+
+.feeds_pagination_root {
+  height: 60px;
+  margin: 20px 0;
+}
+
 @media only screen and (max-width: 900px) {
   .feeds_wrapper {
     width: 90%;

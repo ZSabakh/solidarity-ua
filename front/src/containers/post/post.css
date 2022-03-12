@@ -57,3 +57,9 @@
 .maps_placeholder {
   height: 80px;
 }
+
+.skeleton_loader {
+  margin: 0 auto !important;
+  position: relative;
+  top: -70px;
+}
