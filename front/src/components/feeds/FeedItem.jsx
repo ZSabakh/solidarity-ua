@@ -2,13 +2,10 @@ import { Link } from "react-router-dom";
 import car from "../../resources/images/car-solid.svg";
 import building from "../../resources/images/building-solid.svg";
 import other from "../../resources/images/star-of-life-solid.svg";
-import TimeAgo from "javascript-time-ago";
 import ReactTimeAgo from "react-time-ago";
-import en from "javascript-time-ago/locale/en.json";
 
 export default function FeedItem({ post }) {
   let userCulture = localStorage.getItem("user_culture");
-  TimeAgo.addDefaultLocale(en);
 
   const PostIcon = () => {
     if (post.type?.name?.en === "Transportation") {

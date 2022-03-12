@@ -1,21 +1,29 @@
 import { useEffect, useState, useContext } from "react";
 import { InfoContext } from "../../utility/InfoContext";
-import Skeleton from "@mui/material/Skeleton";
-import Stack from "@mui/material/Stack";
+import { Skeleton, Stack, TextField, FormControl, FormLabel, FormGroup, FormControlLabel, FormHelperText, Checkbox, Autocomplete } from "@mui/material";
+import { makeStyles } from "@mui/styles";
 import "./feeds.css";
 import FeedItem from "./FeedItem";
 import axios from "axios";
+import { useTranslation } from "react-i18next";
 
 export default function Feeds() {
+  const { t } = useTranslation();
   const [posts, setPosts] = useState([]);
   const [totalPages, setTotalPages] = useState(1);
-  const [filterData, setFilterData] = useState({ page: 1 });
+  const [filterData, setFilterData] = useState({ page: 1, Accomodation: true, Transportation: true, Other: true });
   const [loading, setLoading] = useState(true);
-  const { setStatus } = useContext(InfoContext);
+  const { setStatus, cities, helpTypes } = useContext(InfoContext);
+  let allCities = [{ name: { en: "All", ka: "ყველა", ua: "всі" }, _id: "all" }, ...cities];
+
+  const classes = useStyles();
+  let userCulture = localStorage.getItem("user_culture");
+  console.log(filterData);
 
   useEffect(() => {
+    setLoading(true);
     axios
-      .get("/post/get_all")
+      .get("/post/get_all", { params: filterData })
       .then((res) => {
         setLoading(false);
         setPosts(res.data.posts);
@@ -25,10 +33,59 @@ export default function Feeds() {
         let message = err.response ? err.response.data.message : err.message;
         setStatus({ open: true, message: message, severity: "error" });
       });
-  }, []);
+  }, [filterData]);
+
+  const handleCheckboxChange = (event) => {
+    setFilterData((prevState) => ({
+      ...prevState,
+      [event.target.name]: event.target.checked,
+    }));
+  };
 
   return (
     <div className="feeds_wrapper" id="feed">
+      <div style={{ width: "100%", border: "2px dotted #005bbb" }}>
+        <FormControl sx={{ m: 3 }} component="fieldset" variant="standard" className={classes.formControl}>
+          <FormGroup>
+            <Autocomplete
+              id="city-select"
+              sx={{ minWidth: 150, marginRight: 5 }}
+              options={allCities}
+              autoHighlight
+              onChange={(event) => {
+                setFilterData((prevState) => ({
+                  ...prevState,
+                  city: event.target.value,
+                }));
+              }}
+              getOptionLabel={(option) => option.name[userCulture]}
+              renderOption={(props, option) => (
+                <option component="li" {...props} value={option._id}>
+                  {option.name[userCulture]}
+                </option>
+              )}
+              renderInput={(params) => (
+                <TextField
+                  required
+                  {...params}
+                  name="city"
+                  label={t("city")}
+                  inputProps={{
+                    ...params.inputProps,
+                  }}
+                />
+              )}
+            />
+            {helpTypes.map((helpType) => (
+              <FormControlLabel
+                key={helpType._id}
+                control={<Checkbox checked={filterData[helpType.name.en]} onChange={handleCheckboxChange} name={helpType.name.en} color="primary" />}
+                label={helpType.name[userCulture]}
+              />
+            ))}
+          </FormGroup>
+        </FormControl>
+      </div>
       {loading ? (
         <Stack spacing={1}>
           <Skeleton variant="rectangular" height={120} />
@@ -43,3 +100,11 @@ export default function Feeds() {
     </div>
   );
 }
+
+const useStyles = makeStyles({
+  formControl: {
+    "& .MuiFormGroup-root": {
+      flexDirection: "row",
+    },
+  },
+});

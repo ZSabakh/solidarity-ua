@@ -73,7 +73,22 @@ exports.getAll = async (req, res) => {
     let page = req.query.page || 1;
     let amountOnPage = 20;
 
-    let posts = await Post.find({})
+    let searchCondition = {};
+
+    if (req.query.city && req.query.city !== "all") {
+      searchCondition.city = req.query.city;
+    }
+
+    let { Accomodation, Transportation, Other } = req.query;
+
+    let types = [];
+    if (Accomodation === "true") types.push(await HelpType.findOne({ "name.en": "Accomodation" }).select("_id"));
+    if (Transportation === "true") types.push(await HelpType.findOne({ "name.en": "Transportation" }).select("_id"));
+    if (Other === "true") types.push(await HelpType.findOne({ "name.en": "Other" }).select("_id"));
+
+    searchCondition.type = { $in: types };
+
+    let posts = await Post.find(searchCondition)
       .sort({ _id: -1 })
       .skip((page - 1) * amountOnPage)
       .limit(amountOnPage)
@@ -82,7 +97,6 @@ exports.getAll = async (req, res) => {
 
     let totalPosts = await Post.countDocuments({});
     let totalPages = Math.ceil(totalPosts / amountOnPage);
-
     posts.forEach((post) => {
       for (let key in post.contact) {
         if (!post.contact[key].public) {

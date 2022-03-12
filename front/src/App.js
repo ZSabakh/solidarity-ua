@@ -8,11 +8,18 @@ import CreatePost from "./containers/post/CreatePost";
 import ViewPost from "./containers/post/ViewPost";
 import { InfoProvider } from "./utility/InfoContext";
 import { Wrapper, Status } from "@googlemaps/react-wrapper";
+import TimeAgo from "javascript-time-ago";
+import en from "javascript-time-ago/locale/en.json";
+import { useEffect } from "react";
 
 axios.defaults.baseURL = "http://localhost:5100";
 axios.defaults.headers.common["Authorization"] = localStorage.getItem("token");
 
 function App() {
+  useEffect(() => {
+    TimeAgo.addDefaultLocale(en);
+  }, []);
+
   return (
     <InfoProvider>
       <Wrapper apiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}>
