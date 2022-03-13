@@ -1,0 +1,65 @@
+.loader {
+  margin: 10px 20px;
+}
+
+.require_auth_error_msg {
+  color: #ff0000;
+  font-family: "FiraGO Bold";
+  text-transform: lowercase;
+}
+
+.support_info_wrapper {
+  display: flex;
+}
+
+.support_info_title {
+  display: flex;
+  margin: 0 auto;
+  width: 100%;
+  height: 80px;
+  background: red;
+  margin-top: -80px;
+  z-index: 1;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, #000000 90%);
+  align-items: center;
+}
+
+.support_info_title h1 {
+  font-size: 30px;
+  font-family: "FiraGO Bold";
+}
+
+.container {
+  width: 80%;
+  margin: 0 auto;
+}
+
+@media only screen and (max-width: 760px) {
+  .container {
+    width: 95%;
+  }
+}
+
+.support_general_info {
+  margin-top: 40px;
+  text-transform: capitalize;
+}
+
+.support_general_info > div {
+  margin: 30px 0;
+}
+.support_general_info > div > h3 {
+  font-size: 22px;
+  font-family: "FiraGO Bold";
+  padding-bottom: 15px;
+}
+
+.maps_placeholder {
+  height: 80px;
+}
+
+.skeleton_loader {
+  margin: 0 auto !important;
+  position: relative;
+  top: -70px;
+}

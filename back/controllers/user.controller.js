@@ -3,6 +3,9 @@ require("dotenv").config();
 const bcrypt = require("bcryptjs");
 const User = require("../models/user.model");
 const { generateJwt } = require("../utility/generateJwt");
+const SendSMS = require("../utility/notification/sendSMS");
+const SendEmail = require("../utility/notification/sendEmail");
+const randomize = require("randomatic");
 
 exports.Signup = async (req, res) => {
   try {
@@ -11,14 +14,23 @@ exports.Signup = async (req, res) => {
     const hash = await User.hashPassword(req.body.password);
     req.body.password = hash;
 
-    //Handle email SMS or Email OTP.
+    req.body.otpToken = randomize("0", 4);
+    req.body.otpTokenExpires = new Date(Date.now() + 60 * 1000 * 15); //15 minutes
+
     if (req.body.phone) {
+      SendSMS(req.body.otpToken, req.body.phone)
+        .then((data) => {})
+        .catch((err) => {
+          throw new Error("Couldn't send SMS, try authorizing using email");
+        });
     }
     if (req.body.email) {
+      SendEmail(req.body.otpToken, req.body.email)
+        .then((data) => {})
+        .catch((err) => {
+          throw new Error("Couldn't send email, try authorizing using phone");
+        });
     }
-
-    req.body.otpToken = "0000"; //Will need to generate and send out as either email or SMS.
-    req.body.otpTokenExpires = new Date(Date.now() + 60 * 1000 * 15); //15 minutes
 
     const newUser = new User(req.body);
     await newUser.save();
@@ -69,7 +81,6 @@ exports.Login = async (req, res) => {
       return res.status(400).json({
         error: true,
         message: "Invalid credentials",
-        accessToken: token,
       });
     }
 

@@ -1,25 +1,43 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import axios from "axios";
 import Home from "./containers/home/Home";
+import About from "./containers/about/About";
 import Login from "./containers/auth/Login";
 import Register from "./containers/auth/Register";
 import CreatePost from "./containers/post/CreatePost";
+import ViewPost from "./containers/post/ViewPost";
 import { InfoProvider } from "./utility/InfoContext";
+import { Wrapper, Status } from "@googlemaps/react-wrapper";
+import TimeAgo from "javascript-time-ago";
+import en from "javascript-time-ago/locale/en.json";
+import { useEffect } from "react";
+import { GoogleReCaptchaProvider, useGoogleReCaptcha } from "react-google-recaptcha-v3";
 
 axios.defaults.baseURL = "http://localhost:5100";
+axios.defaults.headers.common["Authorization"] = localStorage.getItem("token");
 
 function App() {
+  useEffect(() => {
+    TimeAgo.addDefaultLocale(en);
+  }, []);
+
   return (
-    <InfoProvider>
-      <Router>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register/" element={<Register />} />
-          <Route path="/post/create" element={<CreatePost />} />
-        </Routes>
-      </Router>
-    </InfoProvider>
+    <GoogleReCaptchaProvider reCaptchaKey={process.env.REACT_APP_CAPTCHA_KEY}>
+      <InfoProvider>
+        <Wrapper apiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}>
+          <Router>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/post/view/:id" element={<ViewPost />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/post/create" element={<CreatePost />} />
+            </Routes>
+          </Router>
+        </Wrapper>
+      </InfoProvider>
+    </GoogleReCaptchaProvider>
   );
 }
 

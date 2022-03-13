@@ -1,3 +1,21 @@
+header {
+  width: 100%;
+  height: auto;
+}
+
+header > div {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 15px 20px;
+}
+
+@media only screen and (max-width: 830px) {
+  header > div {
+    display: none;
+  }
+}
+
 .home > div:nth-child(2) {
   min-height: 500px;
   max-height: 70vh;

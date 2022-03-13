@@ -1,6 +1,7 @@
 .auth_container {
   margin-top: 80px;
   margin-bottom: 40px;
+  clear: both;
 }
 
 #auth {
@@ -9,6 +10,7 @@
   background-color: #242526;
   padding: 20px;
   border-radius: 8px;
+  border-top: 3px solid #0057b7;
   box-sizing: border-box;
 }
 
