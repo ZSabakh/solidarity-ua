@@ -1,6 +1,6 @@
 import "./auth.css";
 import Header from "../../components/header/Header";
-import { useState, useContext } from "react";
+import { useState, useContext, useCallback, useEffect } from "react";
 import { InfoContext } from "../../utility/InfoContext";
 import MuiPhoneNumber from "material-ui-phone-number";
 import EmailIcon from "@mui/icons-material/Email";
@@ -10,6 +10,7 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { makeStyles } from "@mui/styles";
 import { TextField, IconButton, Button } from "@mui/material";
+import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 
 export default function Login() {
   const [formData, setFormData] = useState({});
@@ -20,6 +21,7 @@ export default function Login() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const classes = useStyles();
+  const { executeRecaptcha } = useGoogleReCaptcha();
 
   const handlePreferredMethodChange = (method) => {
     setPreferredMethod(method);
@@ -31,12 +33,21 @@ export default function Login() {
     });
   };
 
-  const handleFormSubmit = (event) => {
+  const handleReCaptchaVerify = useCallback(async () => {
+    if (!executeRecaptcha) {
+      console.log("Execute recaptcha not yet available");
+      return;
+    }
+
+    return executeRecaptcha("yourAction");
+  }, []);
+
+  const handleFormSubmit = async (event) => {
     event.preventDefault();
     setLoading(true);
-
+    const captcha = await handleReCaptchaVerify();
     axios
-      .post("/auth/login", formData)
+      .post("/auth/login", { ...formData, captcha })
       .then((res) => {
         setStatus({
           open: true,

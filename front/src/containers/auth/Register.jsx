@@ -1,10 +1,9 @@
 import { TextField, IconButton, Button } from "@mui/material";
-
 import "./auth.css";
 import { useTranslation } from "react-i18next";
 import MuiPhoneNumber from "material-ui-phone-number";
 import { makeStyles } from "@mui/styles";
-import { useState, useContext } from "react";
+import { useState, useContext, useCallback } from "react";
 import EmailIcon from "@mui/icons-material/Email";
 import PhoneIcon from "@mui/icons-material/Phone";
 import { useForm } from "react-hook-form";
@@ -15,6 +14,7 @@ import axios from "axios";
 import { InfoContext } from "../../utility/InfoContext";
 import { useNavigate } from "react-router-dom";
 import Header from "../../components/header/Header";
+import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 
 export default function Register(props) {
   const { t } = useTranslation();
@@ -29,6 +29,7 @@ export default function Register(props) {
   const [otp, setOtp] = useState("");
   const [authenticator, setAuthenticator] = useState({});
   const { setStatus } = useContext(InfoContext);
+  const { executeRecaptcha } = useGoogleReCaptcha();
 
   const handleFormChange = () => {
     setFormData({
@@ -36,11 +37,22 @@ export default function Register(props) {
     });
   };
 
-  const handleFormSubmit = (event) => {
+  const handleReCaptchaVerify = useCallback(async () => {
+    if (!executeRecaptcha) {
+      console.log("Execute recaptcha not yet available");
+      return;
+    }
+
+    return executeRecaptcha("yourAction");
+  }, []);
+
+  const handleFormSubmit = async (event) => {
     setLoading(true);
+    const captcha = await handleReCaptchaVerify();
+
     if (requireOtp) {
       axios
-        .post("/auth/activate", { ...sentData, code: otp })
+        .post("/auth/activate", { ...sentData, captcha, code: otp })
         .then((res) => {
           setStatus({
             open: true,
@@ -57,7 +69,7 @@ export default function Register(props) {
         });
     } else {
       axios
-        .post("/auth/signup", formData)
+        .post("/auth/signup", { ...formData, captcha })
         .then((res) => {
           setSentData(formData);
           setLoading(false);
@@ -91,13 +103,7 @@ export default function Register(props) {
     <div>
       <Header />
       <div className="auth_container">
-        <form
-          action=""
-          id="auth"
-          className={classes.form}
-          onSubmit={handleSubmit(handleFormSubmit)}
-          onChange={handleFormChange}
-        >
+        <form action="" id="auth" className={classes.form} onSubmit={handleSubmit(handleFormSubmit)} onChange={handleFormChange}>
           {requireOtp ? (
             <>
               <p>Please enter code: </p>
@@ -120,11 +126,7 @@ export default function Register(props) {
                   autoFormat
                   InputProps={{
                     endAdornment: (
-                      <IconButton
-                        aria-label="Email"
-                        color="secondary"
-                        onClick={() => handlePreferredMethodChange("email")}
-                      >
+                      <IconButton aria-label="Email" color="secondary" onClick={() => handlePreferredMethodChange("email")}>
                         <EmailIcon />
                       </IconButton>
                     ),
@@ -141,11 +143,7 @@ export default function Register(props) {
                   InputLabelProps={{ shrink: true }}
                   InputProps={{
                     endAdornment: (
-                      <IconButton
-                        aria-label="Phone"
-                        color="secondary"
-                        onClick={() => handlePreferredMethodChange("phone")}
-                      >
+                      <IconButton aria-label="Phone" color="secondary" onClick={() => handlePreferredMethodChange("phone")}>
                         <PhoneIcon />
                       </IconButton>
                     ),
@@ -177,12 +175,7 @@ export default function Register(props) {
             </>
           )}
 
-          <Button
-            sx={{ m: "10px 0" }}
-            type="submit"
-            fullWidth
-            variant="contained"
-          >
+          <Button sx={{ m: "10px 0" }} type="submit" fullWidth variant="contained">
             {t("submit")}
           </Button>
         </form>
@@ -211,8 +204,5 @@ const useStyles = makeStyles({
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required("Fullname is required"),
-  password: Yup.string()
-    .required("Password is required")
-    .min(6, "Password must be at least 6 characters")
-    .max(40, "Password must not exceed 40 characters"),
+  password: Yup.string().required("Password is required").min(6, "Password must be at least 6 characters").max(40, "Password must not exceed 40 characters"),
 });
