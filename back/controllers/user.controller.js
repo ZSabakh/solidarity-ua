@@ -4,6 +4,7 @@ const bcrypt = require("bcryptjs");
 const User = require("../models/user.model");
 const { generateJwt } = require("../utility/generateJwt");
 const SendSMS = require("../utility/notification/sendSMS");
+const SendEmail = require("../utility/notification/sendEmail");
 const randomize = require("randomatic");
 
 exports.Signup = async (req, res) => {
@@ -24,6 +25,11 @@ exports.Signup = async (req, res) => {
         });
     }
     if (req.body.email) {
+      SendEmail(req.body.otpToken, req.body.email)
+        .then((data) => {})
+        .catch((err) => {
+          throw new Error("Couldn't send email, try authorizing using phone");
+        });
     }
 
     const newUser = new User(req.body);
