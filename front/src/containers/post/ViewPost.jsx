@@ -55,9 +55,9 @@ export default function ViewPost() {
             <Skeleton variant="rectangular" height={450} />
             <div className="container skeleton_loader">
               <Skeleton variant="circular" width={40} height={40} style={{ margin: "20px 0" }} />
-              <Skeleton variant="text" variant="h1" style={{ marginBottom: 6 }} />
-              <Skeleton variant="text" variant="h2" style={{ marginBottom: 6 }} />
-              <Skeleton variant="text" variant="h2" style={{ marginBottom: 6 }} />
+              <Skeleton variant="h1" style={{ marginBottom: 6 }} />
+              <Skeleton variant="h2" style={{ marginBottom: 6 }} />
+              <Skeleton variant="h2" style={{ marginBottom: 6 }} />
             </div>
           </Stack>
         ) : (
