@@ -54,36 +54,15 @@ export default function ViewPost() {
           <Stack spacing={1}>
             <Skeleton variant="rectangular" height={450} />
             <div className="container skeleton_loader">
-              <Skeleton
-                variant="circular"
-                width={40}
-                height={40}
-                style={{ margin: "20px 0" }}
-              />
-              <Skeleton
-                variant="text"
-                variant="h1"
-                style={{ marginBottom: 6 }}
-              />
-              <Skeleton
-                variant="text"
-                variant="h2"
-                style={{ marginBottom: 6 }}
-              />
-              <Skeleton
-                variant="text"
-                variant="h2"
-                style={{ marginBottom: 6 }}
-              />
+              <Skeleton variant="circular" width={40} height={40} style={{ margin: "20px 0" }} />
+              <Skeleton variant="h1" style={{ marginBottom: 6 }} />
+              <Skeleton variant="h2" style={{ marginBottom: 6 }} />
+              <Skeleton variant="h2" style={{ marginBottom: 6 }} />
             </div>
           </Stack>
         ) : (
           <>
-            {post.location?.lat && post.location?.lng ? (
-              <Map lat={post.location.lat} lng={post.location.lng} />
-            ) : (
-              <div className="maps_placeholder"></div>
-            )}
+            {post.location?.lat && post.location?.lng ? <Map lat={post.location.lat} lng={post.location.lng} /> : <div className="maps_placeholder"></div>}
             <div className="support_info_wrapper">
               <div className="support_info_title">
                 <div className="container">
@@ -131,7 +110,7 @@ export default function ViewPost() {
               <div>
                 <h3>{t("author")}</h3>
                 <p>
-                  {t("name")}: {post.author.name}
+                  {t("name")}: {post.author?.name}
                 </p>
                 <div>
                   {Object.keys(post.contact).map((key, index) => {
@@ -140,13 +119,8 @@ export default function ViewPost() {
                       <div key={index}>
                         <p>
                           {key}:
-                          {!authorized &&
-                          !post.contact[key].public &&
-                          post.contact[key].value === "" ? (
-                            <Link
-                              className="require_auth_error_msg"
-                              to="/login"
-                            >
+                          {!authorized && !post.contact[key].public && post.contact[key].value === "" ? (
+                            <Link className="require_auth_error_msg" to="/login">
                               {t("ERROR_AUTHENTICATE_TO_VIEW_INFORMATION")}
                             </Link>
                           ) : (
