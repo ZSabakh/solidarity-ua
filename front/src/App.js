@@ -14,9 +14,9 @@ import { useEffect } from "react";
 import { GoogleReCaptchaProvider, useGoogleReCaptcha } from "react-google-recaptcha-v3";
 
 if (window.location.hostname === "localhost") {
-  axios.defaults.baseURL = "http://localhost:5100";
+  axios.defaults.baseURL = process.env.REACT_APP_BASE_URL;
 } else {
-  axios.defaults.baseURL = window.location.hostname + "/api";
+  axios.defaults.baseURL = window.location.origin + "/api";
 }
 axios.defaults.headers.common["Authorization"] = localStorage.getItem("token");
 
