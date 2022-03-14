@@ -13,7 +13,11 @@ import en from "javascript-time-ago/locale/en.json";
 import { useEffect } from "react";
 import { GoogleReCaptchaProvider, useGoogleReCaptcha } from "react-google-recaptcha-v3";
 
-axios.defaults.baseURL = process.env.REACT_APP_BASE_URL;
+if (window.location.hostname === "localhost") {
+  axios.defaults.baseURL = process.env.REACT_APP_BASE_URL;
+} else {
+  axios.defaults.baseURL = window.location.origin + "/api";
+}
 axios.defaults.headers.common["Authorization"] = localStorage.getItem("token");
 
 function App() {
