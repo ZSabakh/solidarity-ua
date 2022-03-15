@@ -197,20 +197,26 @@ export default function Register(props) {
           >
             {t("submit")}
           </Button>
-          <div className="secondary_action_btn">
-            <Button onClick={() => navigate("/login")} variant="text" fullWidth>
-              {t("login")}
-            </Button>
-          </div>
 
-          <div className="secondary_action_btn">
-            <Button
-              onClick={() => navigate("/register/activate")}
-              variant="text"
-              fullWidth
-            >
-              {t("activate_existing_account")}
-            </Button>
+          <div className="register_secondary_links">
+            <div className="secondary_action_btn">
+              <Button
+                onClick={() => navigate("/login")}
+                variant="text"
+                fullWidth
+              >
+                {t("login")}
+              </Button>
+            </div>
+            <div className="secondary_action_btn">
+              <Button
+                onClick={() => navigate("/register/activate")}
+                variant="text"
+                fullWidth
+              >
+                {t("activate_existing_account")}
+              </Button>
+            </div>
           </div>
         </form>
       </div>
