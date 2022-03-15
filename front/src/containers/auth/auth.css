@@ -28,11 +28,11 @@
   font-family: "FiraGo";
 }
 
-.register_secondary_links {
+.auth_secondary_links {
   display: flex;
 }
 
-.register_secondary_links > div {
+.auth_secondary_links > div {
   flex: 1;
 }
 

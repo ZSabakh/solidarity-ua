@@ -198,7 +198,7 @@ export default function Register(props) {
             {t("submit")}
           </Button>
 
-          <div className="register_secondary_links">
+          <div className="auth_secondary_links">
             <div className="secondary_action_btn">
               <Button
                 onClick={() => navigate("/login")}

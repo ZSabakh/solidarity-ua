@@ -137,14 +137,25 @@ export default function Login() {
               {t("login")}
             </Button>
           </div>
-          <div className="secondary_action_btn">
-            <Button
-              onClick={() => navigate("/register")}
-              variant="text"
-              fullWidth
-            >
-              {t("registration")}
-            </Button>
+          <div className="auth_secondary_links">
+            <div className="secondary_action_btn">
+              <Button
+                onClick={() => navigate("/register")}
+                variant="text"
+                fullWidth
+              >
+                {t("registration")}
+              </Button>
+            </div>
+            <div className="secondary_action_btn">
+              <Button
+                onClick={() => navigate("/password/reset")}
+                variant="text"
+                fullWidth
+              >
+                {t("reset_password")}
+              </Button>
+            </div>
           </div>
         </form>
       </div>
