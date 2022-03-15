@@ -10,8 +10,8 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-app.use("/auth", require("./routes/auth.routes"));
-app.use("/post", require("./routes/post.routes"));
+app.use("/api/auth", require("./routes/auth.routes"));
+app.use("/api/post", require("./routes/post.routes"));
 
 app.listen(process.env.PORT, () => {
   console.log("Server started listening on PORT : " + process.env.PORT);
