@@ -18,6 +18,16 @@
   font-size: 30px;
 }
 
+.secondary_action_btn {
+  margin-top: 10px;
+}
+
+.secondary_action_btn > button {
+  color: #fff;
+  text-transform: lowercase;
+  font-family: "FiraGo";
+}
+
 @media only screen and (max-width: 767px) {
   #auth {
     width: 100%;
