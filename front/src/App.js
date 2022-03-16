@@ -4,6 +4,9 @@ import Home from "./containers/home/Home";
 import About from "./containers/about/About";
 import Login from "./containers/auth/Login";
 import Register from "./containers/auth/Register";
+import Activate from "./containers/auth/Activate";
+import Forgot from "./containers/auth/Forgot";
+import Reset from "./containers/auth/Reset";
 import CreatePost from "./containers/post/CreatePost";
 import ViewPost from "./containers/post/ViewPost";
 import { InfoProvider } from "./utility/InfoContext";
@@ -37,6 +40,9 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/about" element={<About />} />
               <Route path="/register" element={<Register />} />
+              <Route path="/register/activate" element={<Activate />} />
+              <Route path="/password/forgot" element={<Forgot />} />
+              <Route path="/password/reset/:token" element={<Reset />} />
               <Route path="/post/create" element={<CreatePost />} />
             </Routes>
           </Router>

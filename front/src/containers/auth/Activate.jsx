@@ -6,9 +6,6 @@ import { makeStyles } from "@mui/styles";
 import { useState, useContext, useCallback } from "react";
 import EmailIcon from "@mui/icons-material/Email";
 import PhoneIcon from "@mui/icons-material/Phone";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as Yup from "yup";
 import Otp from "../../components/auth/Otp";
 import axios from "axios";
 import { InfoContext } from "../../utility/InfoContext";
@@ -16,7 +13,7 @@ import { useNavigate } from "react-router-dom";
 import Header from "../../components/header/Header";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 
-export default function Register(props) {
+export default function Activate(props) {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const classes = useStyles();
@@ -27,7 +24,6 @@ export default function Register(props) {
   const [loading, setLoading] = useState(false);
   const [requireOtp, setRequireOtp] = useState(false);
   const [otp, setOtp] = useState("");
-  const [authenticator, setAuthenticator] = useState({});
   const { setStatus, setAuthorized } = useContext(InfoContext);
   const { executeRecaptcha } = useGoogleReCaptcha();
 
@@ -47,6 +43,8 @@ export default function Register(props) {
   }, []);
 
   const handleFormSubmit = async (event) => {
+    event.preventDefault();
+
     setLoading(true);
     const captcha = await handleReCaptchaVerify();
 
@@ -70,7 +68,7 @@ export default function Register(props) {
         });
     } else {
       axios
-        .post("/auth/signup", { ...formData, captcha })
+        .post("/auth/send-otp", { ...formData, captcha })
         .then((res) => {
           setSentData(formData);
           setLoading(false);
@@ -88,14 +86,6 @@ export default function Register(props) {
     }
   };
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
-    resolver: yupResolver(validationSchema),
-  });
-
   const handlePreferredMethodChange = (method) => {
     setPreferredMethod(method);
   };
@@ -104,7 +94,7 @@ export default function Register(props) {
     <div>
       <Header />
       <div className="auth_container">
-        <form action="" id="auth" className={classes.form} onSubmit={handleSubmit(handleFormSubmit)} onChange={handleFormChange}>
+        <form action="" id="auth" className={classes.form} onSubmit={handleFormSubmit} onChange={handleFormChange}>
           {requireOtp ? (
             <>
               <p>Please enter code: </p>
@@ -112,7 +102,7 @@ export default function Register(props) {
             </>
           ) : (
             <>
-              <h1>{t("registration")}</h1>
+              <h1>{t("activation")}</h1>
               <i>*Tap icon to switch to an alternative method</i>
               {preferredMethod === "phone" ? (
                 <MuiPhoneNumber
@@ -151,49 +141,11 @@ export default function Register(props) {
                   }}
                 />
               )}
-              <TextField
-                {...register("name")}
-                helperText={errors.name ? errors.name?.message : null}
-                error={errors.name ? true : false}
-                fullWidth
-                label={t("full_name")}
-                variant="outlined"
-                name="name"
-                type="text"
-                InputLabelProps={{ shrink: true }}
-              />
-              <TextField
-                {...register("password")}
-                helperText={errors.password ? errors.password?.message : null}
-                error={errors.password ? true : false}
-                fullWidth
-                label={t("password")}
-                variant="outlined"
-                name="password"
-                type="password"
-                InputLabelProps={{ shrink: true }}
-              />
             </>
           )}
-
           <Button sx={{ m: "10px 0" }} type="submit" fullWidth variant="contained">
             {t("submit")}
           </Button>
-
-          {!requireOtp ? (
-            <div className="auth_secondary_links">
-              <div className="secondary_action_btn">
-                <Button onClick={() => navigate("/login")} variant="text" fullWidth>
-                  {t("login")}
-                </Button>
-              </div>
-              <div className="secondary_action_btn">
-                <Button onClick={() => navigate("/register/activate")} variant="text" fullWidth>
-                  {t("activate_existing_account")}
-                </Button>
-              </div>
-            </div>
-          ) : null}
         </form>
       </div>
     </div>
@@ -211,14 +163,8 @@ const useStyles = makeStyles({
   },
   phone: {
     "& button": {
-      // marginBottom: 15,
       width: 25,
       height: 25,
     },
   },
-});
-
-const validationSchema = Yup.object().shape({
-  name: Yup.string().required("Fullname is required"),
-  password: Yup.string().required("Password is required").min(6, "Password must be at least 6 characters").max(40, "Password must not exceed 40 characters"),
 });
