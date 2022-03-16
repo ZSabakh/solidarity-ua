@@ -109,6 +109,45 @@ exports.Login = async (req, res) => {
   }
 };
 
+exports.SendOTP = async (req, res) => {
+  try {
+    const { email, phone } = req.body;
+    if (!phone && !email) {
+      throw new Error("Please make a valid request");
+    }
+    const user = await User.findOne({ email: email, phone: phone });
+    if (!user) {
+      throw new Error("Account not found");
+    }
+    if (user.active) {
+      throw new Error("Account already activated");
+    }
+    user.otpToken = randomize("0", 4);
+    user.otpTokenExpires = new Date(Date.now() + 60 * 1000 * 15); //15 minutes
+    await user.save();
+    if (user.phone) {
+      await SendSMS(user.otpToken, user.phone).catch((err) => {
+        throw new Error("Couldn't send SMS, try authorizing using email");
+      });
+    }
+    if (user.email) {
+      await SendEmail(user.otpToken, user.email).catch((err) => {
+        throw new Error("Couldn't send email, try authorizing using phone");
+      });
+    }
+    return res.status(200).json({
+      success: true,
+      message: "OTP sent successfully",
+      codeExpiration: user.otpTokenExpires,
+    });
+  } catch (e) {
+    return res.status(500).json({
+      error: true,
+      message: e.message,
+    });
+  }
+};
+
 exports.Activate = async (req, res) => {
   try {
     const { email, phone, code } = req.body;

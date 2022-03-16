@@ -2,7 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const MongooseConnection = require("./utility/mongoose.connection");
 const cors = require("cors");
-
+const SendEmail = require("./utility/notification/sendEmail");
 require("dotenv").config();
 
 MongooseConnection();
