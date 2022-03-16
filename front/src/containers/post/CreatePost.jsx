@@ -28,7 +28,6 @@ export default function CreatePost() {
   const { cities, helpTypes, setStatus } = useContext(InfoContext);
   const [selectedHelpTypes, setSelectedHelpTypes] = useState([]);
   const [selectedHelpTypeIDs, setSelectedHelpTypeIDs] = useState([]);
-  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {

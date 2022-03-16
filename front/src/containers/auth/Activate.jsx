@@ -12,6 +12,7 @@ import { InfoContext } from "../../utility/InfoContext";
 import { useNavigate } from "react-router-dom";
 import Header from "../../components/header/Header";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
+import Loader from "../../components/loader/Loader.jsx";
 
 export default function Activate(props) {
   const { t } = useTranslation();
@@ -57,12 +58,14 @@ export default function Activate(props) {
             message: res.data.message,
             severity: "success",
           });
+          setLoading(false);
           localStorage.setItem("token", res.data.accessToken);
           setAuthorized(true);
           axios.defaults.headers.common["Authorization"] = res.data.accessToken;
           navigate("/");
         })
         .catch((err) => {
+          setLoading(false);
           let message = err.response ? err.response.data.message : err.message;
           setStatus({ open: true, message: message, severity: "error" });
         });
@@ -80,6 +83,7 @@ export default function Activate(props) {
           });
         })
         .catch((err) => {
+          setLoading(false);
           let message = err.response ? err.response.data.message : err.message;
           setStatus({ open: true, message: message, severity: "error" });
         });
@@ -94,7 +98,13 @@ export default function Activate(props) {
     <div>
       <Header />
       <div className="auth_container">
-        <form action="" id="auth" className={classes.form} onSubmit={handleFormSubmit} onChange={handleFormChange}>
+        <form
+          action=""
+          id="auth"
+          className={classes.form}
+          onSubmit={handleFormSubmit}
+          onChange={handleFormChange}
+        >
           {requireOtp ? (
             <>
               <p>Please enter code: </p>
@@ -117,7 +127,11 @@ export default function Activate(props) {
                   autoFormat
                   InputProps={{
                     endAdornment: (
-                      <IconButton aria-label="Email" color="secondary" onClick={() => handlePreferredMethodChange("email")}>
+                      <IconButton
+                        aria-label="Email"
+                        color="secondary"
+                        onClick={() => handlePreferredMethodChange("email")}
+                      >
                         <EmailIcon />
                       </IconButton>
                     ),
@@ -134,7 +148,11 @@ export default function Activate(props) {
                   InputLabelProps={{ shrink: true }}
                   InputProps={{
                     endAdornment: (
-                      <IconButton aria-label="Phone" color="secondary" onClick={() => handlePreferredMethodChange("phone")}>
+                      <IconButton
+                        aria-label="Phone"
+                        color="secondary"
+                        onClick={() => handlePreferredMethodChange("phone")}
+                      >
                         <PhoneIcon />
                       </IconButton>
                     ),
@@ -143,9 +161,18 @@ export default function Activate(props) {
               )}
             </>
           )}
-          <Button sx={{ m: "10px 0" }} type="submit" fullWidth variant="contained">
-            {t("submit")}
-          </Button>
+          {loading ? (
+            <Loader />
+          ) : (
+            <Button
+              sx={{ m: "10px 0" }}
+              type="submit"
+              fullWidth
+              variant="contained"
+            >
+              {t("submit")}
+            </Button>
+          )}
         </form>
       </div>
     </div>

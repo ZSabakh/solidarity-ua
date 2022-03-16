@@ -52,5 +52,7 @@
   },
   "data_not_found": "Data not found",
   "activate_existing_account": "Activate",
-  "reset_password": "Forgot password?"
+  "reset_password": "Forgot password?",
+  "password_reset": "Password recovery",
+  "please_enter_code": "Please enter code"
 }

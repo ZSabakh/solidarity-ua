@@ -52,5 +52,7 @@
   },
   "data_not_found": "Дата нотаток фонд",
   "activate_existing_account": "Активізуйте",
-  "reset_password": "Забули пароль?"
+  "reset_password": "Забули пароль?",
+  "password_reset": "Password recovery",
+  "please_enter_code": "Будь ласка, введіть код"
 }

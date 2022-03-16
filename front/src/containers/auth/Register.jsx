@@ -15,6 +15,7 @@ import { InfoContext } from "../../utility/InfoContext";
 import { useNavigate } from "react-router-dom";
 import Header from "../../components/header/Header";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
+import Loader from "../../components/loader/Loader.jsx";
 
 export default function Register(props) {
   const { t } = useTranslation();
@@ -27,7 +28,6 @@ export default function Register(props) {
   const [loading, setLoading] = useState(false);
   const [requireOtp, setRequireOtp] = useState(false);
   const [otp, setOtp] = useState("");
-  const [authenticator, setAuthenticator] = useState({});
   const { setStatus, setAuthorized } = useContext(InfoContext);
   const { executeRecaptcha } = useGoogleReCaptcha();
 
@@ -46,7 +46,7 @@ export default function Register(props) {
     return executeRecaptcha("yourAction");
   }, []);
 
-  const handleFormSubmit = async (event) => {
+  const handleFormSubmit = async (_) => {
     setLoading(true);
     const captcha = await handleReCaptchaVerify();
 
@@ -65,6 +65,7 @@ export default function Register(props) {
           navigate("/");
         })
         .catch((err) => {
+          setLoading(false);
           let message = err.response ? err.response.data.message : err.message;
           setStatus({ open: true, message: message, severity: "error" });
         });
@@ -82,6 +83,7 @@ export default function Register(props) {
           });
         })
         .catch((err) => {
+          setLoading(false);
           let message = err.response ? err.response.data.message : err.message;
           setStatus({ open: true, message: message, severity: "error" });
         });
@@ -104,10 +106,16 @@ export default function Register(props) {
     <div>
       <Header />
       <div className="auth_container">
-        <form action="" id="auth" className={classes.form} onSubmit={handleSubmit(handleFormSubmit)} onChange={handleFormChange}>
+        <form
+          action=""
+          id="auth"
+          className={classes.form}
+          onSubmit={handleSubmit(handleFormSubmit)}
+          onChange={handleFormChange}
+        >
           {requireOtp ? (
             <>
-              <p>Please enter code: </p>
+              <p>{t("please_enter_code")}: </p>
               <Otp digitCount={4} setOtp={(cb) => setOtp(cb)} />
             </>
           ) : (
@@ -127,7 +135,11 @@ export default function Register(props) {
                   autoFormat
                   InputProps={{
                     endAdornment: (
-                      <IconButton aria-label="Email" color="secondary" onClick={() => handlePreferredMethodChange("email")}>
+                      <IconButton
+                        aria-label="Email"
+                        color="secondary"
+                        onClick={() => handlePreferredMethodChange("email")}
+                      >
                         <EmailIcon />
                       </IconButton>
                     ),
@@ -144,7 +156,11 @@ export default function Register(props) {
                   InputLabelProps={{ shrink: true }}
                   InputProps={{
                     endAdornment: (
-                      <IconButton aria-label="Phone" color="secondary" onClick={() => handlePreferredMethodChange("phone")}>
+                      <IconButton
+                        aria-label="Phone"
+                        color="secondary"
+                        onClick={() => handlePreferredMethodChange("phone")}
+                      >
                         <PhoneIcon />
                       </IconButton>
                     ),
@@ -176,19 +192,36 @@ export default function Register(props) {
             </>
           )}
 
-          <Button sx={{ m: "10px 0" }} type="submit" fullWidth variant="contained">
-            {t("submit")}
-          </Button>
+          {loading ? (
+            <Loader />
+          ) : (
+            <Button
+              sx={{ m: "10px 0" }}
+              type="submit"
+              fullWidth
+              variant="contained"
+            >
+              {t("submit")}
+            </Button>
+          )}
 
           {!requireOtp ? (
             <div className="auth_secondary_links">
               <div className="secondary_action_btn">
-                <Button onClick={() => navigate("/login")} variant="text" fullWidth>
+                <Button
+                  onClick={() => navigate("/login")}
+                  variant="text"
+                  fullWidth
+                >
                   {t("login")}
                 </Button>
               </div>
               <div className="secondary_action_btn">
-                <Button onClick={() => navigate("/register/activate")} variant="text" fullWidth>
+                <Button
+                  onClick={() => navigate("/register/activate")}
+                  variant="text"
+                  fullWidth
+                >
                   {t("activate_existing_account")}
                 </Button>
               </div>
@@ -220,5 +253,8 @@ const useStyles = makeStyles({
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required("Fullname is required"),
-  password: Yup.string().required("Password is required").min(6, "Password must be at least 6 characters").max(40, "Password must not exceed 40 characters"),
+  password: Yup.string()
+    .required("Password is required")
+    .min(6, "Password must be at least 6 characters")
+    .max(40, "Password must not exceed 40 characters"),
 });

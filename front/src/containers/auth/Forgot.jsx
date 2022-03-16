@@ -8,20 +8,17 @@ import EmailIcon from "@mui/icons-material/Email";
 import PhoneIcon from "@mui/icons-material/Phone";
 import axios from "axios";
 import { InfoContext } from "../../utility/InfoContext";
-import { useNavigate } from "react-router-dom";
 import Header from "../../components/header/Header";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
+import Loader from "../../components/loader/Loader";
 
 export default function Forgot(props) {
   const { t } = useTranslation();
-  const navigate = useNavigate();
   const classes = useStyles();
 
   const [formData, setFormData] = useState({});
-  const [sentData, setSentData] = useState({});
   const [preferredMethod, setPreferredMethod] = useState("phone");
   const [loading, setLoading] = useState(false);
-  const [otp, setOtp] = useState("");
   const { setStatus } = useContext(InfoContext);
   const { executeRecaptcha } = useGoogleReCaptcha();
 
@@ -57,6 +54,7 @@ export default function Forgot(props) {
         });
       })
       .catch((err) => {
+        setLoading(false);
         let message = err.response ? err.response.data.message : err.message;
         setStatus({ open: true, message: message, severity: "error" });
       });
@@ -70,7 +68,12 @@ export default function Forgot(props) {
     <div>
       <Header />
       <div className="auth_container">
-        <form action="" id="auth" className={classes.form} onSubmit={handleFormSubmit} onChange={handleFormChange}>
+        <form
+          id="auth"
+          className={classes.form}
+          onSubmit={handleFormSubmit}
+          onChange={handleFormChange}
+        >
           <>
             <h1>{t("password_reset")}</h1>
             <i>*Tap icon to switch to an alternative method</i>
@@ -87,7 +90,11 @@ export default function Forgot(props) {
                 autoFormat
                 InputProps={{
                   endAdornment: (
-                    <IconButton aria-label="Email" color="secondary" onClick={() => handlePreferredMethodChange("email")}>
+                    <IconButton
+                      aria-label="Email"
+                      color="secondary"
+                      onClick={() => handlePreferredMethodChange("email")}
+                    >
                       <EmailIcon />
                     </IconButton>
                   ),
@@ -104,7 +111,11 @@ export default function Forgot(props) {
                 InputLabelProps={{ shrink: true }}
                 InputProps={{
                   endAdornment: (
-                    <IconButton aria-label="Phone" color="secondary" onClick={() => handlePreferredMethodChange("phone")}>
+                    <IconButton
+                      aria-label="Phone"
+                      color="secondary"
+                      onClick={() => handlePreferredMethodChange("phone")}
+                    >
                       <PhoneIcon />
                     </IconButton>
                   ),
@@ -112,9 +123,21 @@ export default function Forgot(props) {
               />
             )}
           </>
-          <Button sx={{ m: "10px 0" }} type="submit" fullWidth variant="contained">
-            {t("submit")}
-          </Button>
+
+          <div>
+            {loading ? (
+              <Loader />
+            ) : (
+              <Button
+                sx={{ m: "10px 0" }}
+                type="submit"
+                fullWidth
+                variant="contained"
+              >
+                {t("submit")}
+              </Button>
+            )}
+          </div>
         </form>
       </div>
     </div>

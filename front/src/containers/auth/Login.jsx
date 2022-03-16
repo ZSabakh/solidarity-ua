@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { makeStyles } from "@mui/styles";
 import { TextField, IconButton, Button } from "@mui/material";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
+import Loader from "../../components/loader/Loader.jsx";
 
 export default function Login() {
   const [formData, setFormData] = useState({});
@@ -61,6 +62,7 @@ export default function Login() {
         navigate("/");
       })
       .catch((err) => {
+        setLoading(false);
         let message = err.response ? err.response.data.message : err.message;
         setStatus({ open: true, message: message, severity: "error" });
       });
@@ -70,7 +72,13 @@ export default function Login() {
     <div>
       <Header />
       <div className="auth_container">
-        <form action="" id="auth" className={classes.form} onChange={handleFormChange} onSubmit={handleFormSubmit}>
+        <form
+          action=""
+          id="auth"
+          className={classes.form}
+          onChange={handleFormChange}
+          onSubmit={handleFormSubmit}
+        >
           <i>*Tap icon to switch to an alternative method</i>
           {preferredMethod === "phone" ? (
             <MuiPhoneNumber
@@ -85,7 +93,11 @@ export default function Login() {
               autoFormat
               InputProps={{
                 endAdornment: (
-                  <IconButton aria-label="Email" color="secondary" onClick={() => handlePreferredMethodChange("email")}>
+                  <IconButton
+                    aria-label="Email"
+                    color="secondary"
+                    onClick={() => handlePreferredMethodChange("email")}
+                  >
                     <EmailIcon />
                   </IconButton>
                 ),
@@ -102,7 +114,11 @@ export default function Login() {
               InputLabelProps={{ shrink: true }}
               InputProps={{
                 endAdornment: (
-                  <IconButton aria-label="Phone" color="secondary" onClick={() => handlePreferredMethodChange("phone")}>
+                  <IconButton
+                    aria-label="Phone"
+                    color="secondary"
+                    onClick={() => handlePreferredMethodChange("phone")}
+                  >
                     <PhoneIcon />
                   </IconButton>
                 ),
@@ -110,20 +126,39 @@ export default function Login() {
             />
           )}
 
-          <TextField fullWidth label={t("password")} variant="outlined" name="password" type="password" InputLabelProps={{ shrink: true }} />
+          <TextField
+            fullWidth
+            label={t("password")}
+            variant="outlined"
+            name="password"
+            type="password"
+            InputLabelProps={{ shrink: true }}
+          />
           <div>
-            <Button type="submit" fullWidth variant="contained">
-              {t("login")}
-            </Button>
+            {loading ? (
+              <Loader />
+            ) : (
+              <Button type="submit" fullWidth variant="contained">
+                {t("login")}
+              </Button>
+            )}
           </div>
           <div className="auth_secondary_links">
             <div className="secondary_action_btn">
-              <Button onClick={() => navigate("/register")} variant="text" fullWidth>
+              <Button
+                onClick={() => navigate("/register")}
+                variant="text"
+                fullWidth
+              >
                 {t("registration")}
               </Button>
             </div>
             <div className="secondary_action_btn">
-              <Button onClick={() => navigate("/password/forgot")} variant="text" fullWidth>
+              <Button
+                onClick={() => navigate("/password/forgot")}
+                variant="text"
+                fullWidth
+              >
                 {t("reset_password")}
               </Button>
             </div>
@@ -145,7 +180,6 @@ const useStyles = makeStyles({
   },
   phone: {
     "& button": {
-      // marginBottom: 15,
       width: 25,
       height: 25,
     },

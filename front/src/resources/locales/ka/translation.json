@@ -52,5 +52,7 @@
   },
   "data_not_found": "მონაცემები ვერ მოიძებნა",
   "activate_existing_account": "გააქტიურება",
-  "reset_password": "პაროლის აღდგენა"
+  "reset_password": "პაროლის აღდგენა",
+  "password_reset": "პაროლის აღდგენა",
+  "please_enter_code": "გთხოვთ შეიყვანოთ კოდი"
 }
