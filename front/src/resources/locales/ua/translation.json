@@ -51,5 +51,6 @@
     ]
   },
   "data_not_found": "Дата нотаток фонд",
-  "activate_existing_account": "Активізуйте яскравий акцент"
+  "activate_existing_account": "Активізуйте",
+  "reset_password": "Забули пароль?"
 }

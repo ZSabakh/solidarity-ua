@@ -51,5 +51,6 @@
     ]
   },
   "data_not_found": "მონაცემები ვერ მოიძებნა",
-  "activate_existing_account": "არსებული ანგარიშის გააქტიურება"
+  "activate_existing_account": "გააქტიურება",
+  "reset_password": "პაროლის აღდგენა"
 }

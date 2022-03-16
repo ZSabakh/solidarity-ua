@@ -28,6 +28,14 @@
   font-family: "FiraGo";
 }
 
+.auth_secondary_links {
+  display: flex;
+}
+
+.auth_secondary_links > div {
+  flex: 1;
+}
+
 @media only screen and (max-width: 767px) {
   #auth {
     width: 100%;
