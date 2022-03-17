@@ -9,7 +9,8 @@ const randomize = require("randomatic");
 
 exports.Signup = async (req, res) => {
   try {
-    if (req.body.email && req.body.phone) throw new Error("Cannot signup with both email and phone");
+    if (req.body.email && req.body.phone)
+      throw new Error("Cannot signup with both email and phone");
 
     const hash = await User.hashPassword(req.body.password);
     req.body.password = hash;
@@ -18,12 +19,19 @@ exports.Signup = async (req, res) => {
     req.body.otpTokenExpires = new Date(Date.now() + 60 * 1000 * 15); //15 minutes
 
     if (req.body.phone) {
-      await SendSMS(`Your verification code is - ${req.body.otpToken}`, req.body.phone).catch((err) => {
+      await SendSMS(
+        `Your verification code is - ${req.body.otpToken}`,
+        req.body.phone
+      ).catch((err) => {
         throw new Error("Couldn't send SMS, try authorizing using email");
       });
     }
     if (req.body.email) {
-      await SendEmail(`Your verification code is - ${req.body.otpToken}`, req.body.email, "Verification Code").catch((err) => {
+      await SendEmail(
+        `Your verification code is - ${req.body.otpToken}`,
+        req.body.email,
+        "Verification Code"
+      ).catch((err) => {
         throw new Error("Couldn't send email, try authorizing using phone");
       });
     }
@@ -127,7 +135,11 @@ exports.SendOTP = async (req, res) => {
       });
     }
     if (user.email) {
-      await SendEmail(`Your verification code is - ${user.otpToken}`, req.body.email, "Verification Code").catch((err) => {
+      await SendEmail(
+        `Your verification code is - ${user.otpToken}`,
+        req.body.email,
+        "Verification Code"
+      ).catch((err) => {
         throw new Error("Couldn't send email, try authorizing using phone");
       });
     }
@@ -203,7 +215,7 @@ exports.ForgotPassword = async (req, res) => {
   try {
     const { email, phone } = req.body;
     if (!email && !phone) {
-      return res.send({
+      return res.status(400).send({
         status: 400,
         error: true,
         message: "Cannot be processed",
@@ -214,10 +226,9 @@ exports.ForgotPassword = async (req, res) => {
       phone: phone,
     });
     if (!user) {
-      return res.send({
-        error: true,
-        message: "Could not find user",
-      });
+      return res
+        .status(400)
+        .send({ error: true, message: "Could not find user" });
     }
     let code = randomize("Aa0", 60);
     let expiry = Date.now() + 60 * 1000 * 15;
@@ -225,7 +236,11 @@ exports.ForgotPassword = async (req, res) => {
     user.resetPasswordExpires = expiry;
 
     if (user.email) {
-      await SendEmail(`Follow the link to reset your password - <a href="https://uaunity.com/password/reset/${code}">Reset password</a>`, user.email, "Reset Password").catch((err) => {
+      await SendEmail(
+        `Follow the link to reset your password - <a href="https://uaunity.com/password/reset/${code}">Reset password</a>`,
+        user.email,
+        "Reset Password"
+      ).catch((_) => {
         throw new Error("Couldn't send email, try authorizing using phone");
       });
     }
