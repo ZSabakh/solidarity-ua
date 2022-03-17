@@ -9,15 +9,13 @@ import Forgot from "./containers/auth/Forgot";
 import Reset from "./containers/auth/Reset";
 import CreatePost from "./containers/post/CreatePost";
 import ViewPost from "./containers/post/ViewPost";
+import Profile from "./containers/profile/Profile";
 import { InfoProvider } from "./utility/InfoContext";
 import { Wrapper } from "@googlemaps/react-wrapper";
 import TimeAgo from "javascript-time-ago";
 import en from "javascript-time-ago/locale/en.json";
 import { useEffect } from "react";
-import {
-  GoogleReCaptchaProvider,
-  useGoogleReCaptcha,
-} from "react-google-recaptcha-v3";
+import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
 
 if (window.location.hostname === "localhost") {
   axios.defaults.baseURL = process.env.REACT_APP_BASE_URL + "/api";
@@ -47,6 +45,7 @@ function App() {
               <Route path="/password/forgot" element={<Forgot />} />
               <Route path="/password/reset/:token" element={<Reset />} />
               <Route path="/post/create" element={<CreatePost />} />
+              <Route path="/profile" element={<Profile />} />
             </Routes>
           </Router>
         </Wrapper>
