@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { makeStyles } from "@mui/styles";
 import { TextField, IconButton, Button } from "@mui/material";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
+import Loader from "../../components/loader/Loader.jsx";
 
 export default function Login() {
   const [formData, setFormData] = useState({});
@@ -61,6 +62,7 @@ export default function Login() {
         navigate("/");
       })
       .catch((err) => {
+        setLoading(false);
         let message = err.response ? err.response.data.message : err.message;
         setStatus({ open: true, message: message, severity: "error" });
       });
@@ -133,9 +135,13 @@ export default function Login() {
             InputLabelProps={{ shrink: true }}
           />
           <div>
-            <Button type="submit" fullWidth variant="contained">
-              {t("login")}
-            </Button>
+            {loading ? (
+              <Loader />
+            ) : (
+              <Button type="submit" fullWidth variant="contained">
+                {t("login")}
+              </Button>
+            )}
           </div>
           <div className="auth_secondary_links">
             <div className="secondary_action_btn">
@@ -149,7 +155,7 @@ export default function Login() {
             </div>
             <div className="secondary_action_btn">
               <Button
-                onClick={() => navigate("/password/reset")}
+                onClick={() => navigate("/password/forgot")}
                 variant="text"
                 fullWidth
               >
@@ -174,7 +180,6 @@ const useStyles = makeStyles({
   },
   phone: {
     "& button": {
-      // marginBottom: 15,
       width: 25,
       height: 25,
     },

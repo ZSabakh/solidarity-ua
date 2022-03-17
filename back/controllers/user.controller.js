@@ -18,18 +18,14 @@ exports.Signup = async (req, res) => {
     req.body.otpTokenExpires = new Date(Date.now() + 60 * 1000 * 15); //15 minutes
 
     if (req.body.phone) {
-      SendSMS(req.body.otpToken, req.body.phone)
-        .then((data) => {})
-        .catch((err) => {
-          throw new Error("Couldn't send SMS, try authorizing using email");
-        });
+      await SendSMS(`Your verification code is - ${req.body.otpToken}`, req.body.phone).catch((err) => {
+        throw new Error("Couldn't send SMS, try authorizing using email");
+      });
     }
     if (req.body.email) {
-      SendEmail(req.body.otpToken, req.body.email)
-        .then((data) => {})
-        .catch((err) => {
-          throw new Error("Couldn't send email, try authorizing using phone");
-        });
+      await SendEmail(`Your verification code is - ${req.body.otpToken}`, req.body.email, "Verification Code").catch((err) => {
+        throw new Error("Couldn't send email, try authorizing using phone");
+      });
     }
 
     const newUser = new User(req.body);
@@ -109,6 +105,45 @@ exports.Login = async (req, res) => {
   }
 };
 
+exports.SendOTP = async (req, res) => {
+  try {
+    const { email, phone } = req.body;
+    if (!phone && !email) {
+      throw new Error("Please make a valid request");
+    }
+    const user = await User.findOne({ email: email, phone: phone });
+    if (!user) {
+      throw new Error("Account not found");
+    }
+    if (user.active) {
+      throw new Error("Account already activated");
+    }
+    user.otpToken = randomize("0", 4);
+    user.otpTokenExpires = new Date(Date.now() + 60 * 1000 * 15); //15 minutes
+    await user.save();
+    if (user.phone) {
+      await SendSMS(user.otpToken, user.phone).catch((err) => {
+        throw new Error("Couldn't send SMS, try authorizing using email");
+      });
+    }
+    if (user.email) {
+      await SendEmail(`Your verification code is - ${user.otpToken}`, req.body.email, "Verification Code").catch((err) => {
+        throw new Error("Couldn't send email, try authorizing using phone");
+      });
+    }
+    return res.status(200).json({
+      success: true,
+      message: "OTP sent successfully",
+      codeExpiration: user.otpTokenExpires,
+    });
+  } catch (e) {
+    return res.status(500).json({
+      error: true,
+      message: e.message,
+    });
+  }
+};
+
 exports.Activate = async (req, res) => {
   try {
     const { email, phone, code } = req.body;
@@ -181,16 +216,22 @@ exports.ForgotPassword = async (req, res) => {
     if (!user) {
       return res.send({
         error: true,
-        message: "Error. Please try again later",
+        message: "Could not find user",
       });
     }
-    //Either send email or SMS.
-    let code = "0000";
-    //CODE SHOULD BE ABSOLUTELY UNIQUE ON PROD!!!
-
+    let code = randomize("Aa0", 60);
     let expiry = Date.now() + 60 * 1000 * 15;
     user.resetPasswordToken = code;
     user.resetPasswordExpires = expiry;
+
+    if (user.email) {
+      await SendEmail(`Follow the link to reset your password - <a href="https://uaunity.com/password/reset/${code}">Reset password</a>`, user.email, "Reset Password").catch((err) => {
+        throw new Error("Couldn't send email, try authorizing using phone");
+      });
+    }
+    if (user.phone) {
+    }
+
     await user.save();
     return res.send({
       success: true,
@@ -219,9 +260,9 @@ exports.ResetPassword = async (req, res) => {
       resetPasswordExpires: { $gt: Date.now() },
     });
     if (!user) {
-      return res.send({
+      return res.status(400).send({
         error: true,
-        message: "Password reset token is invalid.",
+        message: "Password reset token is invalid or expired.",
       });
     }
 
