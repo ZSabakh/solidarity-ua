@@ -1,18 +1,11 @@
-const AWS = require("aws-sdk");
+module.exports = async function SendSMS(content, recipient) {
+  const accountSid = process.env.TWILIO_SID;
+  const authToken = process.env.TWILIO_TOKEN;
+  const client = require("twilio")(accountSid, authToken);
 
-module.exports = async function SendSMS(otp, phone) {
-  AWS.config.getCredentials(function (err) {
-    if (err) console.log(err.stack);
+  return client.messages.create({
+    body: content,
+    messagingServiceSid: process.env.TWILIO_SERVICE,
+    to: recipient,
   });
-
-  AWS.config.update({ region: "us-east-1" });
-
-  var params = {
-    Message: `Your verification code is - ${otp}`,
-    PhoneNumber: phone,
-  };
-
-  var publishTextPromise = new AWS.SNS({ apiVersion: "2010-03-31" }).publish(params).promise();
-
-  return publishTextPromise;
 };

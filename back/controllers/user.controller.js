@@ -18,7 +18,7 @@ exports.Signup = async (req, res) => {
     req.body.otpTokenExpires = new Date(Date.now() + 60 * 1000 * 15); //15 minutes
 
     if (req.body.phone) {
-      await SendSMS(req.body.otpToken, req.body.phone).catch((err) => {
+      await SendSMS(`Your verification code is - ${req.body.otpToken}`, req.body.phone).catch((err) => {
         throw new Error("Couldn't send SMS, try authorizing using email");
       });
     }

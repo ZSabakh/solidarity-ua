@@ -17,21 +17,17 @@ const Home = () => {
         <Header />
         <div className="home_greeting">
           <h1>{t("portal_title")} 🇺🇦</h1>
-          <span>Dummy text at this moment. It will be cool later!</span>
+          <span>{t("portal_description")}</span>
           <div className="home_auth">
             <Link
               to="/"
               onClick={() => {
-                document
-                  .getElementById("feed")
-                  .scrollIntoView({ behavior: "smooth", block: "start" });
+                document.getElementById("feed").scrollIntoView({ behavior: "smooth", block: "start" });
               }}
             >
               {t("find_support")}
             </Link>
-            <Link to={authorized ? "/post/create" : "/register"}>
-              {t("offer_support")}
-            </Link>
+            <Link to={authorized ? "/post/create" : "/register"}>{t("offer_support")}</Link>
           </div>
         </div>
         <Feeds />
