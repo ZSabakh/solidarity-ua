@@ -19,10 +19,8 @@ exports.submit = async (req, res) => {
       try {
         let coordinates = await getCoordinates(req.body.location.place_id);
 
-        commonPostInfo.location.lat =
-          coordinates.data.result.geometry.location.lat;
-        commonPostInfo.location.lng =
-          coordinates.data.result.geometry.location.lng;
+        commonPostInfo.location.lat = coordinates.data.result.geometry.location.lat;
+        commonPostInfo.location.lng = coordinates.data.result.geometry.location.lng;
       } catch (err) {
         console.log("Could not get coordinates ", err);
       }
@@ -35,15 +33,11 @@ exports.submit = async (req, res) => {
       if (!helpType) throw new Error("Invalid type");
       if (helpType.name === "Accomodation") {
         accomodation = req.body.accomodation;
-        postsToSave.push(
-          new Post({ type: helpType._id, ...commonPostInfo, accomodation })
-        );
+        postsToSave.push(new Post({ type: helpType._id, ...commonPostInfo, accomodation }));
       }
       if (helpType.name === "Transportation") {
         transportation = req.body.transportation;
-        postsToSave.push(
-          new Post({ type: helpType._id, ...commonPostInfo, transportation })
-        );
+        postsToSave.push(new Post({ type: helpType._id, ...commonPostInfo, transportation }));
       }
       if (helpType.name === "Other") {
         postsToSave.push(new Post({ type: helpType._id, ...commonPostInfo }));
@@ -76,7 +70,7 @@ exports.submit = async (req, res) => {
 exports.getAll = async (req, res) => {
   try {
     let page = req.query.page || 1;
-    let amountOnPage = 20;
+    let amountOnPage = 10;
 
     let searchCondition = {};
 
@@ -87,16 +81,9 @@ exports.getAll = async (req, res) => {
     let { Accomodation, Transportation, Other } = req.query;
 
     let types = [];
-    if (Accomodation === "true")
-      types.push(
-        await HelpType.findOne({ "name.en": "Accomodation" }).select("_id")
-      );
-    if (Transportation === "true")
-      types.push(
-        await HelpType.findOne({ "name.en": "Transportation" }).select("_id")
-      );
-    if (Other === "true")
-      types.push(await HelpType.findOne({ "name.en": "Other" }).select("_id"));
+    if (Accomodation === "true") types.push(await HelpType.findOne({ "name.en": "Accomodation" }).select("_id"));
+    if (Transportation === "true") types.push(await HelpType.findOne({ "name.en": "Transportation" }).select("_id"));
+    if (Other === "true") types.push(await HelpType.findOne({ "name.en": "Other" }).select("_id"));
 
     searchCondition.type = { $in: types };
 
@@ -133,10 +120,7 @@ exports.getAll = async (req, res) => {
 exports.getPost = async (req, res) => {
   let postId = req.params.id;
   try {
-    let post = await Post.findById(postId)
-      .populate(["type", "city"])
-      .populate("author", "name")
-      .exec();
+    let post = await Post.findById(postId).populate(["type", "city"]).populate("author", "name").exec();
 
     if (!post) throw new Error("Invalid post");
 
@@ -161,10 +145,7 @@ exports.getPost = async (req, res) => {
 
 exports.getOnlyOwnPosts = async (req, res) => {
   try {
-    let posts = await Post.find({ author: req.user.id })
-      .sort({ _id: -1 })
-      .populate(["type", "city"])
-      .populate("author", "name");
+    let posts = await Post.find({ author: req.user.id }).sort({ _id: -1 }).populate(["type", "city"]).populate("author", "name");
 
     return res.status(200).json({
       success: true,

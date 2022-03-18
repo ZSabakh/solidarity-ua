@@ -106,23 +106,22 @@ export default function Feeds() {
           ))}
 
           {posts.length == 0 && !loading ? <div className="data_not_found_msg">{t("data_not_found")}</div> : null}
-
-          <div className="feeds_pagination_root">
-            <Pagination
-              className={classes.pagination}
-              count={totalPages}
-              onChange={(_, page) => {
-                setFilterData((prevState) => ({
-                  ...prevState,
-                  page: page,
-                }));
-              }}
-              variant="outlined"
-              shape="rounded"
-            />
-          </div>
         </>
       )}
+      <div className="feeds_pagination_root">
+        <Pagination
+          className={classes.pagination}
+          count={totalPages}
+          onChange={(_, page) => {
+            setFilterData((prevState) => ({
+              ...prevState,
+              page: page,
+            }));
+          }}
+          variant="outlined"
+          shape="rounded"
+        />
+      </div>
     </div>
   );
 }
