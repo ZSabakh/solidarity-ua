@@ -16,7 +16,9 @@ const Home = () => {
       <div id="app" className="home">
         <Header />
         <div className="home_greeting">
-          <h1>{t("portal_title")} 🇺🇦</h1>
+          <h1 className="home_title">
+            <b>{t("portal_title")}</b> <div id="flag">🇺🇦</div>
+          </h1>
           <span>{t("portal_description")}</span>
           <div className="home_auth">
             <Link

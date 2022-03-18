@@ -52,6 +52,21 @@ header > div {
   font-size: 20px;
 }
 
+.home_title {
+  display: flex;
+}
+
+.home_title b {
+  -webkit-animation: fade-in 1s;
+  animation: fade-in 1s;
+}
+
+.home_title #flag {
+  margin-left: 15px;
+  -webkit-animation: slide-in-left 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  animation: slide-in-left 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
 @media only screen and (max-width: 768px) {
   .home_auth > a {
     margin: 20px 0;
@@ -63,5 +78,51 @@ header > div {
   }
   .home_greeting h1 {
     font-size: 35px;
+  }
+}
+
+@-webkit-keyframes slide-in-left {
+  0% {
+    -webkit-transform: translateX(-8em);
+    transform: translateX(-8em);
+    opacity: 0.3;
+  }
+  100% {
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slide-in-left {
+  0% {
+    -webkit-transform: translateX(-8em);
+    transform: translateX(-8em);
+    opacity: 0.3;
+  }
+  100% {
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
   }
 }
