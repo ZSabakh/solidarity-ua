@@ -38,7 +38,7 @@
 
 @media only screen and (max-width: 767px) {
   #auth {
-    width: 100%;
+    width: 95%;
   }
   .auth_container {
     margin-top: 30px;

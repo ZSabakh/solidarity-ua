@@ -54,16 +54,16 @@ header > div {
 
 .home_title {
   display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .home_title b {
-  -webkit-animation: fade-in 1s;
   animation: fade-in 1s;
 }
 
 .home_title #flag {
   margin-left: 15px;
-  -webkit-animation: slide-in-left 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
   animation: slide-in-left 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 }
 
@@ -79,40 +79,18 @@ header > div {
   .home_greeting h1 {
     font-size: 35px;
   }
-}
-
-@-webkit-keyframes slide-in-left {
-  0% {
-    -webkit-transform: translateX(-8em);
-    transform: translateX(-8em);
-    opacity: 0.3;
-  }
-  100% {
-    -webkit-transform: translateX(0);
-    transform: translateX(0);
-    opacity: 1;
+  .home_title {
+    flex-direction: column;
   }
 }
 
 @keyframes slide-in-left {
   0% {
-    -webkit-transform: translateX(-8em);
     transform: translateX(-8em);
     opacity: 0.3;
   }
   100% {
-    -webkit-transform: translateX(0);
     transform: translateX(0);
-    opacity: 1;
-  }
-}
-
-@-webkit-keyframes fade-in {
-  0% {
-    opacity: 0;
-  }
-
-  100% {
     opacity: 1;
   }
 }
@@ -124,5 +102,21 @@ header > div {
 
   100% {
     opacity: 1;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .home_title #flag {
+    animation: slide-in-left 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  }
+  @keyframes slide-in-left {
+    0% {
+      transform: translateY(-0.3em);
+      opacity: 0.7;
+    }
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
   }
 }

@@ -51,17 +51,12 @@ export default function ViewPost() {
   return (
     <div>
       <Header />
-      <div className="view_post_container">
+      <div className="post_container">
         {loading ? (
           <Stack spacing={1}>
             <Skeleton variant="rectangular" height={450} />
             <div className="container skeleton_loader">
-              <Skeleton
-                variant="circular"
-                width={40}
-                height={40}
-                style={{ margin: "20px 0" }}
-              />
+              <Skeleton variant="circular" width={40} height={40} style={{ margin: "20px 0" }} />
               <Skeleton variant="h1" style={{ marginBottom: 6 }} />
               <Skeleton variant="h2" style={{ marginBottom: 6 }} />
               <Skeleton variant="h2" style={{ marginBottom: 6 }} />
@@ -69,11 +64,7 @@ export default function ViewPost() {
           </Stack>
         ) : (
           <>
-            {post.location?.lat && post.location?.lng ? (
-              <Map lat={post.location.lat} lng={post.location.lng} />
-            ) : (
-              <div className="maps_placeholder"></div>
-            )}
+            {post.location?.lat && post.location?.lng ? <Map lat={post.location.lat} lng={post.location.lng} /> : <div className="maps_placeholder"></div>}
             <div className="support_info_wrapper">
               <div className="support_info_title">
                 <div className="container">
@@ -134,19 +125,13 @@ export default function ViewPost() {
                       <td>{post.author?.name}</td>
                     </tr>
                     {Object.keys(post.contact).map((key, index) => {
-                      if (!post.contact[key].hasOwnProperty("value"))
-                        return null;
+                      if (!post.contact[key].hasOwnProperty("value")) return null;
                       return (
                         <tr key={index}>
                           <td>{key}</td>
                           <td>
-                            {!authorized &&
-                            !post.contact[key].public &&
-                            post.contact[key].value === "" ? (
-                              <Link
-                                className="require_auth_error_msg"
-                                to="/login"
-                              >
+                            {!authorized && !post.contact[key].public && post.contact[key].value === "" ? (
+                              <Link className="require_auth_error_msg" to="/login">
                                 {t("ERROR_AUTHENTICATE_TO_VIEW_INFORMATION")}
                               </Link>
                             ) : (
