@@ -17,3 +17,8 @@
   color: rgb(230, 230, 230);
   margin-top: auto;
 }
+
+.footer a {
+  color: #fff;
+  text-decoration: underline !important;
+}
