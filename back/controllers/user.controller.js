@@ -222,7 +222,7 @@ exports.ForgotPassword = async (req, res) => {
     user.resetPasswordExpires = expiry;
 
     if (user.email) {
-      await SendEmail(`Follow the link to reset your password - <a href="https://uaunity.com/password/reset/${code}">Reset password</a>`, user.email, "Reset Password").catch((_) => {
+      await SendEmail(`Follow the link to reset your password - <a clicktracking="off" href="https://uaunity.com/password/reset/${code}">Reset password</a>`, user.email, "Reset Password").catch((_) => {
         throw new Error("Couldn't send email, try authorizing using phone");
       });
     }
