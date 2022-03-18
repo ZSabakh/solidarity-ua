@@ -1,6 +1,16 @@
 import { useEffect, useState, useContext } from "react";
 import { InfoContext } from "../../utility/InfoContext";
-import { Skeleton, Stack, TextField, FormControl, FormGroup, FormControlLabel, Pagination, Checkbox, Autocomplete } from "@mui/material";
+import {
+  Skeleton,
+  Stack,
+  TextField,
+  FormControl,
+  FormGroup,
+  FormControlLabel,
+  Pagination,
+  Checkbox,
+  Autocomplete,
+} from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import "./feeds.css";
 import FeedItem from "./FeedItem";
@@ -19,7 +29,10 @@ export default function Feeds() {
   });
   const [loading, setLoading] = useState(true);
   const { setStatus, cities, helpTypes } = useContext(InfoContext);
-  let allCities = [{ name: { en: "All", ka: "ყველა", ua: "всі" }, _id: "all" }, ...cities];
+  let allCities = [
+    { name: { en: "All", ka: "ყველა", ua: "всі" }, _id: "all" },
+    ...cities,
+  ];
 
   const classes = useStyles();
   let userCulture = localStorage.getItem("user_culture");
@@ -50,45 +63,64 @@ export default function Feeds() {
   return (
     <div className="feeds_wrapper" id="feed">
       <div className="feeds_filter_container">
-        <FormControl sx={{ m: 3 }} component="fieldset" variant="standard" className={classes.formControl}>
+        <FormControl
+          sx={{ m: 3 }}
+          component="fieldset"
+          variant="standard"
+          fullWidth
+          className={classes.formControl}
+        >
           <FormGroup>
-            <Autocomplete
-              id="city-select"
-              sx={{ minWidth: 150, marginRight: 5 }}
-              options={allCities}
-              autoHighlight
-              onChange={(event) => {
-                setFilterData((prevState) => ({
-                  ...prevState,
-                  page: 1,
-                  city: event.target.value,
-                }));
-              }}
-              getOptionLabel={(option) => option.name[userCulture]}
-              renderOption={(props, option) => (
-                <option component="li" {...props} value={option._id}>
-                  {option.name[userCulture]}
-                </option>
-              )}
-              renderInput={(params) => (
-                <TextField
-                  required
-                  {...params}
-                  name="city"
-                  label={t("city")}
-                  inputProps={{
-                    ...params.inputProps,
+            <div className="search_bar">
+              <div>
+                {helpTypes.map((helpType) => (
+                  <FormControlLabel
+                    key={helpType._id}
+                    control={
+                      <Checkbox
+                        checked={filterData[helpType.name.en]}
+                        onChange={handleCheckboxChange}
+                        name={helpType.name.en}
+                        color="primary"
+                      />
+                    }
+                    label={helpType.name[userCulture]}
+                  />
+                ))}
+              </div>
+              <div>
+                <Autocomplete
+                  id="city-select"
+                  sx={{ minWidth: 150, marginRight: 5 }}
+                  options={allCities}
+                  autoHighlight
+                  onChange={(event) => {
+                    setFilterData((prevState) => ({
+                      ...prevState,
+                      page: 1,
+                      city: event.target.value,
+                    }));
                   }}
+                  getOptionLabel={(option) => option.name[userCulture]}
+                  renderOption={(props, option) => (
+                    <option component="li" {...props} value={option._id}>
+                      {option.name[userCulture]}
+                    </option>
+                  )}
+                  renderInput={(params) => (
+                    <TextField
+                      required
+                      {...params}
+                      name="city"
+                      label={t("city")}
+                      inputProps={{
+                        ...params.inputProps,
+                      }}
+                    />
+                  )}
                 />
-              )}
-            />
-            {helpTypes.map((helpType) => (
-              <FormControlLabel
-                key={helpType._id}
-                control={<Checkbox checked={filterData[helpType.name.en]} onChange={handleCheckboxChange} name={helpType.name.en} color="primary" />}
-                label={helpType.name[userCulture]}
-              />
-            ))}
+              </div>
+            </div>
           </FormGroup>
         </FormControl>
       </div>
@@ -105,7 +137,9 @@ export default function Feeds() {
             <FeedItem key={index} post={post} />
           ))}
 
-          {posts.length == 0 && !loading ? <div className="data_not_found_msg">{t("data_not_found")}</div> : null}
+          {posts.length == 0 && !loading ? (
+            <div className="data_not_found_msg">{t("data_not_found")}</div>
+          ) : null}
         </>
       )}
       <div className="feeds_pagination_root">
