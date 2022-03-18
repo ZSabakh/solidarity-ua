@@ -15,6 +15,9 @@ const theme = createTheme({
     secondary: {
       main: "#005bbb",
     },
+    info: {
+      main: "#84889A",
+    },
   },
   components: {
     MuiCardContent: {
