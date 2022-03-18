@@ -44,12 +44,7 @@ export default function MobileHeader() {
   };
 
   const list = (anchor) => (
-    <Box
-      sx={{ width: 350 }}
-      role="presentation"
-      onClick={toggleDrawer(anchor, false)}
-      onKeyDown={toggleDrawer(anchor, false)}
-    >
+    <Box sx={{ width: "70vw" }} role="presentation" onClick={toggleDrawer(anchor, false)} onKeyDown={toggleDrawer(anchor, false)}>
       <List>
         <Link className="link" to="/">
           <ListItem button>
@@ -101,11 +96,7 @@ export default function MobileHeader() {
   return (
     <div className="mobile_header">
       <MenuIcon onClick={toggleDrawer("right", true)} />
-      <Drawer
-        anchor="right"
-        open={state["right"]}
-        onClose={toggleDrawer("right", false)}
-      >
+      <Drawer anchor="right" open={state["right"]} onClose={toggleDrawer("right", false)}>
         {list("right")}
       </Drawer>
     </div>

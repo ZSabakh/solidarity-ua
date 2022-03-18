@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 
 async function initMap({ lat, lng }) {
-  const myLatLng = { lat: lat, lng: lng };
+  const latLng = { lat: lat, lng: lng };
   const map = await new window.google.maps.Map(document.getElementById("map"), {
     styles: [
       { elementType: "geometry", stylers: [{ color: "#242f3e" }] },
@@ -15,7 +15,7 @@ async function initMap({ lat, lng }) {
       {
         featureType: "poi",
         elementType: "labels.text.fill",
-        stylers: [{ color: "#d59563" }],
+        stylers: [{ visibility: "off" }],
       },
       {
         featureType: "poi.park",
@@ -83,13 +83,14 @@ async function initMap({ lat, lng }) {
         stylers: [{ color: "#17263c" }],
       },
     ],
-
+    streetViewControl: false,
+    mapTypeControl: false,
     zoom: 12,
-    center: myLatLng,
+    center: latLng,
   });
 
   await new window.google.maps.Marker({
-    position: myLatLng,
+    position: latLng,
     map,
     title: "Location",
   });

@@ -2,7 +2,6 @@ const Post = require("../models/post.model");
 const City = require("../models/city.model");
 const HelpType = require("../models/help.types.model");
 const getCoordinates = require("../utility/getCoordinates");
-const { resolveHostname } = require("nodemailer/lib/shared");
 
 exports.submit = async (req, res) => {
   try {
@@ -71,7 +70,7 @@ exports.submit = async (req, res) => {
 exports.getAll = async (req, res) => {
   try {
     let page = req.query.page || 1;
-    let amountOnPage = 20;
+    let amountOnPage = 10;
 
     let searchCondition = {};
 
@@ -135,6 +134,22 @@ exports.getPost = async (req, res) => {
     res.status(200).json({
       success: true,
       post: post,
+    });
+  } catch (err) {
+    res.status(500).json({
+      error: true,
+      message: err.message,
+    });
+  }
+};
+
+exports.getOnlyOwnPosts = async (req, res) => {
+  try {
+    let posts = await Post.find({ author: req.user.id }).sort({ _id: -1 }).populate(["type", "city"]).populate("author", "name");
+
+    return res.status(200).json({
+      success: true,
+      posts: posts,
     });
   } catch (err) {
     res.status(500).json({

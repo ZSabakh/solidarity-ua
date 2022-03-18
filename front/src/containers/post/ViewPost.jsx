@@ -1,6 +1,8 @@
 import Header from "../../components/header/Header";
 import Map from "../../components/post/Map";
 import { Skeleton, Stack } from "@mui/material";
+import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
 import { useState, useEffect, useContext } from "react";
 import { InfoContext } from "../../utility/InfoContext";
 import axios from "axios";
@@ -49,7 +51,7 @@ export default function ViewPost() {
   return (
     <div>
       <Header />
-      <div className="view_post_container">
+      <div className="post_container">
         {loading ? (
           <Stack spacing={1}>
             <Skeleton variant="rectangular" height={450} />
@@ -79,59 +81,69 @@ export default function ViewPost() {
               </div>
             </div>
             <div className="container support_general_info">
-              <div>
-                <h3>{post.type.name[userCulture]}</h3>
-                {post.location?.description ? (
-                  <p>
-                    {t("location")}: {post.location?.description}
-                  </p>
-                ) : null}
-                {post.accomodation?.rooms_amount ? (
-                  <>
-                    <p>
-                      {t("amount_of_rooms")}: {post.accomodation.rooms_amount}
-                    </p>
-                    <p>
-                      {t("amount_of_beds")}: {post.accomodation.beds_amount}
-                    </p>
-                  </>
-                ) : null}
-                {post.transportation?.capacity ? (
-                  <>
-                    <p>
-                      {t("transport_capacity")}: {post.transportation.capacity}
-                    </p>
-                    <p>
-                      {t("transportation_radius")}: {post.transportation.radius}
-                    </p>
-                  </>
-                ) : null}
-              </div>
-              <div>
-                <h3>{t("author")}</h3>
-                <p>
-                  {t("name")}: {post.author?.name}
-                </p>
-                <div>
-                  {Object.keys(post.contact).map((key, index) => {
-                    if (!post.contact[key].hasOwnProperty("value")) return null;
-                    return (
-                      <div key={index}>
-                        <p>
-                          {key}:
-                          {!authorized && !post.contact[key].public && post.contact[key].value === "" ? (
-                            <Link className="require_auth_error_msg" to="/login">
-                              {t("ERROR_AUTHENTICATE_TO_VIEW_INFORMATION")}
-                            </Link>
-                          ) : (
-                            post.contact[key].value
-                          )}
-                        </p>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
+              <Box>
+                <Grid container md={8} xs={12}>
+                  <h3>{post.type.name[userCulture]}</h3>
+                  <table className="post_view_table">
+                    {post.location?.description ? (
+                      <tr>
+                        <td>{t("location")}</td>
+                        <td>{post.location?.description}</td>
+                      </tr>
+                    ) : null}
+                    {post.accomodation?.rooms_amount ? (
+                      <>
+                        <tr>
+                          <td>{t("amount_of_rooms")}</td>
+                          <td>{post.accomodation.rooms_amount}</td>
+                        </tr>
+                        <tr>
+                          <td>{t("amount_of_beds")}</td>
+                          <td>{post.accomodation.beds_amount}</td>
+                        </tr>
+                      </>
+                    ) : null}
+                    {post.transportation?.capacity ? (
+                      <>
+                        <tr>
+                          <td>{t("transport_capacity")}</td>
+                          <td>{post.transportation.capacity}</td>
+                        </tr>
+                        <tr>
+                          <td>{t("transportation_radius")}</td>
+                          <td>{post.transportation.radius}</td>
+                        </tr>
+                      </>
+                    ) : null}
+                  </table>
+                </Grid>
+                <Grid container md={8} xs={12}>
+                  <h3>{t("author")}</h3>
+                  <table className="post_view_table">
+                    <tr>
+                      <td>{t("name")}</td>
+                      <td>{post.author?.name}</td>
+                    </tr>
+                    {Object.keys(post.contact).map((key, index) => {
+                      if (!post.contact[key].hasOwnProperty("value")) return null;
+                      return (
+                        <tr key={index}>
+                          <td>{key}</td>
+                          <td>
+                            {!authorized && !post.contact[key].public && post.contact[key].value === "" ? (
+                              <Link className="require_auth_error_msg" to="/login">
+                                {t("ERROR_AUTHENTICATE_TO_VIEW_INFORMATION")}
+                              </Link>
+                            ) : (
+                              post.contact[key].value
+                            )}
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </table>
+                </Grid>
+              </Box>
             </div>
           </>
         )}
