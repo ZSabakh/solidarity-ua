@@ -10,13 +10,13 @@ import Reset from "./containers/auth/Reset";
 import CreatePost from "./containers/post/CreatePost";
 import ViewPost from "./containers/post/ViewPost";
 import Profile from "./containers/profile/Profile";
+import Footer from "./components/footer/Footer";
 import { InfoProvider } from "./utility/InfoContext";
 import { Wrapper } from "@googlemaps/react-wrapper";
 import TimeAgo from "javascript-time-ago";
 import en from "javascript-time-ago/locale/en.json";
 import { useEffect } from "react";
 import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
-
 if (window.location.hostname === "localhost") {
   axios.defaults.baseURL = process.env.REACT_APP_BASE_URL + "/api";
 } else {
@@ -48,6 +48,7 @@ function App() {
               <Route path="/profile" element={<Profile />} />
             </Routes>
           </Router>
+          <Footer />
         </Wrapper>
       </InfoProvider>
     </GoogleReCaptchaProvider>
