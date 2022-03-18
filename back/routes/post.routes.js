@@ -5,7 +5,7 @@ const { validateToken, checkAuthorization } = require("../middlewares/validate.j
 
 router.post("/submit", validateToken, PostController.submit);
 router.get("/get_all", PostController.getAll);
-router.get("/get/:id", validateToken, PostController.getPost);
+router.get("/get/:id", checkAuthorization, PostController.getPost);
 router.get("/options", PostController.fetchOptions);
 router.get("/by-me", validateToken, PostController.getOnlyOwnPosts);
 
