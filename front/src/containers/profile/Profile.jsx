@@ -1,5 +1,4 @@
 import { useState, useEffect, useContext } from "react";
-import { useTranslation } from "react-i18next";
 import { InfoContext } from "../../utility/InfoContext";
 import Header from "../../components/header/Header";
 import Box from "@mui/material/Box";
@@ -13,7 +12,6 @@ export default function Profile() {
   const [posts, setPosts] = useState({});
   const [user, setUser] = useState({});
   const [loading, setLoading] = useState(true);
-  const { t } = useTranslation();
   const { setStatus } = useContext(InfoContext);
 
   useEffect(() => {
@@ -54,25 +52,42 @@ export default function Profile() {
         <Grid container spacing={2}>
           <Grid item md={3} xs={12}>
             <div className="profile_info">
-              <h2>{t("profile")}</h2>
-              <div></div>
+              {user && (
+                <>
+                  <div>
+                    <img
+                      alt="Profile image"
+                      src={`https://ui-avatars.com/api/?name=${user.name}&background=000&color=FFF`}
+                    />
+                  </div>
+                  <div>
+                    <p>{user.name}</p>
+                  </div>
+                  <div>
+                    <p>{user.email}</p>
+                  </div>
+                </>
+              )}
             </div>
           </Grid>
           <Grid item md={9} xs={12}>
             {loading ? (
-              <ul className="list">
-                {Array(10)
+              <>
+                {Array(5)
                   .fill()
                   .map((_, index) => (
-                    <li key={index}>
-                      <Skeleton height={180} />
-                    </li>
+                    <Skeleton
+                      variant="rectangular"
+                      className="profile_loader"
+                      key={index}
+                      height={100}
+                    />
                   ))}
-              </ul>
+              </>
             ) : (
               <>
                 {posts.map((item, index) => (
-                  <FeedItem key={index} post={item} />
+                  <FeedItem key={index} post={item} isPostOwner={true} />
                 ))}
               </>
             )}

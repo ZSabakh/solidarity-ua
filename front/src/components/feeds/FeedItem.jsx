@@ -3,12 +3,16 @@ import car from "../../resources/images/car-solid.svg";
 import building from "../../resources/images/building-solid.svg";
 import other from "../../resources/images/star-of-life-solid.svg";
 import ReactTimeAgo from "react-time-ago";
+import { useContext } from "react";
+import { InfoContext } from "../../utility/InfoContext";
 import { useTranslation } from "react-i18next";
 
-export default function FeedItem({ post }) {
+export default function FeedItem({ post, isPostOwner = false }) {
   let userCulture = localStorage.getItem("user_culture");
 
   const { t } = useTranslation();
+
+  const { authorized } = useContext(InfoContext);
 
   const PostIcon = () => {
     if (post.type?.name?.en === "Transportation") {
@@ -21,7 +25,7 @@ export default function FeedItem({ post }) {
   };
 
   const canDelete = () => {
-    return true;
+    return isPostOwner && authorized;
   };
 
   const hideFeed = (e) => {
@@ -48,7 +52,6 @@ export default function FeedItem({ post }) {
         <div>
           {canDelete() ? (
             <>
-              <span className="support_btn">edit</span>
               <span
                 className="support_btn hide_support"
                 onClick={(e) => hideFeed(e)}

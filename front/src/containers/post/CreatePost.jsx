@@ -85,7 +85,7 @@ export default function CreatePost() {
                       required
                       {...params}
                       name="city"
-                      autocomplete="off"
+                      autoComplete="off"
                       label={t("city")}
                       inputProps={{
                         ...params.inputProps,
