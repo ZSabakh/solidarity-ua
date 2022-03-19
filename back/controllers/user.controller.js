@@ -279,3 +279,28 @@ exports.ResetPassword = async (req, res) => {
     });
   }
 };
+
+exports.GetProfileData = async(req, res) => {
+  try {
+
+    const user = await User.findOne({ id: req.user.id }, {
+      password: 0,
+      otpToken: 0,
+      otpTokenExpires: 0,
+      resetPasswordToken: 0,
+      resetPasswordExpires: 0
+    });
+
+    return res.send({
+      success: true,
+      profile: user
+    })
+
+  } catch (error) {
+    return res.status(500).json({
+      error: true,
+      message: error.message,
+    });
+  }
+}
+

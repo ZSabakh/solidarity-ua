@@ -156,3 +156,7 @@ a {
 .grecaptcha-badge {
   visibility: hidden;
 }
+
+.clear {
+  clear: both;
+}

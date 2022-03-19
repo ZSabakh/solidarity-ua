@@ -56,5 +56,6 @@
   "activate_existing_account": "Активізуйте",
   "reset_password": "Забули пароль?",
   "password_reset": "Password recovery",
-  "please_enter_code": "Будь ласка, введіть код"
+  "please_enter_code": "Будь ласка, введіть код",
+  "view": "перегляд"
 }

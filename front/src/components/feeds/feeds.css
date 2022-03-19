@@ -29,12 +29,17 @@
   flex: 1;
 }
 
-.consume_support {
+.support_btn {
   background: #ffd500;
   color: #000;
   padding: 10px;
   border-radius: 8px;
   font-family: "FiraGO Bold";
+  margin: 0 5px;
+}
+
+.hide_support {
+  background: red !important;
 }
 
 .feed_title {
