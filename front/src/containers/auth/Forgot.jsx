@@ -68,15 +68,10 @@ export default function Forgot(props) {
     <div>
       <Header />
       <div className="auth_container">
-        <form
-          id="auth"
-          className={classes.form}
-          onSubmit={handleFormSubmit}
-          onChange={handleFormChange}
-        >
+        <form id="auth" className={classes.form} onSubmit={handleFormSubmit} onChange={handleFormChange}>
           <>
             <h1>{t("password_reset")}</h1>
-            <i>*Tap icon to switch to an alternative method</i>
+            <i>{t("alternative")}</i>
             {preferredMethod === "phone" ? (
               <MuiPhoneNumber
                 disableAreaCodes
@@ -90,11 +85,7 @@ export default function Forgot(props) {
                 autoFormat
                 InputProps={{
                   endAdornment: (
-                    <IconButton
-                      aria-label="Email"
-                      color="secondary"
-                      onClick={() => handlePreferredMethodChange("email")}
-                    >
+                    <IconButton aria-label="Email" color="secondary" onClick={() => handlePreferredMethodChange("email")}>
                       <EmailIcon />
                     </IconButton>
                   ),
@@ -111,11 +102,7 @@ export default function Forgot(props) {
                 InputLabelProps={{ shrink: true }}
                 InputProps={{
                   endAdornment: (
-                    <IconButton
-                      aria-label="Phone"
-                      color="secondary"
-                      onClick={() => handlePreferredMethodChange("phone")}
-                    >
+                    <IconButton aria-label="Phone" color="secondary" onClick={() => handlePreferredMethodChange("phone")}>
                       <PhoneIcon />
                     </IconButton>
                   ),
@@ -128,12 +115,7 @@ export default function Forgot(props) {
             {loading ? (
               <Loader />
             ) : (
-              <Button
-                sx={{ m: "10px 0" }}
-                type="submit"
-                fullWidth
-                variant="contained"
-              >
+              <Button sx={{ m: "10px 0" }} type="submit" fullWidth variant="contained">
                 {t("submit")}
               </Button>
             )}
