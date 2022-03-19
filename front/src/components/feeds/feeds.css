@@ -95,3 +95,12 @@
     display: none;
   }
 }
+
+@media only screen and (max-width: 600px) {
+  .search_bar {
+    flex-direction: column-reverse;
+  }
+  .search_bar > div:nth-child(2) {
+    width: 100%;
+  }
+}
