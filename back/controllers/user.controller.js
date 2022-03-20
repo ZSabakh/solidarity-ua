@@ -31,7 +31,7 @@ exports.Signup = async (req, res) => {
     const newUser = new User(req.body);
     await newUser.save();
 
-    return res.status(200).json({
+    res.status(200).send({
       success: true,
       message: "Registration Success",
       codeExpiration: newUser.otpTokenExpires,
@@ -41,7 +41,7 @@ exports.Signup = async (req, res) => {
       res.status(400).send({ error: true, message: err.message });
       return;
     }
-    return res.status(500).json({
+    res.status(500).send({
       error: true,
       message: err.message,
     });
@@ -51,56 +51,32 @@ exports.Signup = async (req, res) => {
 exports.Login = async (req, res) => {
   try {
     const { email, phone, password } = req.body;
-    if ((!phone && !email) || !password) {
-      return res.status(400).json({
-        error: true,
-        message: "Cannot authorize user.",
-      });
-    }
-    const user = await User.findOne({ email: email, phone: phone });
-    if (!user) {
-      return res.status(404).json({
-        error: true,
-        message: "Account not found",
-      });
-    }
+    if ((!phone && !email) || !password) throw new Error("Please make a valid request");
 
-    if (!user.active) {
-      return res.status(400).json({
-        error: true,
-        message: "You must verify your account. Use activation page",
-      });
-    }
+    const user = await User.findOne({ email: email, phone: phone });
+    if (!user) throw new Error("User not found");
+
+    if (!user.active) throw new Error("You must verify your account. Use activation page");
 
     const isValid = bcrypt.compareSync(req.body.password, user.password);
-    if (!isValid) {
-      return res.status(400).json({
-        error: true,
-        message: "Invalid credentials",
-      });
-    }
+    if (!isValid) throw new Error("Invalid credentials");
 
     const { error, token } = await generateJwt(user.name, user._id);
-    if (error) {
-      return res.status(500).json({
-        error: true,
-        message: "Couldn't create access token. Please try again later",
-      });
-    }
+    if (error) throw new Error("Couldn't create access token. Please try again later");
+
     user.accessToken = token;
 
     await user.save();
 
-    return res.send({
+    res.status(200).send({
       success: true,
       message: "User logged in successfully",
       accessToken: token,
     });
   } catch (err) {
-    console.error("Login error", err);
-    return res.status(500).json({
+    res.status(500).send({
       error: true,
-      message: "Couldn't login. Please try again later.",
+      message: err.message,
     });
   }
 };
@@ -108,16 +84,13 @@ exports.Login = async (req, res) => {
 exports.SendOTP = async (req, res) => {
   try {
     const { email, phone } = req.body;
-    if (!phone && !email) {
-      throw new Error("Please make a valid request");
-    }
+    if (!phone && !email) throw new Error("Please make a valid request");
+
     const user = await User.findOne({ email: email, phone: phone });
-    if (!user) {
-      throw new Error("Account not found");
-    }
-    if (user.active) {
-      throw new Error("Account already activated");
-    }
+    if (!user) throw new Error("Account not found");
+
+    if (user.active) throw new Error("Account already activated");
+
     user.otpToken = randomize("0", 4);
     user.otpTokenExpires = new Date(Date.now() + 60 * 1000 * 15); //15 minutes
     await user.save();
@@ -131,13 +104,13 @@ exports.SendOTP = async (req, res) => {
         throw new Error("Couldn't send email, try authorizing using phone");
       });
     }
-    return res.status(200).json({
+    res.status(200).json({
       success: true,
       message: "OTP sent successfully",
       codeExpiration: user.otpTokenExpires,
     });
   } catch (e) {
-    return res.status(500).json({
+    res.status(500).json({
       error: true,
       message: e.message,
     });
@@ -147,52 +120,36 @@ exports.SendOTP = async (req, res) => {
 exports.Activate = async (req, res) => {
   try {
     const { email, phone, code } = req.body;
-    if ((!phone && !email) || !code) {
-      return res.status(400).json({
-        error: true,
-        message: "Please make a valid request",
-      });
-    }
+    if ((!phone && !email) || !code) throw new Error("Please make a valid request");
+
     const user = await User.findOne({
       email: email,
       phone: phone,
       otpToken: code,
       otpTokenExpires: { $gt: Date.now() },
     });
-    if (!user) {
-      return res.status(400).json({
-        error: true,
-        message: "Invalid details",
-      });
-    } else {
-      if (user.active)
-        return res.send({
-          error: true,
-          message: "Account already activated",
-          status: 400,
-        });
-      user.otpToken = "";
-      user.otpTokenExpires = null;
-      user.active = true;
-      const { error, token } = await generateJwt(user.name, user._id);
-      if (error) {
-        return res.status(500).json({
-          error: true,
-          message: "Couldn't create access token. Please try again later",
-        });
-      }
-      user.accessToken = token;
 
-      await user.save();
-      return res.status(200).json({
-        success: true,
-        message: "Account activated.",
-        accessToken: token,
-      });
-    }
+    if (!user) throw new Error("Invalid details");
+
+    if (user.active) throw new Error("Account already activated");
+
+    user.otpToken = "";
+    user.otpTokenExpires = null;
+    user.active = true;
+    const { error, token } = await generateJwt(user.name, user._id);
+
+    if (error) throw new Error("Couldn't create access token. Please try again later");
+
+    user.accessToken = token;
+
+    await user.save();
+    res.status(200).json({
+      success: true,
+      message: "Account activated.",
+      accessToken: token,
+    });
   } catch (error) {
-    console.error("activation-error", error);
-    return res.status(500).json({
+    res.status(500).json({
       error: true,
       message: error.message,
     });
@@ -202,20 +159,15 @@ exports.Activate = async (req, res) => {
 exports.ForgotPassword = async (req, res) => {
   try {
     const { email, phone } = req.body;
-    if (!email && !phone) {
-      return res.status(400).send({
-        status: 400,
-        error: true,
-        message: "Cannot be processed",
-      });
-    }
+    if (!email && !phone) throw new Error("Cannot be processed");
+
     const user = await User.findOne({
       email: email,
       phone: phone,
     });
-    if (!user) {
-      return res.status(400).send({ error: true, message: "Could not find user" });
-    }
+
+    if (!user) throw new Error("Account not found");
+
     let code = randomize("Aa0", 60);
     let expiry = Date.now() + 60 * 1000 * 15;
     user.resetPasswordToken = code;
@@ -227,16 +179,18 @@ exports.ForgotPassword = async (req, res) => {
       });
     }
     if (user.phone) {
+      await SendSMS(`Follow the link to reset your password - https://uaunity.com/password/reset/${code}`, user.phone).catch((_) => {
+        throw new Error("Couldn't send SMS, try authorizing using email");
+      });
     }
 
     await user.save();
-    return res.send({
+    res.status(200).send({
       success: true,
       message: "Sent notification to reset your password",
     });
   } catch (error) {
-    console.error("forgot-password-error", error);
-    return res.status(500).json({
+    res.status(500).json({
       error: true,
       message: error.message,
     });
@@ -246,61 +200,44 @@ exports.ForgotPassword = async (req, res) => {
 exports.ResetPassword = async (req, res) => {
   try {
     const { token, newPassword } = req.body;
-    if (!token || !newPassword) {
-      return res.status(403).json({
-        error: true,
-        message: "Provide token and a new password",
-      });
-    }
+    if (!token || !newPassword) throw new Error("Provide token and a new password");
+
     const user = await User.findOne({
       resetPasswordToken: req.body.token,
       resetPasswordExpires: { $gt: Date.now() },
     });
-    if (!user) {
-      return res.status(400).send({
-        error: true,
-        message: "Password reset token is invalid or expired.",
-      });
-    }
+    if (!user) throw new Error("Password reset token is invalid or expired.");
 
     const hash = await User.hashPassword(req.body.newPassword);
     user.password = hash;
     user.resetPasswordToken = null;
     user.resetPasswordExpires = "";
     await user.save();
-    return res.send({
+    res.status(200).send({
       success: true,
       message: "Password has been changed",
     });
   } catch (error) {
-    return res.status(500).json({
+    res.status(500).json({
       error: true,
       message: error.message,
     });
   }
 };
 
-exports.GetProfileData = async(req, res) => {
+exports.GetProfileData = async (req, res) => {
   try {
+    const user = await User.findById(req.user.id).select("-password -otpToken -otpTokenExpires -resetPasswordToken -resetPasswordExpires -accessToken");
+    if (!user) throw new Error("Could not find user");
 
-    const user = await User.findOne({ id: req.user.id }, {
-      password: 0,
-      otpToken: 0,
-      otpTokenExpires: 0,
-      resetPasswordToken: 0,
-      resetPasswordExpires: 0
-    });
-
-    return res.send({
+    res.status(200).send({
       success: true,
-      profile: user
-    })
-
+      profile: user,
+    });
   } catch (error) {
-    return res.status(500).json({
+    res.status(500).json({
       error: true,
       message: error.message,
     });
   }
-}
-
+};
