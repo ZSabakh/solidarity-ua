@@ -15,7 +15,7 @@ import Loader from "../../components/loader/Loader.jsx";
 
 export default function Login() {
   const [formData, setFormData] = useState({});
-  const [preferredMethod, setPreferredMethod] = useState("phone");
+  const [preferredMethod, setPreferredMethod] = useState("email");
   const [loading, setLoading] = useState(false);
   const { setStatus, setAuthorized } = useContext(InfoContext);
 
@@ -72,7 +72,13 @@ export default function Login() {
     <div>
       <Header />
       <div className="auth_container">
-        <form action="" id="auth" className={classes.form} onChange={handleFormChange} onSubmit={handleFormSubmit}>
+        <form
+          action=""
+          id="auth"
+          className={classes.form}
+          onChange={handleFormChange}
+          onSubmit={handleFormSubmit}
+        >
           <i>{t("alternative")}</i>
           {preferredMethod === "phone" ? (
             <MuiPhoneNumber
@@ -87,7 +93,11 @@ export default function Login() {
               autoFormat
               InputProps={{
                 endAdornment: (
-                  <IconButton aria-label="Email" color="secondary" onClick={() => handlePreferredMethodChange("email")}>
+                  <IconButton
+                    aria-label="Email"
+                    color="secondary"
+                    onClick={() => handlePreferredMethodChange("email")}
+                  >
                     <EmailIcon />
                   </IconButton>
                 ),
@@ -104,7 +114,11 @@ export default function Login() {
               InputLabelProps={{ shrink: true }}
               InputProps={{
                 endAdornment: (
-                  <IconButton aria-label="Phone" color="secondary" onClick={() => handlePreferredMethodChange("phone")}>
+                  <IconButton
+                    aria-label="Phone"
+                    color="secondary"
+                    onClick={() => handlePreferredMethodChange("phone")}
+                  >
                     <PhoneIcon />
                   </IconButton>
                 ),
@@ -112,7 +126,14 @@ export default function Login() {
             />
           )}
 
-          <TextField fullWidth label={t("password")} variant="outlined" name="password" type="password" InputLabelProps={{ shrink: true }} />
+          <TextField
+            fullWidth
+            label={t("password")}
+            variant="outlined"
+            name="password"
+            type="password"
+            InputLabelProps={{ shrink: true }}
+          />
           <div>
             {loading ? (
               <Loader />
@@ -124,12 +145,20 @@ export default function Login() {
           </div>
           <div className="auth_secondary_links">
             <div className="secondary_action_btn">
-              <Button onClick={() => navigate("/register")} variant="text" fullWidth>
+              <Button
+                onClick={() => navigate("/register")}
+                variant="text"
+                fullWidth
+              >
                 {t("registration")}
               </Button>
             </div>
             <div className="secondary_action_btn">
-              <Button onClick={() => navigate("/password/forgot")} variant="text" fullWidth>
+              <Button
+                onClick={() => navigate("/password/forgot")}
+                variant="text"
+                fullWidth
+              >
                 {t("reset_password")}
               </Button>
             </div>
