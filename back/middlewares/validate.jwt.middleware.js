@@ -45,7 +45,6 @@ async function validateToken(req, res, next) {
 
     next();
   } catch (err) {
-    console.error(err);
     if (err.name === "TokenExpiredError") {
       result = {
         error: true,
