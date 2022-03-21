@@ -21,7 +21,7 @@ export default function Activate(props) {
 
   const [formData, setFormData] = useState({});
   const [sentData, setSentData] = useState({});
-  const [preferredMethod, setPreferredMethod] = useState("phone");
+  const [preferredMethod, setPreferredMethod] = useState("email");
   const [loading, setLoading] = useState(false);
   const [requireOtp, setRequireOtp] = useState(false);
   const [otp, setOtp] = useState("");
@@ -98,7 +98,13 @@ export default function Activate(props) {
     <div>
       <Header />
       <div className="auth_container">
-        <form action="" id="auth" className={classes.form} onSubmit={handleFormSubmit} onChange={handleFormChange}>
+        <form
+          action=""
+          id="auth"
+          className={classes.form}
+          onSubmit={handleFormSubmit}
+          onChange={handleFormChange}
+        >
           {requireOtp ? (
             <>
               <p>Please enter code: </p>
@@ -121,7 +127,11 @@ export default function Activate(props) {
                   autoFormat
                   InputProps={{
                     endAdornment: (
-                      <IconButton aria-label="Email" color="secondary" onClick={() => handlePreferredMethodChange("email")}>
+                      <IconButton
+                        aria-label="Email"
+                        color="secondary"
+                        onClick={() => handlePreferredMethodChange("email")}
+                      >
                         <EmailIcon />
                       </IconButton>
                     ),
@@ -138,7 +148,11 @@ export default function Activate(props) {
                   InputLabelProps={{ shrink: true }}
                   InputProps={{
                     endAdornment: (
-                      <IconButton aria-label="Phone" color="secondary" onClick={() => handlePreferredMethodChange("phone")}>
+                      <IconButton
+                        aria-label="Phone"
+                        color="secondary"
+                        onClick={() => handlePreferredMethodChange("phone")}
+                      >
                         <PhoneIcon />
                       </IconButton>
                     ),
@@ -150,7 +164,12 @@ export default function Activate(props) {
           {loading ? (
             <Loader />
           ) : (
-            <Button sx={{ m: "10px 0" }} type="submit" fullWidth variant="contained">
+            <Button
+              sx={{ m: "10px 0" }}
+              type="submit"
+              fullWidth
+              variant="contained"
+            >
               {t("submit")}
             </Button>
           )}
