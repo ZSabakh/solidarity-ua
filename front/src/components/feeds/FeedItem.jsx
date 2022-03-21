@@ -7,7 +7,7 @@ import { useContext } from "react";
 import { InfoContext } from "../../utility/InfoContext";
 import { useTranslation } from "react-i18next";
 
-export default function FeedItem({ post, isPostOwner = false }) {
+export default function FeedItem({ post, isPostOwner = false, onHide }) {
   let userCulture = localStorage.getItem("user_culture");
 
   const { t } = useTranslation();
@@ -52,10 +52,7 @@ export default function FeedItem({ post, isPostOwner = false }) {
         <div>
           {canDelete() ? (
             <>
-              <span
-                className="support_btn hide_support"
-                onClick={(e) => hideFeed(e)}
-              >
+              <span className="support_btn hide_support" onClick={(e) => onHide(e)}>
                 hide
               </span>
             </>

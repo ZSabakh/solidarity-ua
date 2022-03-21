@@ -26,6 +26,7 @@ const postSchema = new Schema(
       radius: String,
     },
     other: {},
+    active: { type: Boolean, default: true },
   },
   {
     timestamps: true,

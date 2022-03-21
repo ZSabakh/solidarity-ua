@@ -49,7 +49,7 @@ exports.submit = async (req, res) => {
       if (!post) throw new Error("Error while saving post");
     }
 
-    return res.status(200).json({
+    res.status(200).json({
       success: true,
       message: "Post submitted successfully",
       post: postsToSave[0],
@@ -57,9 +57,31 @@ exports.submit = async (req, res) => {
   } catch (err) {
     console.error(err);
     if (err.name === "ValidationError") {
-      res.status(400).send({ error: true, message: err.message });
-      return;
+      return res.status(400).send({ error: true, message: err.message });
     }
+    res.status(500).json({
+      error: true,
+      message: err.message,
+    });
+  }
+};
+
+exports.deactivate = async (req, res) => {
+  try {
+    let { post_id } = req.body;
+    let post = await Post.findById(post_id);
+
+    if (!post) throw new Error("Invalid post");
+    if (post.author.toString() !== req.user.id) throw new Error("You are not authorized to deactivate this post");
+
+    post.active = false;
+    await post.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Post deactivated successfully",
+    });
+  } catch (err) {
     res.status(500).json({
       error: true,
       message: err.message,
@@ -72,7 +94,7 @@ exports.getAll = async (req, res) => {
     let page = req.query.page || 1;
     let amountOnPage = 10;
 
-    let searchCondition = {};
+    let searchCondition = { active: true };
 
     if (req.query.city && req.query.city !== "all") {
       searchCondition.city = req.query.city;
@@ -145,7 +167,7 @@ exports.getPost = async (req, res) => {
 
 exports.getOnlyOwnPosts = async (req, res) => {
   try {
-    let posts = await Post.find({ author: req.user.id }).sort({ _id: -1 }).populate(["type", "city"]).populate("author", "name");
+    let posts = await Post.find({ author: req.user.id, active: true }).sort({ _id: -1 }).populate(["type", "city"]).populate("author", "name");
 
     return res.status(200).json({
       success: true,
