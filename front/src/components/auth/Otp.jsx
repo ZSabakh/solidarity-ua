@@ -1,8 +1,10 @@
 import { useRef } from "react";
-import Grid from "@mui/material/Grid";
+import { makeStyles } from "@mui/styles";
 import TextField from "@mui/material/TextField";
 
 export default function Otp({ digitCount, setOtp }) {
+  const classes = useStyles();
+
   let textInputs = useRef([]);
 
   const handleChange = (event) => {
@@ -24,12 +26,34 @@ export default function Otp({ digitCount, setOtp }) {
     }
   };
   return (
-    <Grid container spacing={2}>
-      {[...Array(digitCount)].map((e, i) => (
-        <Grid key={i} item xs={12} sm={12 / digitCount}>
-          <TextField margin="dense" required fullWidth inputRef={(input) => textInputs.current.push(input)} inputProps={{ index: i, maxLength: 1, style: { textAlign: "center" } }} onChange={handleChange} />
-        </Grid>
+    <div className={classes.otpWrapper}>
+      {[...Array(digitCount)].map((_, index) => (
+        <div key={index}>
+          <TextField
+            margin="dense"
+            required
+            inputRef={(input) => textInputs.current.push(input)}
+            inputProps={{
+              inputMode: "numeric",
+              index: index,
+              maxLength: 1,
+              style: { textAlign: "center" },
+            }}
+            onChange={handleChange}
+          />
+        </div>
       ))}
-    </Grid>
+    </div>
   );
 }
+
+const useStyles = makeStyles({
+  otpWrapper: {
+    display: "grid",
+    gridGap: "10px",
+    gridAutoFlow: "column",
+    "& div": {
+      width: "100%",
+    },
+  },
+});
