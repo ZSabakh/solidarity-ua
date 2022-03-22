@@ -167,7 +167,7 @@ exports.getPost = async (req, res) => {
     } else {
       post = await Post.findById(postId).populate(["type", "city"]).populate("author", "name").exec();
     }
-    if (!post || !post.active) throw new Error("Invalid post");
+    if (!post || !post.active) throw new Error("Invalid post");    
     if (!req.user) {
       for (let key in post.contact) {
         if (!post.contact[key].public) {
