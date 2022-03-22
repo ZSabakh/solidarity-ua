@@ -12,6 +12,22 @@
   flex-direction: row;
   align-items: center;
   margin: 20px 0;
+  position: relative;
+}
+
+.feed_item_mapa {
+  background-color: #31312e;
+}
+
+.feed_item_mapa .support_btn {
+  background: #ffd500e0;
+}
+
+.mapa {
+  position: absolute;
+  right: 15px;
+  bottom: 6px;
+  color: rgb(206, 206, 206);
 }
 
 .feed_item > div:first-child {
