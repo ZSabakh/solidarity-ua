@@ -12,15 +12,12 @@ async function validateToken(req, res, next) {
       message: "Access token is missing",
     });
 
-  // const token = req.headers.authorization.split(" ")[1];
-
   const options = {
     expiresIn: "1h",
   };
   try {
-    let user = await User.findOne({
-      accessToken: authorizationToken,
-    });
+    result = jwt.verify(authorizationToken, process.env.JWT_SECRET, options);
+    let user = await User.findById(result.id);
 
     if (!user) {
       result = {
@@ -28,17 +25,6 @@ async function validateToken(req, res, next) {
         message: `Authorization error`,
       };
       return res.status(403).json(result);
-    }
-
-    result = jwt.verify(authorizationToken, process.env.JWT_SECRET, options);
-
-    if (!user.userId === result.id) {
-      result = {
-        error: true,
-        message: `Invalid token`,
-      };
-
-      return res.status(401).json(result);
     }
 
     req.user = result;
@@ -62,16 +48,13 @@ async function validateToken(req, res, next) {
 
 async function checkAuthorization(req, res, next) {
   const authorizationToken = req.headers.authorization;
-
   if (authorizationToken.length > 4) {
     const options = {
       expiresIn: "1h",
     };
     try {
-      let user = await User.findOne({
-        accessToken: authorizationToken,
-      });
       result = jwt.verify(authorizationToken, process.env.JWT_SECRET, options);
+      let user = await User.findById(result.id);
 
       if (user._id.toString() === result.id) {
         req.user = result;

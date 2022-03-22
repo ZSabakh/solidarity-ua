@@ -146,10 +146,6 @@ export default function ViewPost() {
                 <Grid container md={8} xs={12}>
                   <h3>{t("author")}</h3>
                   <table className="post_view_table">
-                    <tr>
-                      <td>{t("name")}</td>
-                      <td>{post.author?.name}</td>
-                    </tr>
                     {Object.keys(post.contact).map((key, index) => {
                       if (!post.contact[key].hasOwnProperty("value")) return null;
                       return (
@@ -168,8 +164,13 @@ export default function ViewPost() {
                       );
                     })}
                   </table>
+                  {post.mapa ? (
+                    <i>
+                      *Post has been fetched from <a href="https://mapahelp.me/">MAPAHELP</a>
+                    </i>
+                  ) : null}
                 </Grid>
-                {post.author?._id === decodedToken?.id ? (
+                {post.author?._id === decodedToken?.id && !post.mapa ? (
                   <Grid container md={8} xs={12}>
                     <Button variant="outlined" color="error" onClick={handleOnDeactivate}>
                       {t("deactivate")}

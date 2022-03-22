@@ -51,11 +51,13 @@ async function FetchMapaHelp() {
             lng: post.Lng,
           },
           contact: {
-            phone: post.Phone,
-            email: post.Email,
+            phone: { value: post.Phone, public: true },
+            email: { value: post.Email, public: true },
+            social: { value: post.SocialNetworks, public: true },
           },
           city: getCity(post.Address, Tbilisi),
           type: getHelpType(post.CategoryEn, HelpTypes),
+          details: { ...post },
         };
       });
 

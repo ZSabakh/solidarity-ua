@@ -155,10 +155,19 @@ exports.getAll = async (req, res) => {
 exports.getPost = async (req, res) => {
   let postId = req.params.id;
   try {
-    let post = await Post.findById(postId).populate(["type", "city"]).populate("author", "name").exec();
-
+    let post;
+    if (postId.includes("mapa")) {
+      let MapaHelpPosts = await FetchMapaHelp();
+      post = MapaHelpPosts.find((post) => post._id === postId);
+      if (!post) throw new Error("Invalid post");
+      return res.status(200).send({
+        success: true,
+        post,
+      });
+    } else {
+      post = await Post.findById(postId).populate(["type", "city"]).populate("author", "name").exec();
+    }
     if (!post || !post.active) throw new Error("Invalid post");
-
     if (!req.user) {
       for (let key in post.contact) {
         if (!post.contact[key].public) {
@@ -171,6 +180,7 @@ exports.getPost = async (req, res) => {
       post: post,
     });
   } catch (err) {
+    console.log(err);
     res.status(500).json({
       error: true,
       message: err.message,
