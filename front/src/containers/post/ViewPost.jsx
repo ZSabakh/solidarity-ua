@@ -1,23 +1,27 @@
 import Header from "../../components/header/Header";
 import Map from "../../components/post/Map";
-import { Skeleton, Stack } from "@mui/material";
+import { Skeleton, Stack, Button } from "@mui/material";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import { useState, useEffect, useContext } from "react";
 import { InfoContext } from "../../utility/InfoContext";
 import axios from "axios";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import car from "../../resources/images/car-solid.svg";
 import building from "../../resources/images/building-solid.svg";
 import other from "../../resources/images/star-of-life-solid.svg";
 import "./post.css";
+import { useJwt } from "react-jwt";
 
 export default function ViewPost() {
   const [post, setPost] = useState({});
+  const [userID, setUserID] = useState("");
   const [loading, setLoading] = useState(true);
   const { setStatus, authorized } = useContext(InfoContext);
-
+  const token = localStorage.getItem("token");
+  const { decodedToken, isExpired } = useJwt(token);
+  const navigate = useNavigate();
   const { t } = useTranslation();
 
   let userCulture = localStorage.getItem("user_culture");
@@ -34,6 +38,29 @@ export default function ViewPost() {
     }
   };
 
+  function handleOnDeactivate() {
+    setLoading(true);
+    axios
+      .post("/post/deactivate", { post_id: post._id })
+      .then((res) => {
+        setStatus({
+          open: true,
+          message: res.data.message,
+          severity: "success",
+        });
+        setLoading(false);
+        navigate("/");
+      })
+      .catch((err) => {
+        setStatus({
+          open: true,
+          message: err.response ? err.response.data.message : err.message,
+          severity: "error",
+        });
+        setLoading(false);
+      });
+  }
+
   useEffect(() => {
     setLoading(true);
     axios
@@ -43,7 +70,6 @@ export default function ViewPost() {
         setLoading(false);
       })
       .catch((err) => {
-        setLoading(false);
         let message = err.response ? err.response.data.message : err.message;
         setStatus({ open: true, message: message, severity: "error" });
       });
@@ -143,6 +169,13 @@ export default function ViewPost() {
                     })}
                   </table>
                 </Grid>
+                {post.author?._id === decodedToken?.id ? (
+                  <Grid container md={8} xs={12}>
+                    <Button variant="outlined" color="error" onClick={handleOnDeactivate}>
+                      {t("deactivate")}
+                    </Button>
+                  </Grid>
+                ) : null}
               </Box>
             </div>
           </>
