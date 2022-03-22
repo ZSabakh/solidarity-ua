@@ -35,7 +35,7 @@ export default function FeedItem({ post, isPostOwner = false, onHide }) {
 
   return (
     <Link to={`/post/view/${post._id}`}>
-      <div className="feed_item">
+      <div className={post.mapa ? "feed_item feed_item_mapa" : "feed_item"}>
         <div className="icon">
           <div>
             <PostIcon />
@@ -43,8 +43,11 @@ export default function FeedItem({ post, isPostOwner = false, onHide }) {
         </div>
         <div>
           <span className="time_data">
-            <ReactTimeAgo date={new Date(post.createdAt)} locale="en-US" />
-            <span> · </span>
+            {post.createdAt ? (
+              <>
+                <ReactTimeAgo date={new Date(post.createdAt)} locale="en-US" /> <span> · </span>
+              </>
+            ) : null}
             {post.city.name[userCulture]}, Georgia
           </span>
           <span className="feed_title">{post.title.en}</span>
@@ -60,6 +63,13 @@ export default function FeedItem({ post, isPostOwner = false, onHide }) {
             <span className="support_btn">{t("view")}</span>
           )}
         </div>
+        {post.mapa ? (
+          <p className="mapa">
+            <span>provided by </span>
+            <span style={{ color: "rgb(40, 100, 202)" }}>mapa</span>
+            <span style={{ color: "rgb(248, 216, 73)" }}>help</span>
+          </p>
+        ) : null}
       </div>
     </Link>
   );

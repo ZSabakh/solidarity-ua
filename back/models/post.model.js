@@ -15,6 +15,7 @@ const postSchema = new Schema(
       telegram: { value: String, public: { type: Boolean, default: true } },
       whatsapp: { value: String, public: { type: Boolean, default: true } },
       viber: { value: String, public: { type: Boolean, default: true } },
+      social: { value: String, public: { type: Boolean, default: true } },
     },
     location: { description: String, place_id: String, lat: Number, lng: Number },
     accomodation: {
