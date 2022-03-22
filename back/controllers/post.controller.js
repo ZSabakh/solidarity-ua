@@ -2,6 +2,7 @@ const Post = require("../models/post.model");
 const City = require("../models/city.model");
 const HelpType = require("../models/help.types.model");
 const getCoordinates = require("../utility/getCoordinates");
+const { FetchMapaHelp } = require("../utility/fetchMapaHelp");
 
 exports.submit = async (req, res) => {
   try {
@@ -71,7 +72,7 @@ exports.deactivate = async (req, res) => {
     let { post_id } = req.body;
     let post = await Post.findById(post_id);
 
-    if (!post) throw new Error("Invalid post");
+    if (!post || !post.active) throw new Error("Invalid post");
     if (post.author.toString() !== req.user.id) throw new Error("You are not authorized to deactivate this post");
 
     post.active = false;
@@ -116,6 +117,8 @@ exports.getAll = async (req, res) => {
       .populate(["type", "city"])
       .populate("author", "name");
 
+    let MapaHelpPosts = await FetchMapaHelp();
+
     let totalPosts = await Post.countDocuments({});
     let totalPages = Math.ceil(totalPosts / amountOnPage);
     posts.forEach((post) => {
@@ -144,7 +147,7 @@ exports.getPost = async (req, res) => {
   try {
     let post = await Post.findById(postId).populate(["type", "city"]).populate("author", "name").exec();
 
-    if (!post) throw new Error("Invalid post");
+    if (!post || !post.active) throw new Error("Invalid post");
 
     if (!req.user) {
       for (let key in post.contact) {
