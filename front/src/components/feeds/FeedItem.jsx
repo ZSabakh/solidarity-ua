@@ -49,6 +49,14 @@ export default function FeedItem({ post, isPostOwner = false, onHide }) {
               </>
             ) : null}
             {post.city.name[userCulture]}, Georgia
+            {post.mapa && (
+              <span className="mapa">
+                <span> · </span>
+                <span>provided by </span>
+                <span className="blue">mapa</span>
+                <span className="yellow">help</span>
+              </span>
+            )}
           </span>
           <span className="feed_title">{post.title.en}</span>
         </div>
@@ -63,13 +71,6 @@ export default function FeedItem({ post, isPostOwner = false, onHide }) {
             <span className="support_btn">{t("view")}</span>
           )}
         </div>
-        {post.mapa ? (
-          <p className="mapa">
-            <span>provided by </span>
-            <span style={{ color: "rgb(40, 100, 202)" }}>mapa</span>
-            <span style={{ color: "rgb(248, 216, 73)" }}>help</span>
-          </p>
-        ) : null}
       </div>
     </Link>
   );

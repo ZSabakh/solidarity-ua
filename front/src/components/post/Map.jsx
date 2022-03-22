@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 
 async function initMap({ lat, lng }) {
-  const latLng = { lat: lat, lng: lng };
+  const latLng = { lat: parseFloat(lat), lng: parseFloat(lng) };
   const map = await new window.google.maps.Map(document.getElementById("map"), {
     styles: [
       { elementType: "geometry", stylers: [{ color: "#242f3e" }] },
