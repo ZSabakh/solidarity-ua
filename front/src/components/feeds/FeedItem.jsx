@@ -43,7 +43,7 @@ export default function FeedItem({ post, isPostOwner = false, onHide }) {
         </div>
         <div>
           <span className="time_data">
-            <ReactTimeAgo date={new Date(post.createdAt)} locale="en-US" />
+            {post.createdAt ? <ReactTimeAgo date={new Date(post.createdAt)} locale="en-US" /> : null}
             <span> · </span>
             {post.city.name[userCulture]}, Georgia
           </span>

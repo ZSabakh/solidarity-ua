@@ -4,10 +4,23 @@ const City = require("../models/city.model");
 const HelpType = require("../models/help.types.model");
 const PostsCache = new NodeCache({ stdTTL: 60 * 60 * 24 });
 
+function getCity(address, Tbilisi) {
+  if (address?.toLowerCase().includes("tbilisi")) {
+    return Tbilisi;
+  }
+  return {
+    name: {
+      en: "Other",
+      ka: "სხვა",
+      ua: "Інше",
+    },
+  };
+}
+
 function getHelpType(category, helpTypes) {
-  if (category === "Housing" || category === "Shelter") return helpTypes.find((type) => type.name === "Accomodation")._id;
-  if (category === "Transfer") return helpTypes.find((type) => type.name === "Transportation")._id;
-  return helpTypes.find((type) => type.name === "Other")._id;
+  if (category === "Housing" || category === "Shelter") return helpTypes.find((type) => type.name === "Accomodation");
+  if (category === "Transfer") return helpTypes.find((type) => type.name === "Transportation");
+  return helpTypes.find((type) => type.name === "Other");
 }
 
 async function FetchMapaHelp() {
@@ -28,10 +41,12 @@ async function FetchMapaHelp() {
 
       posts = posts.map((post) => {
         return {
-          _id: Math.random() * 1000000,
-          title: post.Name,
-          description: post.Services,
+          mapa: true,
+          _id: `mapa-${Math.random() * 1000000}`,
+          title: { en: post.Name },
+          description: { en: post.Services },
           location: {
+            description: post.Address,
             lat: post.Lat,
             lng: post.Lng,
           },
@@ -39,7 +54,7 @@ async function FetchMapaHelp() {
             phone: post.Phone,
             email: post.Email,
           },
-          city: post.Address?.includes("Tbilisi") ? Tbilisi._id : null,
+          city: getCity(post.Address, Tbilisi),
           type: getHelpType(post.CategoryEn, HelpTypes),
         };
       });
