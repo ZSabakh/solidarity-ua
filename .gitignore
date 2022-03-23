@@ -69,7 +69,7 @@ typings/
 .yarn-integrity
 
 # PEM
-.react-express.pem
+*.pem
 
 # dotenv environment variables file
 .env
