@@ -26,6 +26,8 @@ if (window.location.hostname === "localhost") {
 axios.defaults.headers.common["Authorization"] = localStorage.getItem("token");
 
 function App() {
+  window.localStorage.clear();
+
   useEffect(() => {
     TimeAgo.addDefaultLocale(en);
   }, []);
