@@ -7,7 +7,7 @@ import { useContext } from "react";
 import { InfoContext } from "../../utility/InfoContext";
 import { useTranslation } from "react-i18next";
 
-export default function FeedItem({ post, isPostOwner = false }) {
+export default function FeedItem({ post, isPostOwner = false, onHide }) {
   let userCulture = localStorage.getItem("user_culture");
 
   const { t } = useTranslation();
@@ -35,7 +35,7 @@ export default function FeedItem({ post, isPostOwner = false }) {
 
   return (
     <Link to={`/post/view/${post._id}`}>
-      <div className="feed_item">
+      <div className={post.mapa ? "feed_item feed_item_mapa" : "feed_item"}>
         <div className="icon">
           <div>
             <PostIcon />
@@ -43,19 +43,27 @@ export default function FeedItem({ post, isPostOwner = false }) {
         </div>
         <div>
           <span className="time_data">
-            <ReactTimeAgo date={new Date(post.createdAt)} locale="en-US" />
-            <span> · </span>
+            {post.createdAt ? (
+              <>
+                <ReactTimeAgo date={new Date(post.createdAt)} locale="en-US" /> <span> · </span>
+              </>
+            ) : null}
             {post.city.name[userCulture]}, Georgia
+            {post.mapa && (
+              <span className="mapa">
+                <span> · </span>
+                <span>provided by </span>
+                <span className="blue">mapa</span>
+                <span className="yellow">help</span>
+              </span>
+            )}
           </span>
           <span className="feed_title">{post.title.en}</span>
         </div>
         <div>
           {canDelete() ? (
             <>
-              <span
-                className="support_btn hide_support"
-                onClick={(e) => hideFeed(e)}
-              >
+              <span className="support_btn hide_support" onClick={(e) => onHide(e)}>
                 hide
               </span>
             </>

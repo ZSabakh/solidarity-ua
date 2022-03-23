@@ -45,6 +45,30 @@ export default function Profile() {
       });
   }, []);
 
+  function handleOnHide(event, post_id) {
+    event.preventDefault();
+    setLoading(true);
+    axios
+      .post("/post/deactivate", { post_id })
+      .then((res) => {
+        setStatus({
+          open: true,
+          message: res.data.message,
+          severity: "success",
+        });
+        setPosts(posts.filter((post) => post._id !== post_id));
+        setLoading(false);
+      })
+      .catch((err) => {
+        setStatus({
+          open: true,
+          message: err.response ? err.response.data.message : err.message,
+          severity: "error",
+        });
+        setLoading(false);
+      });
+  }
+
   return (
     <div>
       <Header />
@@ -55,10 +79,7 @@ export default function Profile() {
               {user && (
                 <>
                   <div>
-                    <img
-                      alt="Profile image"
-                      src={`https://ui-avatars.com/api/?name=${user.name}&background=000&color=FFF`}
-                    />
+                    <img alt="Profile image" src={`https://ui-avatars.com/api/?name=${user.name}&background=000&color=FFF`} />
                   </div>
                   <div>
                     <p>{user.name}</p>
@@ -76,18 +97,20 @@ export default function Profile() {
                 {Array(5)
                   .fill()
                   .map((_, index) => (
-                    <Skeleton
-                      variant="rectangular"
-                      className="profile_loader"
-                      key={index}
-                      height={100}
-                    />
+                    <Skeleton variant="rectangular" className="profile_loader" key={index} height={100} />
                   ))}
               </>
             ) : (
               <>
                 {posts.map((item, index) => (
-                  <FeedItem key={index} post={item} isPostOwner={true} />
+                  <FeedItem
+                    key={index}
+                    post={item}
+                    isPostOwner={true}
+                    onHide={(e) => {
+                      handleOnHide(e, item._id);
+                    }}
+                  />
                 ))}
               </>
             )}
