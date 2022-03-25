@@ -42,6 +42,9 @@
 
 .support_general_info {
   margin-top: 40px;
+}
+
+.support_general_info > td:first-child {
   text-transform: capitalize;
 }
 
@@ -67,9 +70,15 @@
 .post_view_table {
   margin: 20px 0;
   padding: 0;
-  width: 100%;
+  width: 100vw;
+  table-layout: fixed;
   color: #fff;
   vertical-align: top;
+}
+
+.post_view_table th,
+td {
+  word-wrap: break-word;
 }
 
 .post_view_table > * > * {
