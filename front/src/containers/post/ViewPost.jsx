@@ -102,11 +102,13 @@ export default function ViewPost() {
                     </div>
                     {post.title?.en}
                   </h1>
-                  <h3>{post.description?.en}</h3>
                 </div>
               </div>
             </div>
             <div className="container support_general_info">
+              <div>
+                <span>{post.description?.en}</span>
+              </div>
               <Box>
                 <Grid container md={8} xs={12}>
                   <h3>{post.type.name[userCulture]}</h3>
