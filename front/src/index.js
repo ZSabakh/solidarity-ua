@@ -5,6 +5,7 @@ import App from "./App";
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 import reportWebVitals from "./reportWebVitals";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { InfoProvider } from "./utility/InfoContext";
 import "./i18n";
 
 const theme = createTheme({
@@ -35,9 +36,11 @@ const theme = createTheme({
 
 ReactDOM.render(
   <React.StrictMode>
-    <ThemeProvider theme={theme}>
-      <App />
-    </ThemeProvider>
+    <InfoProvider>
+      <ThemeProvider theme={theme}>
+        <App />
+      </ThemeProvider>
+    </InfoProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );
