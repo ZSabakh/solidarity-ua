@@ -5,9 +5,9 @@ const options = {
   expiresIn: "1h",
 };
 
-async function generateJwt(phone, userId) {
+async function generateJwt(name, userId) {
   try {
-    const payload = { phone: phone, id: userId };
+    const payload = { name: name, id: userId };
     const token = await jwt.sign(payload, process.env.JWT_SECRET, options);
     return { error: false, token: token };
   } catch (error) {
