@@ -23,11 +23,12 @@
   background: #ffd500e0;
 }
 
-.mapa {
-  position: absolute;
-  right: 15px;
-  bottom: 6px;
-  color: rgb(206, 206, 206);
+.mapa .blue {
+  color: rgb(40, 100, 202);
+}
+
+.mapa .yellow {
+  color: rgb(248, 216, 73);
 }
 
 .feed_item > div:first-child {
