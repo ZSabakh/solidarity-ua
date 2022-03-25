@@ -29,19 +29,14 @@ export default function About() {
               <br />
               <div style={{ display: "flex", alignItems: "center" }}>
                 Contact:
-                <IconButton
-                  sx={{ paddingY: 0 }}
-                  onClick={() =>
-                    window.open("https://fb.me/UAunity.2022", "_blank")
-                  }
-                >
+                <IconButton sx={{ paddingY: 0 }} onClick={() => window.open("https://fb.me/UAunity.2022", "_blank")}>
                   <FacebookIcon />
                 </IconButton>
               </div>
             </div>
           </Grid>
           <Grid item xs={12} sm={4}>
-            <img style={{ width: "100%" }} src={Flag} alt="logo" />
+            <img style={{ width: "100%" }} src={`${process.env.PUBLIC_URL}/logo.png`} alt="logo" />
           </Grid>
         </Grid>
       </div>

@@ -45,11 +45,7 @@
 }
 
 .support_general_info > td:first-child {
-<<<<<<< HEAD
   text-transform: capitalize;
-=======
-  text-transform: capitalize;	
->>>>>>> baf5cb1fb065520a0b448912677f377c7f1e43c5
 }
 
 .support_general_info > div {
