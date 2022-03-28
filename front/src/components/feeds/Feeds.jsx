@@ -55,7 +55,11 @@ export default function Feeds() {
             <div className="search_bar">
               <div>
                 {helpTypes.map((helpType) => (
-                  <FormControlLabel key={helpType._id} control={<Checkbox checked={filterData[helpType.name.en]} onChange={handleCheckboxChange} name={helpType.name.en} color="primary" />} label={helpType.name[userCulture]} />
+                  <FormControlLabel
+                    key={helpType._id}
+                    control={<Checkbox checked={filterData[helpType.name.en]} onChange={handleCheckboxChange} name={helpType.name.en} color="primary" />}
+                    label={helpType.name[userCulture]}
+                  />
                 ))}
               </div>
               <div>

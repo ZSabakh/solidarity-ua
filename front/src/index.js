@@ -7,6 +7,8 @@ import reportWebVitals from "./reportWebVitals";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { InfoProvider } from "./utility/InfoContext";
 import "./i18n";
+import * as Sentry from "@sentry/react";
+import { BrowserTracing } from "@sentry/tracing";
 
 const theme = createTheme({
   palette: {
@@ -34,6 +36,12 @@ const theme = createTheme({
   },
 });
 
+Sentry.init({
+  dsn: "https://17f2314abee14e45bcc087e33d00fe30@o1179827.ingest.sentry.io/6292181",
+  integrations: [new BrowserTracing()],
+  tracesSampleRate: 1.0,
+});
+
 ReactDOM.render(
   <React.StrictMode>
     <InfoProvider>
@@ -47,7 +55,4 @@ ReactDOM.render(
 
 serviceWorkerRegistration.register();
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
