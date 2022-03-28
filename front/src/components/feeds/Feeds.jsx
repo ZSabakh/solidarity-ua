@@ -50,8 +50,8 @@ export default function Feeds() {
   return (
     <div className="feeds_wrapper" id="feed">
       <div className="feeds_filter_container">
-        <FormControl sx={{ m: "20px 15px" }} component="fieldset" variant="standard" fullWidth className={classes.formControl}>
-          <FormGroup>
+        <FormControl component="fieldset" variant="standard" fullWidth className={classes.formControl}>
+          <FormGroup sx={{ m: "20px 15px" }}>
             <div className="search_bar">
               <div>
                 {helpTypes.map((helpType) => (
