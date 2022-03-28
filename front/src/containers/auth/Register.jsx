@@ -75,12 +75,17 @@ export default function Register(props) {
         .then((res) => {
           setSentData(formData);
           setLoading(false);
-          setRequireOtp(true);
+          // setRequireOtp(true);
           setStatus({
             open: true,
             message: res.data.message,
             severity: "success",
           });
+          //Temporarily bypassing OTP verification
+          localStorage.setItem("token", res.data.accessToken);
+          setAuthorized(true);
+          axios.defaults.headers.common["Authorization"] = res.data.accessToken;
+          navigate("/");
         })
         .catch((err) => {
           setLoading(false);
@@ -106,13 +111,7 @@ export default function Register(props) {
     <div>
       <Header />
       <div className="auth_container">
-        <form
-          action=""
-          id="auth"
-          className={classes.form}
-          onSubmit={handleSubmit(handleFormSubmit)}
-          onChange={handleFormChange}
-        >
+        <form action="" id="auth" className={classes.form} onSubmit={handleSubmit(handleFormSubmit)} onChange={handleFormChange}>
           {requireOtp ? (
             <>
               <p>{t("please_enter_code")}: </p>
@@ -135,11 +134,7 @@ export default function Register(props) {
                   autoFormat
                   InputProps={{
                     endAdornment: (
-                      <IconButton
-                        aria-label="Email"
-                        color="secondary"
-                        onClick={() => handlePreferredMethodChange("email")}
-                      >
+                      <IconButton aria-label="Email" color="secondary" onClick={() => handlePreferredMethodChange("email")}>
                         <EmailIcon />
                       </IconButton>
                     ),
@@ -156,11 +151,7 @@ export default function Register(props) {
                   InputLabelProps={{ shrink: true }}
                   InputProps={{
                     endAdornment: (
-                      <IconButton
-                        aria-label="Phone"
-                        color="secondary"
-                        onClick={() => handlePreferredMethodChange("phone")}
-                      >
+                      <IconButton aria-label="Phone" color="secondary" onClick={() => handlePreferredMethodChange("phone")}>
                         <PhoneIcon />
                       </IconButton>
                     ),
@@ -195,12 +186,7 @@ export default function Register(props) {
           {loading ? (
             <Loader />
           ) : (
-            <Button
-              sx={{ m: "10px 0" }}
-              type="submit"
-              fullWidth
-              variant="contained"
-            >
+            <Button sx={{ m: "10px 0" }} type="submit" fullWidth variant="contained">
               {t("submit")}
             </Button>
           )}
@@ -208,20 +194,12 @@ export default function Register(props) {
           {!requireOtp ? (
             <div className="auth_secondary_links">
               <div className="secondary_action_btn">
-                <Button
-                  onClick={() => navigate("/login")}
-                  variant="text"
-                  fullWidth
-                >
+                <Button onClick={() => navigate("/login")} variant="text" fullWidth>
                   {t("login")}
                 </Button>
               </div>
               <div className="secondary_action_btn">
-                <Button
-                  onClick={() => navigate("/register/activate")}
-                  variant="text"
-                  fullWidth
-                >
+                <Button onClick={() => navigate("/register/activate")} variant="text" fullWidth>
                   {t("activate_existing_account")}
                 </Button>
               </div>
@@ -253,8 +231,5 @@ const useStyles = makeStyles({
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required("Fullname is required"),
-  password: Yup.string()
-    .required("Password is required")
-    .min(6, "Password must be at least 6 characters")
-    .max(40, "Password must not exceed 40 characters"),
+  password: Yup.string().required("Password is required").min(6, "Password must be at least 6 characters").max(40, "Password must not exceed 40 characters"),
 });

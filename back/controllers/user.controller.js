@@ -14,27 +14,32 @@ exports.Signup = async (req, res) => {
     const hash = await User.hashPassword(req.body.password);
     req.body.password = hash;
 
-    req.body.otpToken = randomize("0", 4);
-    req.body.otpTokenExpires = new Date(Date.now() + 60 * 1000 * 15); //15 minutes
+    // req.body.otpToken = randomize("0", 4);
+    // req.body.otpTokenExpires = new Date(Date.now() + 60 * 1000 * 15); //15 minutes
 
-    if (req.body.phone) {
-      await SendSMS(`Your verification code is - ${req.body.otpToken}`, req.body.phone).catch((err) => {
-        throw new Error("Couldn't send SMS, try authorizing using email");
-      });
-    }
-    if (req.body.email) {
-      await SendEmail(`Your verification code is - ${req.body.otpToken}`, req.body.email, "Verification Code").catch((err) => {
-        throw new Error("Couldn't send email, try authorizing using phone");
-      });
-    }
+    // if (req.body.phone) {
+    //   await SendSMS(`Your verification code is - ${req.body.otpToken}`, req.body.phone).catch((err) => {
+    //     throw new Error("Couldn't send SMS, try authorizing using email");
+    //   });
+    // }
+    // if (req.body.email) {
+    //   await SendEmail(`Your verification code is - ${req.body.otpToken}`, req.body.email, "Verification Code").catch((err) => {
+    //     throw new Error("Couldn't send email, try authorizing using phone");
+    //   });
+    // }
 
     const newUser = new User(req.body);
+    const { error, token } = await generateJwt(newUser.name, newUser._id);
+    if (error) throw new Error("Couldn't create access token. Please try again later");
+    newUser.accessToken = token;
+
     await newUser.save();
 
     res.status(200).send({
       success: true,
       message: "Registration Success",
-      codeExpiration: newUser.otpTokenExpires,
+      // codeExpiration: newUser.otpTokenExpires,
+      accessToken: token,
     });
   } catch (err) {
     if (err.name === "ValidationError") {
