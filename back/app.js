@@ -13,6 +13,7 @@ app.use(helmet());
 
 app.use("/api/auth", require("./routes/auth.routes"));
 app.use("/api/post", require("./routes/post.routes"));
+app.use("/api/", require("./routes/resource.routes"));
 
 app.listen(process.env.PORT, () => {
   console.log("Server started listening on PORT : " + process.env.PORT);
