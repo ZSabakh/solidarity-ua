@@ -28,11 +28,15 @@ export default function CreatePost() {
 
   let userCulture = localStorage.getItem("user_culture");
   const classes = useStyles();
-
+  console.log(formData);
   const handleFormChange = (event, option) => {
     let value = event.target.value;
     let key = event.target.name;
-    if (option === "city") key = "city";
+    if (option === "city") {
+      let citySelector = document.getElementById("city-select");
+      key = "city";
+      value = cities.find((city) => city.name[userCulture] === citySelector.value)._id;
+    }
     if (option === "check") value = event.target.checked;
 
     setFormData((prevState) => ({
@@ -73,7 +77,7 @@ export default function CreatePost() {
                   sx={{ flex: 2 }}
                   options={cities}
                   autoHighlight
-                  onChange={(event) => handleFormChange(event, "city")}
+                  onBlur={(event) => handleFormChange(event, "city")}
                   getOptionLabel={(option) => option.name[userCulture]}
                   renderOption={(props, option) => (
                     <option component="li" {...props} value={option._id}>
