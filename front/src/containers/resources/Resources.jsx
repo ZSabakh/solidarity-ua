@@ -27,13 +27,15 @@ export default function Resources() {
       <Header />
       <div className="about_container">
         {loading ? (
-          <Skeleton variant="rect" width="100%" height="100%" />
+          <Grid container spacing={2} sx={{ gap: 5, justifyContent: "center" }}>
+            <Skeleton variant="rect" height={130} width={350} />
+            <Skeleton variant="rect" height={130} width={350} />
+            <Skeleton variant="rect" height={130} width={350} />
+          </Grid>
         ) : (
-          <Grid container spacing={2}>
+          <Grid container sx={{ gap: 5, justifyContent: "center" }}>
             {resources.map((resource) => (
-              <Grid item xs={3}>
-                <Resource key={resource._id} title={resource.name} description={resource.description} link={resource.link} image={resource.image} />
-              </Grid>
+              <Resource key={resource._id} title={resource.name} description={resource.description} link={resource.link} image={resource.image} />
             ))}
           </Grid>
         )}

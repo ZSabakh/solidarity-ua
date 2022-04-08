@@ -18,7 +18,7 @@ export default function InfoFeedItem() {
           </div>
         </div>
         <div>
-          <span className="feed_title">*Partner resources for direct assistance</span>
+          <span className="feed_title">{t("resources_title")}</span>
         </div>
         <div>
           <span className="support_btn" style={{ backgroundColor: "#1766AA" }}>

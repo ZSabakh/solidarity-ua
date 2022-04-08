@@ -56,6 +56,11 @@ export default function MobileHeader() {
             <ListItemText primary={t("about_project")} />
           </ListItem>
         </Link>
+        <Link className="link" to="/resources">
+          <ListItem button>
+            <ListItemText primary={t("resources")} />
+          </ListItem>
+        </Link>
         <Link className="link" to={authorized ? "/profile" : "/login"}>
           <ListItem button>
             <ListItemText primary={authorized ? t("profile") : t("login")} />

@@ -5,7 +5,7 @@ export default function Resource({ title, description, link, image }) {
 
   return (
     <CardActionArea
-      sx={{ maxWidth: 400, minHeight: 110 }}
+      sx={{ minWidth: 250, maxWidth: 400, minHeight: 110 }}
       onClick={() => {
         window.open(link, "_blank");
       }}
