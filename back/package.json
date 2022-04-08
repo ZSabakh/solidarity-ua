@@ -3,7 +3,6 @@
     "@googlemaps/google-maps-services-js": "^3.3.10",
     "@sendgrid/mail": "^7.6.2",
     "aws-sdk": "^2.1092.0",
-    "bcrypt": "^5.0.1",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",

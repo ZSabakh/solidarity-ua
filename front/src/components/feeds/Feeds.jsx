@@ -1,9 +1,10 @@
 import { useEffect, useState, useContext } from "react";
 import { InfoContext } from "../../utility/InfoContext";
-import { Skeleton, Stack, TextField, FormControl, FormGroup, FormControlLabel, Pagination, Checkbox, Autocomplete } from "@mui/material";
+import { Skeleton, Box, Stack, TextField, FormControl, FormGroup, FormControlLabel, Pagination, Checkbox, Autocomplete } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import "./feeds.css";
 import FeedItem from "./FeedItem";
+import InfoFeedItem from "./InfoFeedItem";
 import axios from "axios";
 import { useTranslation } from "react-i18next";
 
@@ -107,6 +108,7 @@ export default function Feeds() {
         </Stack>
       ) : (
         <>
+          <InfoFeedItem />
           {posts.map((post, index) => (
             <FeedItem key={index} post={post} />
           ))}

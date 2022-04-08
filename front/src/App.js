@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-d
 import axios from "axios";
 import Home from "./containers/home/Home";
 import About from "./containers/about/About";
+import Resources from "./containers/resources/Resources";
 import Login from "./containers/auth/Login";
 import Register from "./containers/auth/Register";
 import Activate from "./containers/auth/Activate";
@@ -41,6 +42,7 @@ function App() {
             <Route path="/post/view/:id" element={<ViewPost />} />
             <Route path="/login" element={<Login />} />
             <Route path="/about" element={<About />} />
+            <Route path="/resources" element={<Resources />} />
             <Route path="/register" element={<Register />} />
             <Route path="/register/activate" element={<Activate />} />
             <Route path="/password/forgot" element={<Forgot />} />

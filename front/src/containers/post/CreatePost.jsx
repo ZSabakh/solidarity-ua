@@ -28,7 +28,6 @@ export default function CreatePost() {
 
   let userCulture = localStorage.getItem("user_culture");
   const classes = useStyles();
-  console.log(formData);
   const handleFormChange = (event, option) => {
     let value = event.target.value;
     let key = event.target.name;

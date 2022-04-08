@@ -27,9 +27,12 @@ export default function Menu() {
       </ul>
       <ul>
         <li>
-          <Link to={authorized ? "/profile" : "/login"}>
-            {authorized ? t("profile") : t("login")}
-          </Link>
+          <Link to="/resources">{t("resources")}</Link>
+        </li>
+      </ul>
+      <ul>
+        <li>
+          <Link to={authorized ? "/profile" : "/login"}>{authorized ? t("profile") : t("login")}</Link>
           {authorized ? (
             <IconButton onClick={handleLogout}>
               <LogoutIcon />
