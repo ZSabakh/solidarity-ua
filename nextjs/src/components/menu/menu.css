@@ -1,0 +1,14 @@
+.top_menu {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.top_menu a {
+  color: #fff;
+  padding: 10px;
+  font-family: "FiraGO Bold";
+}
+
+.top_menu > ul > li {
+  padding: 0 10px;
+}

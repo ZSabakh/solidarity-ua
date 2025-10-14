@@ -1,0 +1,29 @@
+.lang_container {
+  display: flex;
+  max-height: 36px;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.lang_container > div {
+  background-color: #242526;
+  border-radius: 8px;
+  margin: 0 10px;
+}
+
+.lang_container > div > a {
+  display: flex;
+  align-items: center;
+  margin: 0 10px;
+  padding: 10px;
+}
+
+.lang_container > div svg {
+  width: 30px;
+  height: 20px;
+  margin-right: 10px;
+}
+
+.lang_container > div a {
+  color: #fff;
+}

@@ -1,0 +1,30 @@
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+#app-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  flex: 1;
+}
+
+#app-content {
+  flex: 1;
+}
+
+.footer {
+  background-color: #1d1e1f;
+  padding: 12px 0;
+  text-align: center;
+  font-size: 12px;
+  font-family: "FiraGO";
+  color: rgb(230, 230, 230);
+  margin-top: auto;
+}
+
+a {
+  color: rgb(162, 173, 216);
+}

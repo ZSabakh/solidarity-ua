@@ -1,0 +1,13 @@
+.partners_list {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.partners_list div {
+  margin: 0 20px;
+}
+
+.partners_list div img {
+  width: 100px;
+}

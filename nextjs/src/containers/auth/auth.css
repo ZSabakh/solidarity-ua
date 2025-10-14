@@ -1,0 +1,46 @@
+.auth_container {
+  margin-top: 80px;
+  margin-bottom: 40px;
+  clear: both;
+}
+
+#auth {
+  width: 350px;
+  margin: 0 auto;
+  background-color: #242526;
+  padding: 20px;
+  border-radius: 8px;
+  border-top: 3px solid #0057b7;
+  box-sizing: border-box;
+}
+
+#auth h1 {
+  font-size: 30px;
+}
+
+.secondary_action_btn {
+  margin-top: 10px;
+}
+
+.secondary_action_btn > button {
+  color: #fff;
+  text-transform: lowercase;
+  font-family: "FiraGo";
+}
+
+.auth_secondary_links {
+  display: flex;
+}
+
+.auth_secondary_links > div {
+  flex: 1;
+}
+
+@media only screen and (max-width: 767px) {
+  #auth {
+    width: 95%;
+  }
+  .auth_container {
+    margin-top: 30px;
+  }
+}

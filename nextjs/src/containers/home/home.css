@@ -1,0 +1,123 @@
+header {
+  width: 100%;
+  height: auto;
+}
+
+header > div {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 15px 20px;
+}
+
+@media only screen and (max-width: 830px) {
+  header > div {
+    display: none;
+  }
+}
+
+.home > div:nth-child(2) {
+  min-height: 500px;
+  max-height: 70vh;
+}
+
+.home_greeting {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.home_greeting h1 {
+  font-size: 50px;
+  text-align: center;
+  font-family: "FiraGO Bold";
+}
+
+.home_greeting > span {
+  margin: 30px 0;
+}
+
+.home_auth {
+  margin-top: 30px;
+}
+
+.home_auth > a {
+  color: #fff;
+  background: #005bbb;
+  padding: 10px 20px;
+  border-radius: 5px;
+  margin: 0 10px;
+  font-size: 20px;
+}
+
+.home_title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.home_title b {
+  animation: fade-in 1s;
+}
+
+.home_title #flag {
+  margin-left: 15px;
+  /* animation: slide-in-left 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94) both; */
+  animation: fade-in 1s;
+}
+
+@media only screen and (max-width: 768px) {
+  .home_auth > a {
+    margin: 20px 0;
+    display: block;
+  }
+  .home_greeting {
+    width: 90%;
+    margin: 0 auto;
+  }
+  .home_greeting h1 {
+    font-size: 35px;
+  }
+  .home_title {
+    flex-direction: column;
+  }
+}
+
+@keyframes slide-in-left {
+  0% {
+    transform: translateX(-8em);
+    opacity: 0.3;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .home_title #flag {
+    animation: slide-in-left 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  }
+  @keyframes slide-in-left {
+    0% {
+      transform: translateY(-em);
+      opacity: 0.7;
+    }
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+}
