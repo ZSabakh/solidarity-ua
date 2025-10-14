@@ -62,14 +62,7 @@ if (typeof window !== "undefined") {
 function MyApp({ Component, pageProps }) {
   useEffect(() => {
     if (typeof window !== "undefined") {
-      if (
-        window.location.hostname === "localhost" &&
-        process.env.NEXT_PUBLIC_BASE_URL
-      ) {
-        axios.defaults.baseURL = `${process.env.NEXT_PUBLIC_BASE_URL}/api`;
-      } else {
-        axios.defaults.baseURL = `${window.location.origin}/api`;
-      }
+      axios.defaults.baseURL = `${window.location.origin}/api`;
       const token = window.localStorage?.getItem("token");
       if (token) {
         axios.defaults.headers.common["Authorization"] = token;
