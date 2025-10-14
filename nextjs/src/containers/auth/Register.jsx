@@ -44,7 +44,7 @@ export default function Register(props) {
     }
 
     return executeRecaptcha("yourAction");
-  }, []);
+  }, [executeRecaptcha]);
 
   const handleFormSubmit = async (_) => {
     setLoading(true);

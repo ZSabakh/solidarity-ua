@@ -1,5 +1,5 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
@@ -42,15 +42,15 @@ Sentry.init({
   tracesSampleRate: 1.0,
 });
 
-ReactDOM.render(
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(
   <React.StrictMode>
     <InfoProvider>
       <ThemeProvider theme={theme}>
         <App />
       </ThemeProvider>
     </InfoProvider>
-  </React.StrictMode>,
-  document.getElementById("root")
+  </React.StrictMode>
 );
 
 serviceWorkerRegistration.register();

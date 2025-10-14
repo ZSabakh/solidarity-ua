@@ -41,7 +41,7 @@ export default function Login() {
     }
 
     return executeRecaptcha("yourAction");
-  }, []);
+  }, [executeRecaptcha]);
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();

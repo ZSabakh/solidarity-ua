@@ -1,3 +1,4 @@
+import Link from "next/link";
 import UAFlag from "../../resources/images/Flag_of_Ukraine.svg";
 import GEFlag from "../../resources/images/Flag_of_Georgia.svg";
 import ENFlag from "../../resources/images/Flag_of_the_United_Kingdom.svg";
@@ -13,19 +14,19 @@ export default function LanguageChooser() {
   return (
     <div className="lang_container">
       <div>
-        <a href="/ua" onClick={(e) => changeLanguage(e, "ua")}>
+        <Link href="/ua" onClick={(e) => changeLanguage(e, "ua")}>
           <UAFlag width={30} height={20} /> UA
-        </a>
+        </Link>
       </div>
       <div>
-        <a href="/ka" onClick={(e) => changeLanguage(e, "ka")}>
+        <Link href="/ka" onClick={(e) => changeLanguage(e, "ka")}>
           <GEFlag width={30} height={20} /> GE
-        </a>
+        </Link>
       </div>
       <div>
-        <a href="/en" onClick={(e) => changeLanguage(e, "en")}>
+        <Link href="/en" onClick={(e) => changeLanguage(e, "en")}>
           <ENFlag width={30} height={20} /> EN
-        </a>
+        </Link>
       </div>
     </div>
   );

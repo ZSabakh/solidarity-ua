@@ -35,7 +35,7 @@ export default function Forgot(props) {
     }
 
     return executeRecaptcha("yourAction");
-  }, []);
+  }, [executeRecaptcha]);
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();

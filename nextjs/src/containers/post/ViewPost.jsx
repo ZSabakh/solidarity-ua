@@ -72,7 +72,7 @@ export default function ViewPost() {
         let message = err.response ? err.response.data.message : err.message;
         setStatus({ open: true, message: message, severity: "error" });
       });
-  }, []);
+  }, [id, setStatus]);
   return (
     <div>
       <Header />

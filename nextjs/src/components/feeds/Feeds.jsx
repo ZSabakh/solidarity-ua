@@ -54,7 +54,7 @@ export default function Feeds() {
         setStatus({ open: true, message: message, severity: "error" });
         console.error("Error fetching posts:", err);
       });
-  }, [filterData]);
+  }, [filterData, setStatus]);
 
   const handleCheckboxChange = (event) => {
     setFilterData((prevState) => ({

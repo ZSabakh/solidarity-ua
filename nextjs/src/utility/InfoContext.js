@@ -51,7 +51,7 @@ export const InfoProvider = (props) => {
     if (!window.localStorage.getItem("user_culture")) {
       window.localStorage.setItem("user_culture", "en");
     }
-  }, [status.open]);
+  }, [status.open, cities, helpTypes]);
 
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {

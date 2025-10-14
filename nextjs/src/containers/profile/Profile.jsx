@@ -42,7 +42,7 @@ export default function Profile() {
           severity: "error",
         });
       });
-  }, []);
+  }, [setStatus]);
 
   function handleOnHide(event, post_id) {
     event.preventDefault();

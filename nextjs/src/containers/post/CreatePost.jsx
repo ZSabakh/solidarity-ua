@@ -19,7 +19,7 @@ export default function CreatePost() {
 
   useEffect(() => {
     setFormData((prev) => ({ ...prev, type: selectedHelpTypeIDs }));
-  }, [selectedHelpTypes]);
+  }, [selectedHelpTypes, selectedHelpTypeIDs]);
 
   useEffect(() => {
     setFormData((prev) => ({ ...prev, location: locationValue }));

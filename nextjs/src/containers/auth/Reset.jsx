@@ -32,7 +32,7 @@ export default function Reset(props) {
     }
 
     return executeRecaptcha("yourAction");
-  }, []);
+  }, [executeRecaptcha]);
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
